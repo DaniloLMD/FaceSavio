@@ -86,7 +86,7 @@ int main(int argc, char *argv[]) {
 
 		//adicionando uma nova linha na grid scrollavel
 		gtk_grid_insert_row (GTK_GRID(grid1), i+1);
-		//adicionando a grid que contem o posto na grid scrollavel
+		//adicionando a grid que contem o post na grid scrollavel
 		gtk_grid_attach (GTK_GRID(grid1), grids[i], 1, i+1, 1, 1);
 		
 	}
