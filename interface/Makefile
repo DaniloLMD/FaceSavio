@@ -1,4 +1,4 @@
-flags = `pkg-config --cflags --libs gtk+-3.0 gtkmm-3.0` -lm
+flags = `pkg-config --cflags --libs gtk+-3.0` -lm
 nome = facesavio
 
 all:
