@@ -1,0 +1,44 @@
+#navbar {
+    background-color: #282828;
+    padding: 0 20px;
+  }
+  
+  #post {
+    color: #fff;
+  }
+  
+  #post-button {
+    background: #153875;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    /* cursor: pointer; */
+  }
+  
+  #following-bar {
+    background-color: #282828;
+    padding: 10px 20px;
+  }
+  
+  #post-window {
+    background-color: #222;
+    padding: 20px;
+  }
+  
+  #logo {
+    color: white;
+  }
+  
+  #button {
+    border: none;
+    margin-bottom: 4px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    /* cursor: pointer; */
+  }
+  
+  #teste {
+    background:#282828;
+    color: white;
+  }

@@ -1,10 +1,6 @@
 flags = `pkg-config --cflags --libs gtk+-3.0`
-nome = facesavio
+nome = t
 
 all:
 	g++ $(nome).cpp -o $(nome) $(flags)
 	./$(nome)
-
-teste1245:
-	gcc t.c -o t $(flags)
-	./t
