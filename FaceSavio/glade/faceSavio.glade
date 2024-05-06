@@ -11,9 +11,12 @@
         <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkBox">
+          <!-- n-columns=5 n-rows=1 -->
+          <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="row-homogeneous">True</property>
+            <property name="column-homogeneous">True</property>
             <child>
               <object class="GtkBox">
                 <property name="name">navbar</property>
@@ -40,12 +43,13 @@
                     <property name="orientation">vertical</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkButton">
+                      <object class="GtkButton" id="homeButton">
                         <property name="label" translatable="yes">Home</property>
                         <property name="name">button</property>
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="receives-default">True</property>
+                        <signal name="clicked" handler="on_homeButton_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -76,9 +80,8 @@
                 </child>
               </object>
               <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
+                <property name="left-attach">0</property>
+                <property name="top-attach">0</property>
               </packing>
             </child>
             <child>
@@ -172,7 +175,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton">
+                      <object class="GtkButton" id="buttonPost">
                         <property name="label" translatable="yes">Post</property>
                         <property name="name">post-button</property>
                         <property name="visible">True</property>
@@ -209,10 +212,12 @@
                             <property name="can-focus">False</property>
                             <child>
                               <!-- n-columns=1 n-rows=1 -->
-                              <object class="GtkGrid">
+                              <object class="GtkGrid" id="gridPosts">
                                 <property name="name">post-window</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
+                                <property name="row-spacing">20</property>
+                                <property name="column-spacing">20</property>
                                 <child>
                                   <placeholder/>
                                 </child>
@@ -236,9 +241,9 @@
                 </child>
               </object>
               <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="left-attach">1</property>
+                <property name="top-attach">0</property>
+                <property name="width">3</property>
               </packing>
             </child>
             <child>
@@ -341,9 +346,8 @@
                 </child>
               </object>
               <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
+                <property name="left-attach">4</property>
+                <property name="top-attach">0</property>
               </packing>
             </child>
           </object>
@@ -362,7 +366,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
       </object>
