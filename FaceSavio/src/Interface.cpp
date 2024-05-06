@@ -48,8 +48,6 @@ void Interface::connectSymbols(){
     );
     gtk_builder_connect_signals(builder, NULL);
 
-    std::cout << "!! Builder = " << builder << "\n";
-
     Interface* selfPointer = this;
     InterfaceStruct data;  
     data.pointer = &selfPointer;

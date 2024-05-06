@@ -10,8 +10,6 @@ int main(int argc, char* argv[]){
 
     interface = new Interface(GLADE_FILE_PATH);
 
-    cout << "interface no main = " << interface << "\n";
-
     interface->activateCSS(CSS_FILE_PATH);
         
     interface->display();
