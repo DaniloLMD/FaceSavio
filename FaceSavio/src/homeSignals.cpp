@@ -54,7 +54,7 @@ void on_buttonPost_clicked(void* userdata){
 
     //criando o novo post
     Post newPost;
-    newPost.profile = scaledImage("../interface/imagens/gauloish.png", 80, 80);
+    newPost.profile = scaledImage("imagens/gauloish.png", 80, 80);
 
     char name[100];
     snprintf(name, 100, "USUARIO %lu", interface->posts.size() + 1);
