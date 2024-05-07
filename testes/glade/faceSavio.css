@@ -1,0 +1,87 @@
+#navbar {
+  background-color: #282828;
+  padding: 0 20px;
+  color: white;
+}
+
+#post {
+  color: #fff;
+}
+
+#post-button {
+  /* background: #153875; */
+  background-image: linear-gradient(#153875, #153875);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 20px;
+  /* cursor: pointer; */
+}
+
+#following-bar {
+  background-color: #282828;
+  padding: 10px 20px;
+}
+
+#post-window {
+  background-color: #3d3d3d;
+  padding: 40px;
+  color: white;
+  border: none;
+}
+
+#logo {
+  color: white;
+  background-image: linear-gradient(#153875, #153875);
+  border-radius: 8px;
+  padding: 10px;
+  padding-left: 100px;
+  padding-right: 100px;
+  font-size: 20px;
+}
+
+#button {
+  background-image: linear-gradient(#282828, #282828);
+  color: white;
+  border: none;
+  margin-bottom: 4px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 20px;
+  /* cursor: pointer; */
+}
+
+#teste {
+  background:#282828;
+  color: white;
+  font-size: 20px;
+}
+
+#textView{
+  border: 50px solid red;
+}
+
+#username{
+  background-image: linear-gradient(#282828, #282828);
+  color: white;
+}
+
+#test{
+  background-image: linear-gradient(#28282800, #28282800);
+  border: transparent;
+}
+
+#middle{
+  background-color: #3d3d3d;
+  padding: 0 20px;
+  color: white;
+}
+
+#gridPosts{
+  border: none;
+}
+
+#scroll{
+  border: none;
+}
