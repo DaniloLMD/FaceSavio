@@ -55,7 +55,7 @@
 #teste {
   background:#282828;
   color: white;
-  font-size: 20px;
+  font-size: 30px;
 }
 
 #textView{
@@ -84,4 +84,11 @@
 
 #scroll{
   border: none;
+}
+
+#post{
+  color: black;
+  font-size: 18px;
+  background-color: white;
+  padding: 10px;
 }

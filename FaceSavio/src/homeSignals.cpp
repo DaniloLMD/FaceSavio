@@ -67,6 +67,9 @@ void on_buttonPost_clicked(void* userdata){
 
     //formando a nova grid
     GtkWidget* newGrid = gtk_grid_new();
+    gtk_grid_set_column_homogeneous(GTK_GRID(newGrid), TRUE);
+    gtk_widget_set_name(newGrid, "post");
+
     gtk_grid_insert_row (GTK_GRID(newGrid), 1);
     gtk_grid_insert_row (GTK_GRID(newGrid), 2);
 

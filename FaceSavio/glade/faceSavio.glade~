@@ -9,6 +9,7 @@
   <object class="GtkWindow" id="main_window">
     <property name="height-request">500</property>
     <property name="can-focus">False</property>
+    <property name="title" translatable="yes">FaceSavio</property>
     <signal name="destroy" handler="on_main_window_destroy" swapped="no"/>
     <child>
       <object class="GtkBox">
@@ -350,6 +351,7 @@
                                     <property name="can-focus">False</property>
                                     <property name="row-spacing">20</property>
                                     <property name="column-spacing">20</property>
+                                    <property name="column-homogeneous">True</property>
                                     <child>
                                       <placeholder/>
                                     </child>
