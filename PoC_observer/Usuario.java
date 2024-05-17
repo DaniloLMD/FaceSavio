@@ -16,7 +16,7 @@ public class Usuario implements INotificavel {
     }
 
     public void adicionarAmigo(Usuario usuario) {
-        gerenciadorNotificacoes.adicinar(usuario);
+        gerenciadorNotificacoes.adicionar(usuario);
     }
 
     public void notificar(String msg, Usuario autor) {

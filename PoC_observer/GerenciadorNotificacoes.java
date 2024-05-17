@@ -8,7 +8,7 @@ public class GerenciadorNotificacoes {
         this.usuario = usuario;
     }
 
-    public void adicinar(INotificavel notificavel) {
+    public void adicionar(INotificavel notificavel) {
         notificaveis.add(notificavel);
     }
 
