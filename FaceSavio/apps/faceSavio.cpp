@@ -1,6 +1,5 @@
 #include <gtk/gtk.h>
 #include <iostream>
-
 #include "../include/Interface.hpp"
 #include "../include/paths.hpp"
 

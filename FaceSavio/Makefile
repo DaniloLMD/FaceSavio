@@ -7,7 +7,7 @@ SRC = ./src
 GTK_FLAGS = `pkg-config --cflags --libs gtk+-3.0` -rdynamic
 MULTIPLE_FLAGS= "-Wl,--allow-multiple-definition"
 
-APP = faceSavio
+APP = teste
 
 all: _src clean_apps _apps
 
@@ -15,6 +15,8 @@ _src: \
 		$(OBJ)/Interface.o \
 		$(OBJ)/homeSignals.o \
 		$(OBJ)/Post.o \
+		$(OBJ)/GerenciadorNotificacoes.o \
+		$(OBJ)/Usuario.o 
 
 clean_apps:
 	rm -rf $(BIN)/*

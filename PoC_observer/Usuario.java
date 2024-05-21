@@ -3,7 +3,7 @@ public class Usuario implements INotificavel {
     private GerenciadorNotificacoes gerenciadorNotificacoes = new GerenciadorNotificacoes(this);
 
     public Usuario(String nome) {
-        this.nome = nome;
+        this.nome = nome;   
     }
 
     public String getNome() {
