@@ -304,3 +304,21 @@ std::vector<Post*> Usuario::loadPosts(){
 
     return posts;
 }
+
+std::vector<Usuario*> Usuario::getFollowing(){
+    following.clear();
+
+    std::string followingFilePath = this->getFollowingFilePath();
+
+    FILE* followingFilePointer = fopen(followingFilePath.c_str(), "r");
+
+    char nome[100];
+    while(fscanf(followingFilePointer, "%[^\n]%*c", nome) != EOF){
+        std::string username = nome;
+        following.push_back(new Usuario(username));
+    }
+
+    fclose(followingFilePointer);
+
+    return this->following;
+}

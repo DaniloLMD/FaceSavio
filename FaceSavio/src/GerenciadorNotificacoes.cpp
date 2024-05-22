@@ -11,6 +11,6 @@ void GerenciadorNotificacoes::adicionar(Usuario* notificavel) {
 
 void GerenciadorNotificacoes::notificarTodos(std::string msg) {
     for (Usuario* notificavel : notificaveis) {
-        notificavel->notificar(msg, usuario);
+        notificavel->notificar(msg, usuario->getNome());
     }
 }

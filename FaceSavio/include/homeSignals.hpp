@@ -14,9 +14,11 @@ void on_buttonPost_clicked(void* interfaceStruct);
 void on_homeButton_clicked();
 void on_logoutButton_clicked();
 
-void showPosts(bool resetar = true);
+void showPosts();
+void showFollowing();
 
 void limparGridPosts();
+void limparGridFollowing();
 
 //FUNCOES DE TESTE(APAGAR DEPOIS)
 void on_mudarButton_clicked();

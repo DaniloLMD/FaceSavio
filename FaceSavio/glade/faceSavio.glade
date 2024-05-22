@@ -2,6 +2,10 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
+  <object class="GtkTextBuffer" id="textBufferPost">
+    <property name="text" translatable="yes">Write Here</property>
+    <signal name="insert-text" handler="on_textBufferPost_insert_text" swapped="no"/>
+  </object>
   <object class="GtkWindow" id="main_window">
     <property name="height-request">500</property>
     <property name="can-focus">False</property>
@@ -292,37 +296,17 @@
                                 <property name="can-focus">False</property>
                                 <child>
                                   <!-- n-columns=2 n-rows=1 -->
-                                  <object class="GtkGrid">
+                                  <object class="GtkGrid" id="gridFollowing">
                                     <property name="name">following-bar</property>
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
                                     <property name="row-spacing">5</property>
                                     <property name="column-spacing">5</property>
                                     <child>
-                                      <object class="GtkImage">
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">False</property>
-                                        <property name="stock">gtk-yes</property>
-                                        <property name="icon_size">3</property>
-                                      </object>
-                                      <packing>
-                                        <property name="left-attach">0</property>
-                                        <property name="top-attach">0</property>
-                                      </packing>
+                                      <placeholder/>
                                     </child>
                                     <child>
-                                      <object class="GtkButton">
-                                        <property name="label" translatable="yes">User</property>
-                                        <property name="name">button</property>
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">True</property>
-                                        <property name="receives-default">True</property>
-                                        <property name="halign">start</property>
-                                      </object>
-                                      <packing>
-                                        <property name="left-attach">1</property>
-                                        <property name="top-attach">0</property>
-                                      </packing>
+                                      <placeholder/>
                                     </child>
                                   </object>
                                 </child>
@@ -615,9 +599,5 @@
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkTextBuffer" id="textBufferPost">
-    <property name="text" translatable="yes">Write Here</property>
-    <signal name="insert-text" handler="on_textBufferPost_insert_text" swapped="no"/>
   </object>
 </interface>

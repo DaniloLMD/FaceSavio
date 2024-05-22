@@ -25,7 +25,8 @@ class Interface{
         GtkWidget* getMainWindow() { return mainWindow; }
         Usuario* getUsuario() { return usuario; }
     
-        std::vector<GtkWidget*> grids;
+        std::vector<GtkWidget*> gridsPost;
+        std::vector<GtkWidget*> gridsFollowing;
 
         //TESTE (APAGAR DEPOIS)
         void setUsuario(Usuario* u){ usuario = u; }

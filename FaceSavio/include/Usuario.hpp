@@ -19,8 +19,9 @@ class Usuario : public INotificavel {
 
         void notificar(std::string msg, std::string autor) override;
 
-        void showPosts();
+        void showPosts(); // so pra teste, pode deletar depois
         std::vector<Post*> loadPosts();
+        std::vector<Usuario*> getFollowing();
 
         std::string getFotoFilePath();
 
@@ -35,6 +36,7 @@ class Usuario : public INotificavel {
         void setQuantidadePosts(int quantidade);  
 
         std::vector<Post*> posts;
+        std::vector<Usuario*> following;
 
         std::string getUserFolderPath();
         std::string getTotalPostsFilePath();

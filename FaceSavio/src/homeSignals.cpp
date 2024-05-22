@@ -42,6 +42,7 @@ void loadHomeScreen(){
     gtk_button_set_image (GTK_BUTTON (profileImageButton), profileImage);
     
     showPosts();
+    showFollowing();
 }
 
 /**
@@ -97,15 +98,15 @@ void on_buttonPost_clicked(void* data){
 void limparGridPosts(){
     GtkWidget* gridPosts = GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "gridPosts"));
 
-    while(interface->grids.size() > 0){
+    while(interface->gridsPost.size() > 0){
         gtk_grid_remove_row (GTK_GRID(gridPosts), 1);
-        interface->grids.erase(interface->grids.begin() + 0);
+        interface->gridsPost.erase(interface->gridsPost.begin() + 0);
     }
 
-    interface->grids.clear();
+    interface->gridsPost.clear();
 }
 
-void showPosts(bool resetar){
+void showPosts(){
 
     limparGridPosts();
    
@@ -131,15 +132,58 @@ void showPosts(bool resetar){
         gtk_grid_attach(GTK_GRID(newGrid), name, 2, 1, 1, 1);
         gtk_grid_attach(GTK_GRID(newGrid), text, 1, 2, 2, 1);
 
-        interface->grids.push_back(newGrid);
+        interface->gridsPost.push_back(newGrid);
 
         //inserindo a nova grid na grid de posts
         GtkWidget* gridPosts = GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "gridPosts"));
-        gtk_grid_insert_row (GTK_GRID(gridPosts), interface->grids.size());
-        gtk_grid_attach (GTK_GRID(gridPosts), newGrid, 1, interface->grids.size(), 1, 1);
+        gtk_grid_insert_row (GTK_GRID(gridPosts), interface->gridsPost.size());
+        gtk_grid_attach (GTK_GRID(gridPosts), newGrid, 1, interface->gridsPost.size(), 1, 1);
     }
 
     interface->reset();
+}
+
+void showFollowing(){
+    limparGridFollowing();
+
+    std::vector<Usuario*> following = interface->getUsuario()->getFollowing();
+
+    for(Usuario* user: following){
+        //formando os atributos (imagem do usuario e label com o nome)
+        GtkWidget* profile = newScaledImage(user->getFotoFilePath().c_str(), 80, 80);
+        GtkWidget* name = gtk_label_new(user->getNome().c_str());
+
+        //formando a nova grid
+        GtkWidget* newGrid = gtk_grid_new();
+        gtk_grid_set_column_homogeneous(GTK_GRID(newGrid), TRUE);
+        gtk_widget_set_name(newGrid, "following");
+
+        gtk_grid_insert_row (GTK_GRID(newGrid), 1);
+
+        gtk_grid_attach(GTK_GRID(newGrid), profile, 1, 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(newGrid), name, 2, 1, 1, 1);
+        
+        interface->gridsFollowing.push_back(newGrid);
+
+        //inserindo a nova grid na grid de posts
+        GtkWidget* gridFollowing = GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "gridFollowing"));
+        gtk_grid_insert_row (GTK_GRID(gridFollowing), interface->gridsFollowing.size());
+        gtk_grid_attach (GTK_GRID(gridFollowing), newGrid, 1, interface->gridsFollowing.size(), 1, 1);
+    }
+
+    interface->reset();
+}
+
+
+void limparGridFollowing(){
+    GtkWidget* gridFollowing = GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "gridFollowing"));
+
+    while(interface->gridsFollowing.size() > 0){
+        gtk_grid_remove_row (GTK_GRID(gridFollowing), 1);
+        interface->gridsFollowing.erase(interface->gridsFollowing.begin() + 0);
+    }
+
+    interface->gridsFollowing.clear();
 }
 
 /**

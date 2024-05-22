@@ -2,6 +2,10 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
+  <object class="GtkTextBuffer" id="textBufferPost">
+    <property name="text" translatable="yes">Write Here</property>
+    <signal name="insert-text" handler="on_textBufferPost_insert_text" swapped="no"/>
+  </object>
   <object class="GtkWindow" id="main_window">
     <property name="height-request">500</property>
     <property name="can-focus">False</property>
@@ -292,7 +296,7 @@
                                 <property name="can-focus">False</property>
                                 <child>
                                   <!-- n-columns=2 n-rows=1 -->
-                                  <object class="GtkGrid">
+                                  <object class="GtkGrid" id="gridFollowing">
                                     <property name="name">following-bar</property>
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
@@ -615,9 +619,5 @@
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkTextBuffer" id="textBufferPost">
-    <property name="text" translatable="yes">Write Here</property>
-    <signal name="insert-text" handler="on_textBufferPost_insert_text" swapped="no"/>
   </object>
 </interface>
