@@ -5,6 +5,7 @@
 
 #include <gtk/gtk.h>
 
+#include "loginSignals.hpp"
 #include "homeSignals.hpp"
 #include "Post.hpp"
 #include "Usuario.hpp"
@@ -20,13 +21,15 @@ class Interface{
         void display();
         void reset();
 
-        // std::vector<Post> posts;
-
         GtkBuilder* getBuilder() { return builder; }
         GtkWidget* getMainWindow() { return mainWindow; }
         Usuario* getUsuario() { return usuario; }
     
         std::vector<GtkWidget*> grids;
+
+        //TESTE (APAGAR DEPOIS)
+        void setUsuario(Usuario* u){ usuario = u; }
+
     private:
         void connectSymbols();
 

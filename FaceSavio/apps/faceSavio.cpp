@@ -16,9 +16,11 @@ int main(int argc, char* argv[]){
 
     danilo->seguir(caio->getNome());
     danilo->seguir(tiago->getNome());
+    caio->seguir(danilo->getNome());
 
     caio->publicar("caio farias.");
     tiago->publicar("pio.");
+    danilo->publicar("LMD.");
 
     Interface* interface = new Interface(GLADE_FILE_PATH);
 

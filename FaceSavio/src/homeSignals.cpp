@@ -6,8 +6,42 @@
 
 Interface* interface = NULL;
 
+//FUNCOES DE TESTE (APAGAR DEPOIS)
+void on_mudarButton_clicked(){
+    std::string novoUser;
+    std::string atual = interface->getUsuario()->getNome();
+    if(atual == "Danilo"){
+        novoUser = "Tiago";
+    }
+    else if(atual == "Tiago"){
+        novoUser = "Caio";
+    }
+    else{
+        novoUser = "Danilo";
+    }
+
+    Usuario* novoUsuario = new Usuario(novoUser);
+    interface->setUsuario(novoUsuario);
+    loadHomeScreen();
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 void connectHomeSignals(void* newInterface){
     interface = (Interface*) newInterface;
+}
+
+void loadHomeScreen(){
+    // GtkImage* profileImage = GTK_IMAGE(gtk_builder_get_object(interface->getBuilder(), "profileImageHome"));
+    // gtk_image_set_from_file(profileImage, interface->getUsuario()->getFotoFilePath().c_str());
+    // setScaledImage(profileImage, interface->getUsuario()->getFotoFilePath().c_str(), 10, 10);
+
+    GtkWidget* profileImage = newScaledImage(interface->getUsuario()->getFotoFilePath().c_str(), 80, 80);
+    GtkWidget* profileImageButton =  GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "profileImageHomeButton"));
+    gtk_button_set_image (GTK_BUTTON (profileImageButton), profileImage);
+    
+    showPosts();
 }
 
 /**
@@ -81,7 +115,7 @@ void showPosts(bool resetar){
         Usuario* autor = new Usuario(p->getUsername());
 
         //formando os atributos do post (imagem, label com nome e label com texto)
-        GtkWidget* profile = scaledImage(autor->getFotoFilePath().c_str(), 80, 80);
+        GtkWidget* profile = newScaledImage(autor->getFotoFilePath().c_str(), 80, 80);
         GtkWidget* name = gtk_label_new(p->getUsername().c_str());
         GtkWidget* text = gtk_label_new(p->getTexto().c_str());
 
@@ -109,11 +143,15 @@ void showPosts(bool resetar){
 }
 
 /**
- * @brief TEMPORARIO - reseta os posts
+ * @brief carrega a tela home
 */
 void on_homeButton_clicked(){
+    GtkStack* stack = GTK_STACK(gtk_builder_get_object(interface->getBuilder(), "stack"));
+    gtk_stack_set_visible_child_name(stack, "home");   
+    loadHomeScreen();
+}
 
-    limparGridPosts();
-
-    interface->reset();
+void on_logoutButton_clicked(){
+    GtkStack* stack = GTK_STACK(gtk_builder_get_object(interface->getBuilder(), "stack"));
+    gtk_stack_set_visible_child_name(stack, "login");   
 }

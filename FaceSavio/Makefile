@@ -14,6 +14,7 @@ all: _src clean_apps _apps
 _src: \
 		$(OBJ)/Interface.o \
 		$(OBJ)/homeSignals.o \
+		$(OBJ)/loginSignals.o \
 		$(OBJ)/Post.o \
 		$(OBJ)/GerenciadorNotificacoes.o \
 		$(OBJ)/Usuario.o 

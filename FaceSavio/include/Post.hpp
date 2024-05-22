@@ -19,12 +19,7 @@ class Post{
         std::string username;
 };
 
-// struct Post{
-//     GtkWidget* profile; //foto de perfil
-//     GtkWidget*  name; //nome do usuario
-//     GtkWidget* text; //texto do post
-// };
-
-GtkWidget* scaledImage(const gchar *filePath, gint width, gint height);
+GtkWidget* newScaledImage(const gchar *filePath, gint width, gint height);
+void setScaledImage(GtkImage* image, const gchar *filePath, gint width, gint height);
 
 #endif

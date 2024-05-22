@@ -5,14 +5,20 @@
 
 void connectHomeSignals(void* newInterface);
 
+void loadHomeScreen();
+
 void on_textBufferPost_insert_text(GtkTextBuffer *buffer);
 
 void on_buttonPost_clicked(void* interfaceStruct);
 
 void on_homeButton_clicked();
+void on_logoutButton_clicked();
 
 void showPosts(bool resetar = true);
 
 void limparGridPosts();
+
+//FUNCOES DE TESTE(APAGAR DEPOIS)
+void on_mudarButton_clicked();
 
 #endif

@@ -43,20 +43,27 @@ void Interface::connectSymbols(){
         builder,
         "on_main_window_destroy",           G_CALLBACK(gtk_main_quit),
 
+        //signals da pagina de login
+        "on_login_clicked",                 G_CALLBACK(on_login_clicked),
+
+
         //signals da pagina home
         "on_textBufferPost_insert_text",    G_CALLBACK(on_textBufferPost_insert_text),
         "on_homeButton_clicked",            G_CALLBACK(on_homeButton_clicked),
+        "on_logoutButton_clicked",          G_CALLBACK(on_logoutButton_clicked),
+        "on_mudarButton_clicked",           G_CALLBACK(on_mudarButton_clicked),
+
         NULL
     );
     gtk_builder_connect_signals(builder, NULL);
 
     g_signal_connect(gtk_builder_get_object(builder, "buttonPost"), "clicked", G_CALLBACK(on_buttonPost_clicked), NULL);
 
-    connectHomeSignals(this);
+    connectLoginSignals(this);
 }
 
 void Interface::reset(){
-    gtk_main_quit();
+    // gtk_main_quit();
     gtk_widget_show_all(mainWindow);
-    gtk_main();
+    // gtk_main();
 }
