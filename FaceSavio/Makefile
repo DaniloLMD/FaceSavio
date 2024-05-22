@@ -7,7 +7,7 @@ SRC = ./src
 GTK_FLAGS = `pkg-config --cflags --libs gtk+-3.0` -rdynamic
 MULTIPLE_FLAGS= "-Wl,--allow-multiple-definition"
 
-APP = teste
+APP = faceSavio
 
 all: _src clean_apps _apps
 

@@ -12,7 +12,6 @@ typedef struct InterfaceStruct InterfaceStruct;
 
 class Interface{
     public: 
-
         // static Interface* self;
 
         Interface(const char* gladeFile);
@@ -29,8 +28,6 @@ class Interface{
         //Getters   
         GtkBuilder* getBuilder() { return builder; }
         GtkWidget* getMainWindow() { return mainWindow; }
-        
-        //Setters
     
     private:
         //Metodos

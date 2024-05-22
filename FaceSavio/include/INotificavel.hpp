@@ -2,13 +2,12 @@
 #define __INOTIFICAVEL_HPP__
 
 #include <iostream>
-// #include "../include/Usuario.hpp"    
 
 class Usuario; //declaração antecipada
 
 class INotificavel{
     public:
-        virtual void notificar(std::string msg, Usuario* autor) = 0;
+        virtual void notificar(std::string msg, std::string autor){};
         virtual ~INotificavel() {}
 
     private:
