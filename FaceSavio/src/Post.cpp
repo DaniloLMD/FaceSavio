@@ -15,3 +15,5 @@ GtkWidget* scaledImage(const gchar *filePath, gint width, gint height) {
     g_object_unref(scaled_pixbuf);
     return image;
 }
+
+Post::Post(int id, std::string texto, std::string username) : id(id), texto(texto), username(username) {}

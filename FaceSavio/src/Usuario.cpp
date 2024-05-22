@@ -1,9 +1,11 @@
 #include <iostream>
 #include <string.h>
 #include <vector>
+#include <algorithm>
 
 #include "../include/Usuario.hpp"
 #include "../include/GerenciadorNotificacoes.hpp"
+#include "../include/Post.hpp"
 
 
 #define dbg(x) std::cout << #x << " = " << x << "\n";
@@ -238,24 +240,24 @@ std::string Usuario::getTotalPostsFilePath(){
     return totalPostsFilePath;
 }
 
+
+bool comp(Post* p1, Post* p2){
+    return p1->getID() > p2->getID();
+}
 void Usuario::showPosts(){
     loadPosts();
 
-    while(posts.size()){
+    sort(posts.begin(), posts.end(), comp);
 
-        std::cout << "Post " << posts.top().first << "\n";
-        std::cout << posts.top().second << "\n";
-
+    for(Post* p : posts){
+        std::cout << "Post " << p->getID() << " de " <<  p->getUsername() << "\n";
+        std::cout << p->getTexto() << "\n";
         std::cout << "\n";
-
-        posts.pop();
     }
 }
 
 void Usuario::loadPosts(){
-    while(posts.size()){
-        posts.pop();
-    }
+    posts.clear();
 
     std::vector<std::string> following;
 
@@ -268,6 +270,7 @@ void Usuario::loadPosts(){
         std::string atual = nome;
         following.push_back(atual);
     }   
+    fclose(followingFilePointer);
 
     for(std::string username: following){
         Usuario* user = new Usuario(username);
@@ -279,16 +282,17 @@ void Usuario::loadPosts(){
             int id;
             std::string texto;
 
-            fscanf(postFilePointer, "%d%*c", &id);
             char linha[200];
+            fscanf(postFilePointer, "%d%*c", &id);
             while(fscanf(postFilePointer, "%[^\n]%*c", linha) != EOF){
                 texto += linha;
                 texto += "\n";
             }
-            posts.push({id, texto});
-        }
 
-        // posts.emplace(id, texto);
+            Post* newPost = new Post(id, texto, user->getNome());
+            posts.push_back(newPost);
+            fclose(postFilePointer);
+        }
     }
 
 }

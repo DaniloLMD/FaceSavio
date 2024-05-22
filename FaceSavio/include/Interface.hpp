@@ -7,13 +7,12 @@
 
 #include "homeSignals.hpp"
 #include "Post.hpp"
+#include "Usuario.hpp"
 
 typedef struct InterfaceStruct InterfaceStruct;
 
 class Interface{
     public: 
-        // static Interface* self;
-
         Interface(const char* gladeFile);
 
         void activateCSS (const char* cssFile);
@@ -21,23 +20,24 @@ class Interface{
         void display();
         void reset();
 
-        //Atributos relacionados aos posts
-        std::vector<Post> posts;
-        std::vector<GtkWidget*> grids;
+        // std::vector<Post> posts;
 
-        //Getters   
         GtkBuilder* getBuilder() { return builder; }
         GtkWidget* getMainWindow() { return mainWindow; }
+        Usuario* getUsuario() { return usuario; }
     
+        std::vector<GtkWidget*> grids;
+        
     private:
-        //Metodos
         void connectSymbols();
 
-        //Atributos
         const char* gladeFile; //nome do arquivo glade do builder
 
         GtkBuilder* builder;
         GtkWidget* mainWindow;
+
+        Usuario* usuario;
+         
 };
 
 struct InterfaceStruct{

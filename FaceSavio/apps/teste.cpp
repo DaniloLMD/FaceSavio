@@ -10,15 +10,20 @@ int main(int argc, char* argv[]){
     caio->seguir("Danilo");
 
 
-    danilo->publicar("estou facesaviando");
+    danilo->publicar("estou facesaviando IMPAR");
+    danilo->publicar("tiago pio PAR");
+    cout << "\n";
 
-    danilo->publicar("tiago pio");
 
-    cout << "mostrando os posts do caio!\n";
+    cout << "Mostrando os posts para caio!!\n";
+
     caio->showPosts();
 
     caio->publicar("acabei de ver todos os meus posts.");
+    cout << "\n";   
+    
     danilo->seguir("Caio");
+    cout << "Mostrando os posts para Danilo!\n";
     danilo->showPosts();
     
     return 0;

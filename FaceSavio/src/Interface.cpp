@@ -7,6 +7,8 @@ Interface::Interface(const char* gladeFile) : gladeFile(gladeFile){
     
     builder = gtk_builder_new_from_file(gladeFile);
     mainWindow = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
+
+    usuario = new Usuario("Danilo"); //testando
 }
 
 /**

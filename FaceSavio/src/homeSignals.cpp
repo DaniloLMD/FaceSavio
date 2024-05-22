@@ -2,6 +2,7 @@
 
 #include "../include/homeSignals.hpp"
 #include <gtk/gtk.h>
+#include "../include/Usuario.hpp"
 
 /**
  * @brief verifica se o limite de caracteres e de linhas foi atingido. Caso tenha sido, bloqueia a entrada de novos caracteres
@@ -46,37 +47,39 @@ void on_buttonPost_clicked(void* userdata){
     GtkTextIter start, end;
     gtk_text_buffer_get_start_iter(buffer, &start);
     gtk_text_buffer_get_end_iter(buffer, &end);
-
-    //criando o novo post
-    Post newPost;
-    newPost.profile = scaledImage("imagens/gauloish.png", 80, 80);
-
-    char name[100];
-    snprintf(name, 100, "USUARIO %lu", interface->posts.size() + 1);
-    newPost.name = gtk_label_new(name);
-
     const char* postText = gtk_text_buffer_get_text(buffer, &start, &end, FALSE); 
-    newPost.text = gtk_label_new(postText);
 
-    interface->posts.push_back(newPost);
+    interface->getUsuario() ->publicar(postText);
 
-    //formando a nova grid
-    GtkWidget* newGrid = gtk_grid_new();
-    gtk_grid_set_column_homogeneous(GTK_GRID(newGrid), TRUE);
-    gtk_widget_set_name(newGrid, "post");
+    // //criando o novo post
+    // Post newPost;
+    // newPost.profile = scaledImage("imagens/gauloish.png", 80, 80);
 
-    gtk_grid_insert_row (GTK_GRID(newGrid), 1);
-    gtk_grid_insert_row (GTK_GRID(newGrid), 2);
+    // char name[100];
+    // snprintf(name, 100, "USUARIO %lu", interface->posts.size() + 1);
+    // newPost.name = gtk_label_new(name);
 
-    gtk_grid_attach(GTK_GRID(newGrid), newPost.profile, 1, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(newGrid), newPost.name, 2, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(newGrid), newPost.text, 1, 2, 2, 1);
-    interface->grids.push_back(newGrid);
+    // newPost.text = gtk_label_new(postText);
 
-    //inserindo a nova grid na grid de posts
-    GtkWidget* gridPosts = GTK_WIDGET(gtk_builder_get_object(builder, "gridPosts"));
-    gtk_grid_insert_row (GTK_GRID(gridPosts), interface->grids.size());
-    gtk_grid_attach (GTK_GRID(gridPosts), newGrid, 1, interface->grids.size(), 1, 1);
+    // interface->posts.push_back(newPost);
+
+    // //formando a nova grid
+    // GtkWidget* newGrid = gtk_grid_new();
+    // gtk_grid_set_column_homogeneous(GTK_GRID(newGrid), TRUE);
+    // gtk_widget_set_name(newGrid, "post");
+
+    // gtk_grid_insert_row (GTK_GRID(newGrid), 1);
+    // gtk_grid_insert_row (GTK_GRID(newGrid), 2);
+
+    // gtk_grid_attach(GTK_GRID(newGrid), newPost.profile, 1, 1, 1, 1);
+    // gtk_grid_attach(GTK_GRID(newGrid), newPost.name, 2, 1, 1, 1);
+    // gtk_grid_attach(GTK_GRID(newGrid), newPost.text, 1, 2, 2, 1);
+    // interface->grids.push_back(newGrid);
+
+    // //inserindo a nova grid na grid de posts
+    // GtkWidget* gridPosts = GTK_WIDGET(gtk_builder_get_object(builder, "gridPosts"));
+    // gtk_grid_insert_row (GTK_GRID(gridPosts), interface->grids.size());
+    // gtk_grid_attach (GTK_GRID(gridPosts), newGrid, 1, interface->grids.size(), 1, 1);
 
     interface->reset();
 }
@@ -93,7 +96,7 @@ void on_homeButton_clicked(){
         interface->grids.erase(interface->grids.begin() + 0);
     }
 
-    interface->posts.clear();
+    // interface->posts.clear();
     interface->grids.clear();
     interface->reset();
 }

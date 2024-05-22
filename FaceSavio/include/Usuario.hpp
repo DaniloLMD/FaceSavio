@@ -1,10 +1,11 @@
 #ifndef __USUARIO_HPP__
 #define __USUARIO_HPP__
 
-#include <queue>
+#include <vector>
 
 #include "../include/GerenciadorNotificacoes.hpp"
 #include "../include/INotificavel.hpp"
+#include "Post.hpp"
 
 class Usuario : public INotificavel {
     public:
@@ -32,14 +33,13 @@ class Usuario : public INotificavel {
         void setQuantidadePosts(int quantidade);  
 
         void loadPosts();
-        std::priority_queue<std::pair<int, std::string>> posts;
-
+        std::vector<Post*> posts;
 
         std::string getUserFolderPath();
         std::string getTotalPostsFilePath();
         std::string getFollowersFilePath();
         std::string getFollowingFilePath();
-        std::string getPostsFolderPath(); 
+        std::string getPostsFolderPath();   
         std::string getPostFilePath(int post); 
         std::string getQuantidadePostsFilePath();
 };
