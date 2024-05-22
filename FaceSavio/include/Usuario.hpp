@@ -20,7 +20,9 @@ class Usuario : public INotificavel {
         void notificar(std::string msg, std::string autor) override;
 
         void showPosts();
+        std::vector<Post*> loadPosts();
 
+        std::string getFotoFilePath();
 
     private:
         std::string nome;
@@ -32,7 +34,6 @@ class Usuario : public INotificavel {
         int getQuantidadePosts();
         void setQuantidadePosts(int quantidade);  
 
-        void loadPosts();
         std::vector<Post*> posts;
 
         std::string getUserFolderPath();

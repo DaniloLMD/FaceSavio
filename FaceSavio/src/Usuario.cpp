@@ -240,14 +240,18 @@ std::string Usuario::getTotalPostsFilePath(){
     return totalPostsFilePath;
 }
 
+std::string Usuario::getFotoFilePath(){
+    std::string fotoFilePath = this->getUserFolderPath();
+    fotoFilePath += "foto.png";
+    return fotoFilePath;
+}
+
 
 bool comp(Post* p1, Post* p2){
     return p1->getID() > p2->getID();
 }
 void Usuario::showPosts(){
     loadPosts();
-
-    sort(posts.begin(), posts.end(), comp);
 
     for(Post* p : posts){
         std::cout << "Post " << p->getID() << " de " <<  p->getUsername() << "\n";
@@ -256,7 +260,7 @@ void Usuario::showPosts(){
     }
 }
 
-void Usuario::loadPosts(){
+std::vector<Post*> Usuario::loadPosts(){
     posts.clear();
 
     std::vector<std::string> following;
@@ -266,6 +270,7 @@ void Usuario::loadPosts(){
 
     char nome[50];
 
+    following.push_back(this->getNome());
     while(fscanf(followingFilePointer, "%[^\n]%*c", nome) != EOF){
         std::string atual = nome;
         following.push_back(atual);
@@ -295,4 +300,7 @@ void Usuario::loadPosts(){
         }
     }
 
+    sort(posts.begin(), posts.end(), comp);
+
+    return posts;
 }

@@ -1,8 +1,0 @@
-3
-Será que funciona para textos
-grandes e com varias linhas? vamos testar né
-nao tem nada a perder
-é bom que eu testo pra acentos
-                           	e 								espacos
-
-							isso ai

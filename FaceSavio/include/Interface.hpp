@@ -27,7 +27,6 @@ class Interface{
         Usuario* getUsuario() { return usuario; }
     
         std::vector<GtkWidget*> grids;
-        
     private:
         void connectSymbols();
 
@@ -44,6 +43,6 @@ struct InterfaceStruct{
     Interface** pointer;
 };
 
-Interface* interface = NULL;
+// Interface* interface = NULL;
 
 #endif

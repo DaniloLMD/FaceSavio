@@ -50,11 +50,9 @@ void Interface::connectSymbols(){
     );
     gtk_builder_connect_signals(builder, NULL);
 
-    Interface* selfPointer = this;
-    InterfaceStruct data;  
-    data.pointer = &selfPointer;
+    g_signal_connect(gtk_builder_get_object(builder, "buttonPost"), "clicked", G_CALLBACK(on_buttonPost_clicked), NULL);
 
-    g_signal_connect(gtk_builder_get_object(builder, "buttonPost"), "clicked", G_CALLBACK(on_buttonPost_clicked), &data);
+    connectHomeSignals(this);
 }
 
 void Interface::reset(){

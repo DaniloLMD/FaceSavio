@@ -8,7 +8,19 @@ using namespace std;
 
 int main(int argc, char* argv[]){
 
-    interface = new Interface(GLADE_FILE_PATH);
+    system("./rm");
+
+    Usuario* danilo = new Usuario("Danilo");
+    Usuario* caio = new Usuario("Caio");
+    Usuario* tiago = new Usuario("Tiago");
+
+    danilo->seguir(caio->getNome());
+    danilo->seguir(tiago->getNome());
+
+    caio->publicar("caio farias.");
+    tiago->publicar("pio.");
+
+    Interface* interface = new Interface(GLADE_FILE_PATH);
 
     interface->activateCSS(CSS_FILE_PATH);
         

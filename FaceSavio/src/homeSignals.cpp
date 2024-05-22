@@ -4,6 +4,12 @@
 #include <gtk/gtk.h>
 #include "../include/Usuario.hpp"
 
+Interface* interface = NULL;
+
+void connectHomeSignals(void* newInterface){
+    interface = (Interface*) newInterface;
+}
+
 /**
  * @brief verifica se o limite de caracteres e de linhas foi atingido. Caso tenha sido, bloqueia a entrada de novos caracteres
 */
@@ -37,10 +43,10 @@ void on_textBufferPost_insert_text(GtkTextBuffer *buffer) {
 
 /**
  * @brief adiciona um post quando o botão é apertado.
-*/
-void on_buttonPost_clicked(void* userdata){
-    GtkBuilder* builder = interface->getBuilder(); 
-    
+*/  
+void on_buttonPost_clicked(void* data){
+
+    GtkBuilder* builder = interface->getBuilder();
     GtkTextBuffer* buffer =  GTK_TEXT_BUFFER(gtk_builder_get_object(builder, "textBufferPost"));
 
     //buffers para pegar o texto do text view
@@ -49,37 +55,55 @@ void on_buttonPost_clicked(void* userdata){
     gtk_text_buffer_get_end_iter(buffer, &end);
     const char* postText = gtk_text_buffer_get_text(buffer, &start, &end, FALSE); 
 
-    interface->getUsuario() ->publicar(postText);
+    interface->getUsuario()->publicar(postText);
 
-    // //criando o novo post
-    // Post newPost;
-    // newPost.profile = scaledImage("imagens/gauloish.png", 80, 80);
+    showPosts();
+}
 
-    // char name[100];
-    // snprintf(name, 100, "USUARIO %lu", interface->posts.size() + 1);
-    // newPost.name = gtk_label_new(name);
+void limparGridPosts(){
+    GtkWidget* gridPosts = GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "gridPosts"));
 
-    // newPost.text = gtk_label_new(postText);
+    while(interface->grids.size() > 0){
+        gtk_grid_remove_row (GTK_GRID(gridPosts), 1);
+        interface->grids.erase(interface->grids.begin() + 0);
+    }
 
-    // interface->posts.push_back(newPost);
+    interface->grids.clear();
+}
 
-    // //formando a nova grid
-    // GtkWidget* newGrid = gtk_grid_new();
-    // gtk_grid_set_column_homogeneous(GTK_GRID(newGrid), TRUE);
-    // gtk_widget_set_name(newGrid, "post");
+void showPosts(bool resetar){
 
-    // gtk_grid_insert_row (GTK_GRID(newGrid), 1);
-    // gtk_grid_insert_row (GTK_GRID(newGrid), 2);
+    limparGridPosts();
+   
+    std::vector<Post*> posts = interface->getUsuario()->loadPosts();
 
-    // gtk_grid_attach(GTK_GRID(newGrid), newPost.profile, 1, 1, 1, 1);
-    // gtk_grid_attach(GTK_GRID(newGrid), newPost.name, 2, 1, 1, 1);
-    // gtk_grid_attach(GTK_GRID(newGrid), newPost.text, 1, 2, 2, 1);
-    // interface->grids.push_back(newGrid);
+    for(Post* p:  posts){
+        Usuario* autor = new Usuario(p->getUsername());
 
-    // //inserindo a nova grid na grid de posts
-    // GtkWidget* gridPosts = GTK_WIDGET(gtk_builder_get_object(builder, "gridPosts"));
-    // gtk_grid_insert_row (GTK_GRID(gridPosts), interface->grids.size());
-    // gtk_grid_attach (GTK_GRID(gridPosts), newGrid, 1, interface->grids.size(), 1, 1);
+        //formando os atributos do post (imagem, label com nome e label com texto)
+        GtkWidget* profile = scaledImage(autor->getFotoFilePath().c_str(), 80, 80);
+        GtkWidget* name = gtk_label_new(p->getUsername().c_str());
+        GtkWidget* text = gtk_label_new(p->getTexto().c_str());
+
+        //formando a nova grid
+        GtkWidget* newGrid = gtk_grid_new();
+        gtk_grid_set_column_homogeneous(GTK_GRID(newGrid), TRUE);
+        gtk_widget_set_name(newGrid, "post");
+
+        gtk_grid_insert_row (GTK_GRID(newGrid), 1);
+        gtk_grid_insert_row (GTK_GRID(newGrid), 2);
+
+        gtk_grid_attach(GTK_GRID(newGrid), profile, 1, 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(newGrid), name, 2, 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(newGrid), text, 1, 2, 2, 1);
+
+        interface->grids.push_back(newGrid);
+
+        //inserindo a nova grid na grid de posts
+        GtkWidget* gridPosts = GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "gridPosts"));
+        gtk_grid_insert_row (GTK_GRID(gridPosts), interface->grids.size());
+        gtk_grid_attach (GTK_GRID(gridPosts), newGrid, 1, interface->grids.size(), 1, 1);
+    }
 
     interface->reset();
 }
@@ -89,14 +113,7 @@ void on_buttonPost_clicked(void* userdata){
 */
 void on_homeButton_clicked(){
 
-    GtkWidget* gridPosts = GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "gridPosts"));
+    limparGridPosts();
 
-    while(interface->grids.size() > 0){
-        gtk_grid_remove_row (GTK_GRID(gridPosts), 1);
-        interface->grids.erase(interface->grids.begin() + 0);
-    }
-
-    // interface->posts.clear();
-    interface->grids.clear();
     interface->reset();
 }
