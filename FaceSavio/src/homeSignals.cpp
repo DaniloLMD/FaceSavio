@@ -6,37 +6,13 @@
 
 Interface* interface = NULL;
 
-//FUNCOES DE TESTE (APAGAR DEPOIS)
-void on_mudarButton_clicked(){
-    std::string novoUser;
-    std::string atual = interface->getUsuario()->getNome();
-    if(atual == "Danilo"){
-        novoUser = "Tiago";
-    }
-    else if(atual == "Tiago"){
-        novoUser = "Caio";
-    }
-    else{
-        novoUser = "Danilo";
-    }
-
-    Usuario* novoUsuario = new Usuario(novoUser);
-    interface->setUsuario(novoUsuario);
-    loadHomeScreen();
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 void connectHomeSignals(void* newInterface){
     interface = (Interface*) newInterface;
 }
 
 void loadHomeScreen(){
-    // GtkImage* profileImage = GTK_IMAGE(gtk_builder_get_object(interface->getBuilder(), "profileImageHome"));
-    // gtk_image_set_from_file(profileImage, interface->getUsuario()->getFotoFilePath().c_str());
-    // setScaledImage(profileImage, interface->getUsuario()->getFotoFilePath().c_str(), 10, 10);
-
+    GtkStack* stack = GTK_STACK(gtk_builder_get_object(interface->getBuilder(), "stack2"));
+    gtk_stack_set_visible_child_name(stack, "home");   
     GtkWidget* profileImage = newScaledImage(interface->getUsuario()->getFotoFilePath().c_str(), 80, 80);
     GtkWidget* profileImageButton =  GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "profileImageHomeButton"));
     GtkLabel* homeUsernameLabel = GTK_LABEL(gtk_builder_get_object(interface->getBuilder(), "homeUsernameLabel"));
@@ -44,8 +20,28 @@ void loadHomeScreen(){
     gtk_label_set_text(homeUsernameLabel, interface->getUsuario()->getNome().c_str());
     gtk_button_set_image (GTK_BUTTON (profileImageButton), profileImage);
     
-    showPosts();
+    gtk_widget_set_name(GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "searchBar")), "entryNormal");
+    gtk_entry_set_text(GTK_ENTRY(gtk_builder_get_object(interface->getBuilder(), "searchBar")), "Find user");
+
+    showPosts(interface->getUsuario()->loadAllPosts());
     showFollowing();
+}
+
+void loadLoginScreen(std::string username){
+    GtkStack* stack = GTK_STACK(gtk_builder_get_object(interface->getBuilder(), "stack2"));
+    gtk_stack_set_visible_child_name(stack, "profile");   
+
+    Usuario* user = new Usuario(username);
+    GtkWidget* profileImage = newScaledImage(user->getFotoFilePath().c_str(), 120, 120);
+    GtkWidget* profileImageButton =  GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "profileImageButton"));
+    GtkLabel* profileUserNameLabel = GTK_LABEL(gtk_builder_get_object(interface->getBuilder(), "profileUserNameLabel"));
+
+    gtk_label_set_text(profileUserNameLabel, user->getNome().c_str());
+    gtk_button_set_image (GTK_BUTTON (profileImageButton), profileImage);
+
+    showPosts(user->loadSelfPosts());
+
+    interface->reset();
 }
 
 /**
@@ -95,7 +91,7 @@ void on_buttonPost_clicked(void* data){
 
     interface->getUsuario()->publicar(postText);
 
-    showPosts();
+    showPosts(interface->getUsuario()->loadAllPosts());
 }
 
 void limparGridPosts(){
@@ -109,11 +105,11 @@ void limparGridPosts(){
     interface->gridsPost.clear();
 }
 
-void showPosts(){
+void showPosts(std::vector<Post*> posts){
 
     limparGridPosts();
    
-    std::vector<Post*> posts = interface->getUsuario()->loadPosts();
+    // std::vector<Post*> posts = interface->getUsuario()->loadPosts();
 
     for(Post* p:  posts){
         Usuario* autor = new Usuario(p->getUsername());
@@ -193,9 +189,11 @@ void limparGridFollowing(){
  * @brief carrega a tela home
 */
 void on_homeButton_clicked(){
-    GtkStack* stack = GTK_STACK(gtk_builder_get_object(interface->getBuilder(), "stack"));
-    gtk_stack_set_visible_child_name(stack, "home");   
     loadHomeScreen();
+}
+
+void on_profileButton_clicked(){
+    loadLoginScreen(interface->getUsuario()->getNome());
 }
 
 void on_logoutButton_clicked(){
@@ -206,5 +204,34 @@ void on_logoutButton_clicked(){
 void on_searchBar_activate(){
     GtkSearchEntry* searchBar = GTK_SEARCH_ENTRY(gtk_builder_get_object(interface->getBuilder(), "searchBar"));
     std::string texto = gtk_entry_get_text (GTK_ENTRY(searchBar));
-    std::cout << texto << "\n";
+
+    if(Usuario::isValid(texto)){
+        loadLoginScreen(texto);
+        gtk_widget_set_name(GTK_WIDGET(searchBar), "entryNormal");
+    }
+    else{
+        gtk_widget_set_name(GTK_WIDGET(searchBar), "entryWrong");
+    }
+    interface->reset();
+}
+
+void on_searchBar_search_changed(){
+    GtkSearchEntry* searchBar = GTK_SEARCH_ENTRY(gtk_builder_get_object(interface->getBuilder(), "searchBar"));
+    gtk_widget_set_name(GTK_WIDGET(searchBar), "entryNormal");
+    interface->reset();
+}
+
+void on_profileImageHomeButton_clicked(){
+    on_profileButton_clicked(); 
+}
+
+
+//profile
+void on_followButton_clicked(){
+    GtkLabel* profileUserNameLabel = GTK_LABEL(gtk_builder_get_object(interface->getBuilder(), "profileUserNameLabel"));
+    std::string user2 = gtk_label_get_text(profileUserNameLabel);
+
+    interface->getUsuario()->seguir(user2);
+
+    showFollowing();
 }

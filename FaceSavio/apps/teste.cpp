@@ -4,6 +4,7 @@
 using namespace std;
 
 int main(int argc, char* argv[]){
+    
     Usuario* danilo = new Usuario("Danilo");
     Usuario* caio = new Usuario("Caio");
 

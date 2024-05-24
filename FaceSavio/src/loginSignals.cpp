@@ -34,7 +34,11 @@ void on_login_clicked(){
         loadHomeScreen();
     }
     else{
-        std::cout << "invalido.\n";
+        GtkWidget* name = GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "name"));
+        GtkWidget* password = GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "password"));
+        
+        if(!Usuario::isValid(getName())) gtk_widget_set_name(name, "entryWrong");
+        gtk_widget_set_name(password, "entryWrong");
     }
 }
 
@@ -48,8 +52,32 @@ void on_cadastrar_clicked(){
     }
 }
 
+bool ativo = false;
+void on_remember_toggled(){
+    if(ativo){
+        std::cout << "vo deslembrar.\n";
+    }
+    else{
+        std::cout << "vo lembrar.\n";
+    }
+    ativo = !ativo;
+}
 
-// parte do tiago
+void on_name_changed(){
+  GtkWidget* name = GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "name"));
+  GtkWidget* password = GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "password"));
+  gtk_widget_set_name(name, "entryNormal");
+  gtk_widget_set_name(password, "entryNormal");
+}
+void on_name_activate(){
+  on_login_clicked();
+}
+void on_password_activate(){
+  on_login_clicked();
+}
+
+
+////////// parte do tiago //////////////////////////////////////////////////
 #include <bits/stdc++.h>
 using namespace std;
 #define all(v) v.begin(), v.end()

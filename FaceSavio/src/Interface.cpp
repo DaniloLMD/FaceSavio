@@ -46,14 +46,23 @@ void Interface::connectSymbols(){
         //signals da pagina de login
         "on_login_clicked",                 G_CALLBACK(on_login_clicked),
         "on_cadastrar_clicked",             G_CALLBACK(on_cadastrar_clicked),
+        "on_remember_toggled",              G_CALLBACK(on_remember_toggled),
+        "on_password_activate",             G_CALLBACK(on_password_activate),
+        "on_name_activate",                 G_CALLBACK(on_name_activate),
+        "on_name_changed",                  G_CALLBACK(on_name_changed),
 
 
         //signals da pagina home
-        "on_textBufferPost_insert_text",    G_CALLBACK(on_textBufferPost_insert_text),
-        "on_homeButton_clicked",            G_CALLBACK(on_homeButton_clicked),
-        "on_logoutButton_clicked",          G_CALLBACK(on_logoutButton_clicked),
-        "on_mudarButton_clicked",           G_CALLBACK(on_mudarButton_clicked),
-        "on_searchBar_activate",            G_CALLBACK(on_searchBar_activate),
+        "on_textBufferPost_insert_text",                G_CALLBACK(on_textBufferPost_insert_text),
+        "on_homeButton_clicked",                        G_CALLBACK(on_homeButton_clicked),
+        "on_logoutButton_clicked",                      G_CALLBACK(on_logoutButton_clicked),
+        "on_searchBar_activate",                        G_CALLBACK(on_searchBar_activate),
+        "on_profileImageHomeButton_clicked",            G_CALLBACK(on_profileImageHomeButton_clicked),
+        "on_profileButton_clicked",                     G_CALLBACK(on_profileButton_clicked),
+        "on_searchBar_search_changed",                  G_CALLBACK(on_searchBar_search_changed),
+
+        //signals da pagina de interface
+        "on_followButton_clicked",                      G_CALLBACK(on_followButton_clicked),
 
         NULL
     );

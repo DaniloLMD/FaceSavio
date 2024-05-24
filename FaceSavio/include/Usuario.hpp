@@ -11,7 +11,8 @@ class Usuario : public INotificavel {
     public:
         Usuario(std::string nome);
 
-        static void mkDir(std::string nome);
+        static void mkDir(std::string name);
+        static bool isValid(std::string name);
 
         std::string getNome();
 
@@ -21,8 +22,8 @@ class Usuario : public INotificavel {
 
         void notificar(std::string msg, std::string autor) override;
 
-        void showPosts(); // so pra teste, pode deletar depois
-        std::vector<Post*> loadPosts();
+        std::vector<Post*> loadAllPosts();
+        std::vector<Post*> loadSelfPosts();
         std::vector<Usuario*> getFollowing();
 
         std::string getFotoFilePath();

@@ -6,6 +6,7 @@
 #include "../include/Usuario.hpp"
 #include "../include/GerenciadorNotificacoes.hpp"
 #include "../include/Post.hpp"
+#include "../include/paths.hpp"
 
 
 #define dbg(x) std::cout << #x << " = " << x << "\n";
@@ -25,13 +26,11 @@ void Usuario::mkDir(std::string nome){
     //criando a pasta com o nome do usuario
     std::string mkdirCommand = "mkdir ";
     mkdirCommand += newUser->getUserFolderPath();
-    std::cout << mkdirCommand << "\n";
     system(mkdirCommand.c_str());
 
     //criando a pasta com os posts do usuario
     mkdirCommand = "mkdir ";
     mkdirCommand += newUser->getPostsFolderPath();
-    std::cout << mkdirCommand << "\n";
     system(mkdirCommand.c_str());
 
     
@@ -54,9 +53,25 @@ void Usuario::mkDir(std::string nome){
     ptr = fopen(newUser->getQuantidadePostsFilePath().c_str(), "w");
     fprintf(ptr, "0\n");
     fclose(ptr);
+}
 
-    // ptr = fopen(newUser->get)
-    
+bool Usuario::isValid(std::string name){
+
+    FILE* ptr = fopen(LOGIN_DATA_FILE_PATH, "r");
+
+    char user[100], senha[100];
+
+    bool retorno = false;
+    while(fscanf(ptr, "%[^,],%[^\n]%*c", user, senha) != EOF){
+        std::string atual = user;
+        if(atual == name){
+            retorno = true;
+            break;
+        }
+    }
+
+    fclose(ptr);
+    return retorno;
 }
 
 /**
@@ -73,7 +88,7 @@ std::string Usuario::getNome() {
  * @return void
 */
 void Usuario::publicar(std::string msg) {
-    std::cout << "Eu " << nome << ", publiquei a mensagem '" << msg << "'.\n";
+    // std::cout << "Eu " << nome << ", publiquei a mensagem '" << msg << "'.\n";
     gerenciadorNotificacoes->notificarTodos(msg);
 
     std::string newPostFilePath = this->getPostsFolderPath();
@@ -96,7 +111,7 @@ void Usuario::publicar(std::string msg) {
  * @return void
 */
 void Usuario::seguir(std::string username) {
-    // usuario->gerenciadorNotificacoes->adicionar(this);
+    if(this->nome == username) return;
 
     Usuario* usuario = new Usuario(username);
     
@@ -290,18 +305,9 @@ std::string Usuario::getFotoFilePath(){
 bool comp(Post* p1, Post* p2){
     return p1->getID() > p2->getID();
 }
-void Usuario::showPosts(){
-    loadPosts();
 
-    for(Post* p : posts){
-        std::cout << "Post " << p->getID() << " de " <<  p->getUsername() << "\n";
-        std::cout << p->getTexto() << "\n";
-        std::cout << "\n";
-    }
-}
-
-std::vector<Post*> Usuario::loadPosts(){
-    posts.clear();
+std::vector<Post*> Usuario::loadAllPosts(){
+    posts = loadSelfPosts();
 
     std::vector<std::string> following;
 
@@ -310,7 +316,6 @@ std::vector<Post*> Usuario::loadPosts(){
 
     char nome[50];
 
-    following.push_back(this->getNome());
     while(fscanf(followingFilePointer, "%[^\n]%*c", nome) != EOF){
         std::string atual = nome;
         following.push_back(atual);
@@ -342,6 +347,31 @@ std::vector<Post*> Usuario::loadPosts(){
 
     sort(posts.begin(), posts.end(), comp);
 
+    return posts;
+}
+
+std::vector<Post*> Usuario::loadSelfPosts(){
+    posts.clear();
+
+    for(int i = 1; i <= this->getQuantidadePosts(); i++){
+        std::string postFilePath = this->getPostFilePath(i);
+        FILE* postFilePointer = fopen(postFilePath.c_str(), "r");
+        int id;
+        std::string texto;
+
+        char linha[200];
+        fscanf(postFilePointer, "%d%*c", &id);
+        while(fscanf(postFilePointer, "%[^\n]%*c", linha) != EOF){
+            texto += linha;
+            texto += "\n";
+        }
+
+        Post* newPost = new Post(id, texto, this->getNome());
+        posts.push_back(newPost);
+        fclose(postFilePointer);
+    }
+
+    sort(posts.begin(), posts.end(), comp);
     return posts;
 }
 

@@ -7,20 +7,19 @@
 using namespace std;
 
 int main(int argc, char* argv[]){
+    // system("./rm");
 
-    system("./rm");
+    // Usuario* danilo = new Usuario("Danilo");
+    // Usuario* caio = new Usuario("Caio");
+    // Usuario* tiago = new Usuario("Tiago");
 
-    Usuario* danilo = new Usuario("Danilo");
-    Usuario* caio = new Usuario("Caio");
-    Usuario* tiago = new Usuario("Tiago");
+    // danilo->seguir(caio->getNome());
+    // danilo->seguir(tiago->getNome());
+    // caio->seguir(danilo->getNome());
 
-    danilo->seguir(caio->getNome());
-    danilo->seguir(tiago->getNome());
-    caio->seguir(danilo->getNome());
-
-    caio->publicar("caio farias.");
-    tiago->publicar("pio.");
-    danilo->publicar("LMD.");
+    // caio->publicar("caio farias.");
+    // tiago->publicar("pio.");
+    // danilo->publicar("LMD.");
 
     Interface* interface = new Interface(GLADE_FILE_PATH);
 

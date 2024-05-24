@@ -93,5 +93,10 @@
   padding: 10px;
 }
 
-#searchBar{
+#entryWrong{
+  background-color: rgb(255, 95, 95);
+}
+
+#entryNormal{
+  background-color: white;
 }
