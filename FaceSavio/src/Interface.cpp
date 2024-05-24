@@ -45,6 +45,7 @@ void Interface::connectSymbols(){
 
         //signals da pagina de login
         "on_login_clicked",                 G_CALLBACK(on_login_clicked),
+        "on_cadastrar_clicked",             G_CALLBACK(on_cadastrar_clicked),
 
 
         //signals da pagina home
@@ -52,6 +53,7 @@ void Interface::connectSymbols(){
         "on_homeButton_clicked",            G_CALLBACK(on_homeButton_clicked),
         "on_logoutButton_clicked",          G_CALLBACK(on_logoutButton_clicked),
         "on_mudarButton_clicked",           G_CALLBACK(on_mudarButton_clicked),
+        "on_searchBar_activate",            G_CALLBACK(on_searchBar_activate),
 
         NULL
     );

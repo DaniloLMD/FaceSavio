@@ -39,6 +39,9 @@ void loadHomeScreen(){
 
     GtkWidget* profileImage = newScaledImage(interface->getUsuario()->getFotoFilePath().c_str(), 80, 80);
     GtkWidget* profileImageButton =  GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "profileImageHomeButton"));
+    GtkLabel* homeUsernameLabel = GTK_LABEL(gtk_builder_get_object(interface->getBuilder(), "homeUsernameLabel"));
+
+    gtk_label_set_text(homeUsernameLabel, interface->getUsuario()->getNome().c_str());
     gtk_button_set_image (GTK_BUTTON (profileImageButton), profileImage);
     
     showPosts();
@@ -198,4 +201,10 @@ void on_homeButton_clicked(){
 void on_logoutButton_clicked(){
     GtkStack* stack = GTK_STACK(gtk_builder_get_object(interface->getBuilder(), "stack"));
     gtk_stack_set_visible_child_name(stack, "login");   
+}
+
+void on_searchBar_activate(){
+    GtkSearchEntry* searchBar = GTK_SEARCH_ENTRY(gtk_builder_get_object(interface->getBuilder(), "searchBar"));
+    std::string texto = gtk_entry_get_text (GTK_ENTRY(searchBar));
+    std::cout << texto << "\n";
 }

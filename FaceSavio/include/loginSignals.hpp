@@ -6,5 +6,6 @@
 
 void connectLoginSignals(void* newInterface);
 void on_login_clicked();
+void on_cadastrar_clicked();
 
 #endif

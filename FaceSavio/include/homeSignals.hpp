@@ -20,6 +20,8 @@ void showFollowing();
 void limparGridPosts();
 void limparGridFollowing();
 
+void on_searchBar_activate();
+
 //FUNCOES DE TESTE(APAGAR DEPOIS)
 void on_mudarButton_clicked();
 

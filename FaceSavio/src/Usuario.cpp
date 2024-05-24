@@ -19,6 +19,46 @@ Usuario::Usuario(std::string nome) : nome(nome) {
     gerenciadorNotificacoes = new GerenciadorNotificacoes(this);
 }
 
+void Usuario::mkDir(std::string nome){
+    Usuario* newUser = new Usuario(nome);
+
+    //criando a pasta com o nome do usuario
+    std::string mkdirCommand = "mkdir ";
+    mkdirCommand += newUser->getUserFolderPath();
+    std::cout << mkdirCommand << "\n";
+    system(mkdirCommand.c_str());
+
+    //criando a pasta com os posts do usuario
+    mkdirCommand = "mkdir ";
+    mkdirCommand += newUser->getPostsFolderPath();
+    std::cout << mkdirCommand << "\n";
+    system(mkdirCommand.c_str());
+
+    
+    //criando o arquivo "foto.png"
+    std::string cpCommand = "cp usuarios/fotoPadrao.png ";
+    cpCommand += newUser->getFotoFilePath();
+    system(cpCommand.c_str());
+
+
+    FILE* ptr = NULL;
+    //criando o arquivo "followers.txt"
+    ptr = fopen(newUser->getFollowersFilePath().c_str(), "w");
+    fclose(ptr);
+
+    //criando o arquivo "following.txt"
+    ptr = fopen(newUser->getFollowingFilePath().c_str(), "w");
+    fclose(ptr);
+
+    //criando o arquivo "quantidadePosts.txt"
+    ptr = fopen(newUser->getQuantidadePostsFilePath().c_str(), "w");
+    fprintf(ptr, "0\n");
+    fclose(ptr);
+
+    // ptr = fopen(newUser->get)
+    
+}
+
 /**
  * @brief retorna o nome do usuario
  * @return string com o nome do usuario

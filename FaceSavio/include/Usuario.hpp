@@ -11,6 +11,8 @@ class Usuario : public INotificavel {
     public:
         Usuario(std::string nome);
 
+        static void mkDir(std::string nome);
+
         std::string getNome();
 
         void publicar(std::string msg);
