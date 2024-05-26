@@ -29,6 +29,7 @@ void Interface::activateCSS (const char* cssFile) {
  * @brief prepara a interface para ser exibida na tela
 */
 void Interface::display(){
+    activateCSS(CSS_FILE_PATH);
     connectSymbols();
     gtk_widget_show(mainWindow);
     gtk_main();

@@ -98,7 +98,7 @@ void Usuario::publicar(std::string msg) {
 
     FILE* newPostFilePointer = fopen(newPostFilePath.c_str(), "w");
     fprintf(newPostFilePointer, "%d\n", this->getTotalPosts() + 1);
-    fprintf(newPostFilePointer, "%s\n", msg.c_str());
+    fprintf(newPostFilePointer, "%s", msg.c_str());
     fclose(newPostFilePointer);
 
     this->setQuantidadePosts(this->getQuantidadePosts() + 1);
@@ -335,20 +335,10 @@ bool comp(Post* p1, Post* p2){
 std::vector<Post*> Usuario::loadAllPosts(){
     posts = loadSelfPosts();
 
-    std::vector<std::string> following;
+    auto following = this->getFollowing();
 
-    std::string followingFilePath = this->getFollowingFilePath();
-    FILE* followingFilePointer = fopen(followingFilePath.c_str(), "r");
-
-    char nome[50];
-
-    while(fscanf(followingFilePointer, "%[^\n]%*c", nome) != EOF){
-        std::string atual = nome;
-        following.push_back(atual);
-    }   
-    fclose(followingFilePointer);
-
-    for(std::string username: following){
+    for(auto u: following){
+        std::string username = u->getNome();
         Usuario* user = new Usuario(username);
 
 
@@ -360,6 +350,7 @@ std::vector<Post*> Usuario::loadAllPosts(){
 
             char linha[200];
             fscanf(postFilePointer, "%d%*c", &id);
+
             while(fscanf(postFilePointer, "%[^\n]%*c", linha) != EOF){
                 texto += linha;
                 texto += "\n";
@@ -376,20 +367,23 @@ std::vector<Post*> Usuario::loadAllPosts(){
     return posts;
 }
 
+#include <unistd.h>
+
 std::vector<Post*> Usuario::loadSelfPosts(){
     posts.clear();
 
     for(int i = 1; i <= this->getQuantidadePosts(); i++){
         std::string postFilePath = this->getPostFilePath(i);
+            
         FILE* postFilePointer = fopen(postFilePath.c_str(), "r");
         int id;
-        std::string texto;
+        std::string texto = "";
 
-        char linha[200];
+
         fscanf(postFilePointer, "%d%*c", &id);
-        while(fscanf(postFilePointer, "%[^\n]%*c", linha) != EOF){
-            texto += linha;
-            texto += "\n";
+        char x;
+        while(fscanf(postFilePointer, "%c", &x) != EOF){
+            texto += x;
         }
 
         Post* newPost = new Post(id, texto, this->getNome());

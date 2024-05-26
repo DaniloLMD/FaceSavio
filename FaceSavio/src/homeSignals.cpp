@@ -27,7 +27,7 @@ void loadHomeScreen(){
     showFollowing();
 }
 
-void loadLoginScreen(std::string username){
+void loadProfileScreen(std::string username){
     GtkStack* stack = GTK_STACK(gtk_builder_get_object(interface->getBuilder(), "stack2"));
 
 
@@ -122,10 +122,15 @@ void limparGridPosts(){
 
 void showPosts(std::vector<Post*> posts){
 
-    limparGridPosts();
+    // std::cout << "Posts:\n";
+    // for(Post* p : posts){
+    //     std::cout << p->getTexto() << "\n";
+    // }
+    // std::cout << '\n';
    
-    // std::vector<Post*> posts = interface->getUsuario()->loadPosts();
 
+    
+    limparGridPosts();
     for(Post* p:  posts){
         Usuario* autor = new Usuario(p->getUsername());
 
@@ -133,7 +138,7 @@ void showPosts(std::vector<Post*> posts){
         GtkWidget* profile = newScaledImage(autor->getFotoFilePath().c_str(), 80, 80);
         GtkWidget* name = gtk_label_new(p->getUsername().c_str());
         GtkWidget* text = gtk_label_new(p->getTexto().c_str());
-
+        
         //formando a nova grid
         GtkWidget* newGrid = gtk_grid_new();
         gtk_grid_set_column_homogeneous(GTK_GRID(newGrid), TRUE);
@@ -157,6 +162,12 @@ void showPosts(std::vector<Post*> posts){
     interface->reset();
 }
 
+void on_name_clicked(GtkWidget *widget){
+    GtkButton* button = GTK_BUTTON(widget); 
+    std::string name = gtk_button_get_label(button);
+    loadProfileScreen(name);
+}
+
 void showFollowing(){
     limparGridFollowing();
 
@@ -165,7 +176,10 @@ void showFollowing(){
     for(Usuario* user: following){
         //formando os atributos (imagem do usuario e label com o nome)
         GtkWidget* profile = newScaledImage(user->getFotoFilePath().c_str(), 80, 80);
-        GtkWidget* name = gtk_label_new(user->getNome().c_str());
+        // GtkWidget* name = gtk_label_new(user->getNome().c_str());
+        GtkButton* name = GTK_BUTTON(gtk_button_new_with_label(user->getNome().c_str()));
+        gtk_widget_set_name(GTK_WIDGET(name), "button");
+        g_signal_connect(name, "clicked", G_CALLBACK(on_name_clicked), NULL);
 
         //formando a nova grid
         GtkWidget* newGrid = gtk_grid_new();
@@ -175,7 +189,7 @@ void showFollowing(){
         gtk_grid_insert_row (GTK_GRID(newGrid), 1);
 
         gtk_grid_attach(GTK_GRID(newGrid), profile, 1, 1, 1, 1);
-        gtk_grid_attach(GTK_GRID(newGrid), name, 2, 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(newGrid), GTK_WIDGET(name), 2, 1, 1, 1);
         
         interface->gridsFollowing.push_back(newGrid);
 
@@ -208,7 +222,7 @@ void on_homeButton_clicked(){
 }
 
 void on_profileButton_clicked(){
-    loadLoginScreen(interface->getUsuario()->getNome());
+    loadProfileScreen(interface->getUsuario()->getNome());
 }
 
 void on_logoutButton_clicked(){
@@ -221,7 +235,7 @@ void on_searchBar_activate(){
     std::string texto = gtk_entry_get_text (GTK_ENTRY(searchBar));
 
     if(Usuario::isValid(texto)){
-        loadLoginScreen(texto);
+        loadProfileScreen(texto);
         gtk_widget_set_name(GTK_WIDGET(searchBar), "entryNormal");
     }
     else{

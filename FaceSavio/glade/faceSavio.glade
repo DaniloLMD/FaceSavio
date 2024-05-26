@@ -13,6 +13,7 @@
     <signal name="destroy" handler="on_main_window_destroy" swapped="no"/>
     <child>
       <object class="GtkStack" id="stack">
+        <property name="name">navbar</property>
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <child>
@@ -24,21 +25,8 @@
             <property name="orientation">vertical</property>
             <property name="spacing">5</property>
             <child>
-              <object class="GtkImage">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="pixel-size">100</property>
-                <property name="icon-name">changes-prevent-symbolic</property>
-                <property name="use-fallback">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkLabel">
+                <property name="name">logo</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="margin-top">10</property>
@@ -111,6 +99,7 @@
                 <child>
                   <object class="GtkButton" id="login">
                     <property name="label" translatable="yes">Login</property>
+                    <property name="name">post-button</property>
                     <property name="height-request">50</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
@@ -126,6 +115,7 @@
                 <child>
                   <object class="GtkButton" id="cadastrar">
                     <property name="label" translatable="yes">Cadastrar</property>
+                    <property name="name">post-button</property>
                     <property name="height-request">50</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>

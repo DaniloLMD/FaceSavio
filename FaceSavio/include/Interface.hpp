@@ -9,6 +9,7 @@
 #include "homeSignals.hpp"
 #include "Post.hpp"
 #include "Usuario.hpp"
+#include "paths.hpp"
 
 typedef struct InterfaceStruct InterfaceStruct;
 
