@@ -19,12 +19,16 @@ class Usuario : public INotificavel {
         void publicar(std::string msg);
 
         void seguir(std::string usuario);
+        void desseguir(std::string usuario);
 
         void notificar(std::string msg, std::string autor) override;
+
+        bool isFollowing(std::string user);
 
         std::vector<Post*> loadAllPosts();
         std::vector<Post*> loadSelfPosts();
         std::vector<Usuario*> getFollowing();
+        std::vector<Usuario*> getFollowers();
 
         std::string getFotoFilePath();
 
@@ -39,7 +43,6 @@ class Usuario : public INotificavel {
         void setQuantidadePosts(int quantidade);  
 
         std::vector<Post*> posts;
-        std::vector<Usuario*> following;
 
         std::string getUserFolderPath();
         std::string getTotalPostsFilePath();

@@ -142,6 +142,32 @@ void Usuario::seguir(std::string username) {
     }
 }
 
+void Usuario::desseguir(std::string usuario){
+
+    auto following = this->getFollowing();
+
+    FILE* followingFilePointer = fopen(this->getFollowingFilePath().c_str(), "w");
+    std::cout << "vo entrar no for!\n";
+    for(auto u: following){
+        std::cout << "oi!\n";
+        std::cout << u->getNome() << "\n";
+        if(u->getNome() == usuario) continue;
+        fprintf(followingFilePointer, "%s\n", u->getNome().c_str());
+    }
+    fclose(followingFilePointer);
+
+    Usuario* user2 = new Usuario(usuario);
+    FILE* followersFilePointer = fopen(user2->getFollowersFilePath().c_str(), "w");
+    auto followers = user2->getFollowers();
+    for(auto u: followers){
+        if(u->getNome() == this->getNome()) continue;
+        fprintf(followersFilePointer, "%s\n", u->getNome().c_str());
+    }
+    fclose(followersFilePointer);
+
+    
+}
+
 /**
  * @brief o usuario atual recebe uma notificação de que o usuario autor publicou um post.
  * @param msg mensagem do post do autor
@@ -375,8 +401,12 @@ std::vector<Post*> Usuario::loadSelfPosts(){
     return posts;
 }
 
+bool userComp(Usuario* a, Usuario* b){
+    return a->getNome() < b->getNome();   
+}
+
 std::vector<Usuario*> Usuario::getFollowing(){
-    following.clear();
+    std::vector<Usuario*> following;
 
     std::string followingFilePath = this->getFollowingFilePath();
 
@@ -390,5 +420,41 @@ std::vector<Usuario*> Usuario::getFollowing(){
 
     fclose(followingFilePointer);
 
-    return this->following;
+    sort(following.begin(), following.end(), userComp);
+    return following;
+}
+
+std::vector<Usuario*> Usuario::getFollowers(){
+    std::vector<Usuario*> followers;
+
+    std::string followersFilePath = this->getFollowersFilePath();
+
+    FILE* followersFilePointer = fopen(followersFilePath.c_str(), "r");
+
+    char nome[100];
+    while(fscanf(followersFilePointer, "%[^\n]%*c", nome) != EOF){
+        std::string username = nome;
+        followers.push_back(new Usuario(username));
+    }
+
+    fclose(followersFilePointer);   
+
+    sort(followers.begin(), followers.end(), userComp);
+    return followers;
+}
+
+/**
+ * @brief retorna um booleano se o usuario segue o usuario de nome "user"
+ * @param user nome do usuario que é seguido
+ * @return bool
+*/
+bool Usuario::isFollowing(std::string user){
+
+    for(auto u : this->getFollowing()){
+        if(u->getNome() == user){
+            return true;
+        }
+    }
+
+    return false;
 }

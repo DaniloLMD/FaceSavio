@@ -29,6 +29,21 @@ void loadHomeScreen(){
 
 void loadLoginScreen(std::string username){
     GtkStack* stack = GTK_STACK(gtk_builder_get_object(interface->getBuilder(), "stack2"));
+
+
+    GtkButton* followButton = GTK_BUTTON(gtk_builder_get_object(interface->getBuilder(), "followButton"));
+    if(username == interface->getUsuario()->getNome()){
+        gtk_button_set_label(followButton, "Edit");
+    }
+    else{
+        if(interface->getUsuario()->isFollowing(username)){
+            gtk_button_set_label(followButton, "Unfollow");
+        }
+        else{
+            gtk_button_set_label(followButton, "Follow");
+        }
+    }
+
     gtk_stack_set_visible_child_name(stack, "profile");   
 
     Usuario* user = new Usuario(username);
@@ -228,10 +243,24 @@ void on_profileImageHomeButton_clicked(){
 
 //profile
 void on_followButton_clicked(){
+
+    GtkButton* followButton = GTK_BUTTON(gtk_builder_get_object(interface->getBuilder(), "followButton"));
+    std::string tipo = gtk_button_get_label(followButton);
+    
     GtkLabel* profileUserNameLabel = GTK_LABEL(gtk_builder_get_object(interface->getBuilder(), "profileUserNameLabel"));
-    std::string user2 = gtk_label_get_text(profileUserNameLabel);
+    std::string user = gtk_label_get_text(profileUserNameLabel);
+    
+    if(tipo == "Follow"){
+        interface->getUsuario()->seguir(user);
+        gtk_button_set_label(followButton, "Unfollow");
+    }
+    else if(tipo == "Unfollow"){
+        interface->getUsuario()->desseguir(user);
+        gtk_button_set_label(followButton, "Follow");
+    }
+    else if(tipo == "Edit"){
+        
+    }
 
-    interface->getUsuario()->seguir(user2);
-
-    showFollowing();
+    showFollowing();    
 }
