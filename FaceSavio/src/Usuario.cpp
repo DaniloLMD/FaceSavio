@@ -147,10 +147,7 @@ void Usuario::desseguir(std::string usuario){
     auto following = this->getFollowing();
 
     FILE* followingFilePointer = fopen(this->getFollowingFilePath().c_str(), "w");
-    std::cout << "vo entrar no for!\n";
     for(auto u: following){
-        std::cout << "oi!\n";
-        std::cout << u->getNome() << "\n";
         if(u->getNome() == usuario) continue;
         fprintf(followingFilePointer, "%s\n", u->getNome().c_str());
     }

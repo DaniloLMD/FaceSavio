@@ -121,15 +121,6 @@ void limparGridPosts(){
 }
 
 void showPosts(std::vector<Post*> posts){
-
-    // std::cout << "Posts:\n";
-    // for(Post* p : posts){
-    //     std::cout << p->getTexto() << "\n";
-    // }
-    // std::cout << '\n';
-   
-
-    
     limparGridPosts();
     for(Post* p:  posts){
         Usuario* autor = new Usuario(p->getUsername());
@@ -273,8 +264,52 @@ void on_followButton_clicked(){
         gtk_button_set_label(followButton, "Follow");
     }
     else if(tipo == "Edit"){
+        GtkFileChooserDialog* fileChooserPopup = GTK_FILE_CHOOSER_DIALOG(gtk_builder_get_object(interface->getBuilder(), "fileChooserDialog"));
         
+        gtk_widget_show_all(GTK_WIDGET(fileChooserPopup));
+        gtk_dialog_run(GTK_DIALOG(fileChooserPopup));
     }
 
     showFollowing();    
+}
+
+//signals de popup
+void on_popUpOkButton_clicked(){
+  gtk_widget_hide(GTK_WIDGET(GTK_MESSAGE_DIALOG(gtk_builder_get_object(interface->getBuilder(), "popup"))));
+}
+
+void on_fileChooserDialog_confirm_overwrite(){
+  // std::cout << "bom dia\n";
+}
+void on_fileChooserDialog_file_activated(){
+  // std::cout << "oi\n";
+  GtkFileChooserDialog* fileChooserPopup = GTK_FILE_CHOOSER_DIALOG(gtk_builder_get_object(interface->getBuilder(), "fileChooserDialog"));
+  std::string filePath = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(fileChooserPopup));
+
+  std::string extensao = "";
+  for(int i = filePath.size() - 1; i >= 0; i--){
+    if(filePath[i] == '.'){
+      for(int j = i+1; j < filePath.size(); j++){
+        extensao += filePath[j];
+      }
+      break;
+    }
+  }
+  
+  if(extensao != "png"){
+    interface->popup("Extensao invalida", "Por favor selecione um png.");
+    return;
+  }
+
+  std::string cmd = "cp ";
+  cmd += filePath;
+  cmd += " ";
+  cmd += interface->getUsuario()->getFotoFilePath();
+
+  system(cmd.c_str());
+
+  gtk_widget_hide(GTK_WIDGET(fileChooserPopup));  
+
+  loadHomeScreen();
+  loadProfileScreen(interface->getUsuario()->getNome());
 }

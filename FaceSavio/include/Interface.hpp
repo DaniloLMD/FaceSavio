@@ -22,15 +22,15 @@ class Interface{
         void display();
         void reset();
 
+        void popup(std::string title, std::string text);
+
         GtkBuilder* getBuilder() { return builder; }
         GtkWidget* getMainWindow() { return mainWindow; }
         Usuario* getUsuario() { return usuario; }
+        void setUsuario(Usuario* user) { this->usuario = user; }
     
         std::vector<GtkWidget*> gridsPost;
         std::vector<GtkWidget*> gridsFollowing;
-
-        //TESTE (APAGAR DEPOIS)
-        void setUsuario(Usuario* u){ usuario = u; }
 
     private:
         void connectSymbols();

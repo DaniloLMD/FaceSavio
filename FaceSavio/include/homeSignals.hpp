@@ -31,4 +31,10 @@ void on_searchBar_search_changed();
 //profile
 void on_followButton_clicked();
 
+
+//popup
+void on_popUpOkButton_clicked(); 
+void on_fileChooserDialog_file_activated();
+void on_fileChooserDialog_confirm_overwrite();
+
 #endif

@@ -44,11 +44,11 @@ void on_login_clicked(){
 
 void on_cadastrar_clicked(){
     if(solve(CADASTRO, getName(), getPassword())){
-        std::cout << "cadastrado com sucesso.\n";
         Usuario::mkDir(getName());
+        interface->popup("Cadastro realizado", "");
     }
     else{
-        std::cout << "cadastrado com falha.\n";
+        interface->popup("Cadastro falhou", "usuário inválido ou já existente");
     }
 }
 
@@ -162,7 +162,6 @@ bool registerUser(string &userName, string& password) {
 //   string lowerUserName = toLowerCase(userName);
 
   if (userExists(userName)) {
-    cout << "Username already exists." << endl;
     return false;
   }
 
@@ -183,7 +182,6 @@ bool solve(int op, string userName, string password){
   else if (op == CADASTRO) {
     return registerUser(userName, password);
   }
-  else cout << "Invalid op" << endl;
   
   return false;
 }

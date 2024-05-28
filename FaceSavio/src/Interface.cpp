@@ -35,14 +35,16 @@ void Interface::display(){
     gtk_main();
 }
 
-/**
- * @brief conecta os signals da interface
-*/
 void Interface::connectSymbols(){
 
     gtk_builder_add_callback_symbols(
         builder,
         "on_main_window_destroy",           G_CALLBACK(gtk_main_quit),
+
+        //signals de popup
+        "on_popUpOkButton_clicked",                 G_CALLBACK(on_popUpOkButton_clicked),
+        "on_fileChooserDialog_file_activated",      G_CALLBACK(on_fileChooserDialog_file_activated),
+        "on_fileChooserDialog_confirm_overwrite",   G_CALLBACK(on_fileChooserDialog_confirm_overwrite),
 
         //signals da pagina de login
         "on_login_clicked",                 G_CALLBACK(on_login_clicked),
@@ -78,4 +80,13 @@ void Interface::reset(){
     // gtk_main_quit();
     gtk_widget_show_all(mainWindow);
     // gtk_main();
+}
+
+void Interface::popup(std::string title, std::string text){
+    GtkMessageDialog *popup = GTK_MESSAGE_DIALOG(gtk_builder_get_object(builder, "popup"));
+    g_object_set(popup, "text", title.c_str(), NULL);
+    g_object_set(popup, "secondary_text", text.c_str(), NULL);
+    
+    gtk_widget_show_all(GTK_WIDGET(popup));
+    gtk_dialog_run(GTK_DIALOG(popup));
 }
