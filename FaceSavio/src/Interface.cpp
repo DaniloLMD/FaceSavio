@@ -31,6 +31,7 @@ void Interface::activateCSS (const char* cssFile) {
 void Interface::display(){
     activateCSS(CSS_FILE_PATH);
     connectSymbols();
+    loadLoginScreen();
     gtk_widget_show(mainWindow);
     gtk_main();
 }

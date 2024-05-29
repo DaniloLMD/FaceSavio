@@ -28,6 +28,9 @@ void loadHomeScreen(){
     gtk_widget_set_name(GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "searchBar")), "entryNormal");
     gtk_entry_set_text(GTK_ENTRY(gtk_builder_get_object(interface->getBuilder(), "searchBar")), "Find user");
 
+    std::string postText = "Write here";
+    gtk_text_buffer_set_text(GTK_TEXT_BUFFER(gtk_builder_get_object(interface->getBuilder(), "textBufferPost")), postText.c_str(), postText.size());
+
     showPosts(interface->getUsuario()->loadAllPosts());
     showFollowing();
 }
@@ -110,7 +113,7 @@ void on_buttonPost_clicked(void* data){
 
     interface->getUsuario()->publicar(postText);
 
-    showPosts(interface->getUsuario()->loadAllPosts());
+    loadHomeScreen();
 }
 
 void limparGridPosts(){
@@ -221,8 +224,7 @@ void on_profileButton_clicked(){
 }
 
 void on_logoutButton_clicked(){
-    GtkStack* stack = GTK_STACK(gtk_builder_get_object(interface->getBuilder(), "stack"));
-    gtk_stack_set_visible_child_name(stack, "login");   
+    loadLoginScreen();   
 }
 
 void on_searchBar_activate(){

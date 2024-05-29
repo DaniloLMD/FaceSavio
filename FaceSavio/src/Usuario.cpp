@@ -17,7 +17,7 @@
  * @return ponteiro para Usuario
 */
 Usuario::Usuario(std::string nome) : nome(nome) {
-    gerenciadorNotificacoes = new GerenciadorNotificacoes(this);
+    // gerenciadorNotificacoes = new GerenciadorNotificacoes(this);
 }
 
 void Usuario::mkDir(std::string nome){
@@ -88,8 +88,8 @@ std::string Usuario::getNome() {
  * @return void
 */
 void Usuario::publicar(std::string msg) {
-    // std::cout << "Eu " << nome << ", publiquei a mensagem '" << msg << "'.\n";
-    gerenciadorNotificacoes->notificarTodos(msg);
+    std::cout << "Eu " << nome << ", publiquei a mensagem '" << msg << "'.\n";
+    // gerenciadorNotificacoes->notificarTodos(msg);
 
     std::string newPostFilePath = this->getPostsFolderPath();
     newPostFilePath += "post";
@@ -345,12 +345,11 @@ std::vector<Post*> Usuario::loadAllPosts(){
             int id;
             std::string texto;
 
-            char linha[200];
+            
+            char c;
             fscanf(postFilePointer, "%d%*c", &id);
-
-            while(fscanf(postFilePointer, "%[^\n]%*c", linha) != EOF){
-                texto += linha;
-                texto += "\n";
+            while(fscanf(postFilePointer, "%c", &c) != EOF){
+                texto += c;
             }
 
             Post* newPost = new Post(id, texto, user->getNome());
@@ -363,8 +362,6 @@ std::vector<Post*> Usuario::loadAllPosts(){
 
     return posts;
 }
-
-#include <unistd.h>
 
 std::vector<Post*> Usuario::loadSelfPosts(){
     posts.clear();

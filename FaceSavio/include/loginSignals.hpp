@@ -4,6 +4,8 @@
 #include "Interface.hpp"
 #include "homeSignals.hpp"
 
+void loadLoginScreen();
+
 void connectLoginSignals(void* newInterface);
 void on_login_clicked();
 void on_cadastrar_clicked();

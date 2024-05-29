@@ -24,13 +24,30 @@ std::string getPassword(){
     return gtk_entry_get_text (entry);
 }
 
+bool lembrar = false;
+void loadLoginScreen(){
+  GtkStack* stack = GTK_STACK(gtk_builder_get_object(interface->getBuilder(), "stack"));
+  gtk_stack_set_visible_child_name(stack, "login");
+
+  GtkWidget* name = GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "name"));
+  GtkWidget* password = GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "password"));
+  gtk_widget_set_name(name, "entryNormal");
+  gtk_widget_set_name(password, "entryNormal");
+  
+  if(!lembrar){
+    gtk_entry_set_text(GTK_ENTRY(name), "Name");
+    gtk_entry_set_text(GTK_ENTRY(password), "password");
+  }
+
+}
+
 bool solve(int op, std::string userName, std::string password);
 
 void on_login_clicked(){
     if(solve(LOGIN, getName(), getPassword())){
         interface->setUsuario(new Usuario(getName()));
         GtkStack* stack = GTK_STACK(gtk_builder_get_object(interface->getBuilder(), "stack"));
-        gtk_stack_set_visible_child_name(stack, "home");   
+        gtk_stack_set_visible_child_name(stack, "home"); 
         loadHomeScreen();
     }
     else{
@@ -46,21 +63,15 @@ void on_cadastrar_clicked(){
     if(solve(CADASTRO, getName(), getPassword())){
         Usuario::mkDir(getName());
         interface->popup("Cadastro realizado", "");
+        on_name_changed();
     }
     else{
         interface->popup("Cadastro falhou", "usuário inválido ou já existente");
     }
 }
 
-bool ativo = false;
 void on_remember_toggled(){
-    if(ativo){
-        std::cout << "vo deslembrar.\n";
-    }
-    else{
-        std::cout << "vo lembrar.\n";
-    }
-    ativo = !ativo;
+    lembrar = !lembrar;
 }
 
 void on_name_changed(){

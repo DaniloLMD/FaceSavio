@@ -34,7 +34,7 @@ class Usuario : public INotificavel {
 
     private:
         std::string nome;
-        GerenciadorNotificacoes* gerenciadorNotificacoes;
+        // GerenciadorNotificacoes* gerenciadorNotificacoes;
 
         //funcoes de acesso aos arquivos
         int getTotalPosts();
