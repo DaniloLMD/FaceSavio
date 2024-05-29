@@ -53,6 +53,7 @@
   </object>
   <object class="GtkTextBuffer" id="textBufferPost">
     <property name="text" translatable="yes">Write Here</property>
+    <signal name="changed" handler="on_textBufferPost_changed" swapped="no"/>
     <signal name="insert-text" handler="on_textBufferPost_insert_text" swapped="no"/>
   </object>
   <object class="GtkWindow" id="main_window">

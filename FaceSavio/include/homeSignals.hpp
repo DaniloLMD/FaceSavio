@@ -8,7 +8,7 @@ void connectHomeSignals(void* newInterface);
 
 void loadHomeScreen();
 
-void on_textBufferPost_insert_text(GtkTextBuffer *buffer);
+void on_textBufferPost_changed(GtkTextBuffer* buffer);
 
 void on_buttonPost_clicked(void* interfaceStruct);
 

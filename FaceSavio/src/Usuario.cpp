@@ -88,7 +88,7 @@ std::string Usuario::getNome() {
  * @return void
 */
 void Usuario::publicar(std::string msg) {
-    std::cout << "Eu " << nome << ", publiquei a mensagem '" << msg << "'.\n";
+    // std::cout << "Eu " << nome << ", publiquei a mensagem '" << msg << "'.\n";
     // gerenciadorNotificacoes->notificarTodos(msg);
 
     std::string newPostFilePath = this->getPostsFolderPath();

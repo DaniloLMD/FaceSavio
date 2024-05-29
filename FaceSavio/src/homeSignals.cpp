@@ -69,20 +69,20 @@ void loadProfileScreen(std::string username){
 /**
  * @brief verifica se o limite de caracteres e de linhas foi atingido. Caso tenha sido, bloqueia a entrada de novos caracteres
 */
-void on_textBufferPost_insert_text(GtkTextBuffer *buffer) {
-    
+void on_textBufferPost_changed(GtkTextBuffer* buffer){
     GtkTextIter start, end;
     gtk_text_buffer_get_start_iter(buffer, &start);
     gtk_text_buffer_get_end_iter(buffer, &end);
     // Obtém o texto do buffer de texto
     std::string text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
-
+    
     const int MAX_COLUMNS = 100;
     const int MAX_LINES = 10;
 
     int caracteres = 0;
     int linhas = 0;
 
+    std::string postText = "";
     for(char c: text){
         if(c == '\n'){
             caracteres = 0;
@@ -91,9 +91,17 @@ void on_textBufferPost_insert_text(GtkTextBuffer *buffer) {
         else{
             caracteres++;
         }
-        if(caracteres > MAX_COLUMNS || linhas > MAX_LINES){
+        if(caracteres > MAX_COLUMNS){
+            gtk_text_buffer_set_text(GTK_TEXT_BUFFER(gtk_builder_get_object(interface->getBuilder(), "textBufferPost")), postText.c_str(), postText.size());
             g_signal_stop_emission_by_name(buffer, "insert-text");
+            break;
         }
+        if(linhas > MAX_LINES){
+            gtk_text_buffer_set_text(GTK_TEXT_BUFFER(gtk_builder_get_object(interface->getBuilder(), "textBufferPost")), postText.c_str(), postText.size());
+            g_signal_stop_emission_by_name(buffer, "insert-text");
+            break;
+        }
+        postText += c;
     }
 }
 

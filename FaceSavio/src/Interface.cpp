@@ -55,7 +55,7 @@ void Interface::connectSymbols(){
 
 
         //signals da pagina home
-        "on_textBufferPost_insert_text",                G_CALLBACK(on_textBufferPost_insert_text),
+        "on_textBufferPost_changed",                    G_CALLBACK(on_textBufferPost_changed),
         "on_homeButton_clicked",                        G_CALLBACK(on_homeButton_clicked),
         "on_logoutButton_clicked",                      G_CALLBACK(on_logoutButton_clicked),
         "on_searchBar_activate",                        G_CALLBACK(on_searchBar_activate),
