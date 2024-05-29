@@ -35,7 +35,7 @@ void Interface::display(){
     gtk_main();
 }
 
-void Interface::connectSymbols(){
+void Interface::connectSymbols(){   
 
     gtk_builder_add_callback_symbols(
         builder,
@@ -43,8 +43,6 @@ void Interface::connectSymbols(){
 
         //signals de popup
         "on_popUpOkButton_clicked",                 G_CALLBACK(on_popUpOkButton_clicked),
-        "on_fileChooserDialog_file_activated",      G_CALLBACK(on_fileChooserDialog_file_activated),
-        "on_fileChooserDialog_confirm_overwrite",   G_CALLBACK(on_fileChooserDialog_confirm_overwrite),
 
         //signals da pagina de login
         "on_login_clicked",                 G_CALLBACK(on_login_clicked),

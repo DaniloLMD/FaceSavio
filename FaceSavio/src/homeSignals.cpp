@@ -10,16 +10,21 @@ void connectHomeSignals(void* newInterface){
     interface = (Interface*) newInterface;
 }
 
-void loadHomeScreen(){
-    GtkStack* stack = GTK_STACK(gtk_builder_get_object(interface->getBuilder(), "stack2"));
-    gtk_stack_set_visible_child_name(stack, "home");   
+void showProfileImageHomeButton(){
     GtkWidget* profileImage = newScaledImage(interface->getUsuario()->getFotoFilePath().c_str(), 80, 80);
     GtkWidget* profileImageButton =  GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "profileImageHomeButton"));
     GtkLabel* homeUsernameLabel = GTK_LABEL(gtk_builder_get_object(interface->getBuilder(), "homeUsernameLabel"));
-
     gtk_label_set_text(homeUsernameLabel, interface->getUsuario()->getNome().c_str());
     gtk_button_set_image (GTK_BUTTON (profileImageButton), profileImage);
     
+}
+
+void loadHomeScreen(){
+    GtkStack* stack = GTK_STACK(gtk_builder_get_object(interface->getBuilder(), "stack2"));
+    gtk_stack_set_visible_child_name(stack, "home");   
+
+    showProfileImageHomeButton();
+
     gtk_widget_set_name(GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "searchBar")), "entryNormal");
     gtk_entry_set_text(GTK_ENTRY(gtk_builder_get_object(interface->getBuilder(), "searchBar")), "Find user");
 
@@ -30,6 +35,7 @@ void loadHomeScreen(){
 void loadProfileScreen(std::string username){
     GtkStack* stack = GTK_STACK(gtk_builder_get_object(interface->getBuilder(), "stack2"));
 
+    showProfileImageHomeButton();
 
     GtkButton* followButton = GTK_BUTTON(gtk_builder_get_object(interface->getBuilder(), "followButton"));
     if(username == interface->getUsuario()->getNome()){
@@ -55,8 +61,6 @@ void loadProfileScreen(std::string username){
     gtk_button_set_image (GTK_BUTTON (profileImageButton), profileImage);
 
     showPosts(user->loadSelfPosts());
-
-    interface->reset();
 }
 
 /**
@@ -241,10 +245,18 @@ void on_searchBar_search_changed(){
     interface->reset();
 }
 
-void on_profileImageHomeButton_clicked(){
-    on_profileButton_clicked(); 
+void showFileChooserDialog(){
+    GtkWidget* fileChooserPopup = gtk_file_chooser_dialog_new("FaceSavio", GTK_WINDOW(interface->getMainWindow()), GTK_FILE_CHOOSER_ACTION_OPEN, NULL, NULL);
+    g_signal_connect(fileChooserPopup, "file-activated", G_CALLBACK(on_fileChooserDialog_file_activated), NULL);
+    
+    gtk_widget_show_all(GTK_WIDGET(fileChooserPopup));
+    gtk_dialog_run(GTK_DIALOG(fileChooserPopup));
 }
 
+void on_profileImageHomeButton_clicked(){
+    showFileChooserDialog();
+    loadHomeScreen();
+}
 
 //profile
 void on_followButton_clicked(){
@@ -263,11 +275,9 @@ void on_followButton_clicked(){
         interface->getUsuario()->desseguir(user);
         gtk_button_set_label(followButton, "Follow");
     }
-    else if(tipo == "Edit"){
-        GtkFileChooserDialog* fileChooserPopup = GTK_FILE_CHOOSER_DIALOG(gtk_builder_get_object(interface->getBuilder(), "fileChooserDialog"));
-        
-        gtk_widget_show_all(GTK_WIDGET(fileChooserPopup));
-        gtk_dialog_run(GTK_DIALOG(fileChooserPopup));
+    else if(tipo == "Edit"){ 
+        showFileChooserDialog();
+        loadProfileScreen(interface->getUsuario()->getNome());
     }
 
     showFollowing();    
@@ -278,38 +288,32 @@ void on_popUpOkButton_clicked(){
   gtk_widget_hide(GTK_WIDGET(GTK_MESSAGE_DIALOG(gtk_builder_get_object(interface->getBuilder(), "popup"))));
 }
 
-void on_fileChooserDialog_confirm_overwrite(){
-  // std::cout << "bom dia\n";
-}
-void on_fileChooserDialog_file_activated(){
-  // std::cout << "oi\n";
-  GtkFileChooserDialog* fileChooserPopup = GTK_FILE_CHOOSER_DIALOG(gtk_builder_get_object(interface->getBuilder(), "fileChooserDialog"));
-  std::string filePath = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(fileChooserPopup));
+void on_fileChooserDialog_file_activated(GtkWidget* fileChooserPopup){
+    std::string filePath = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(fileChooserPopup));
 
-  std::string extensao = "";
-  for(int i = filePath.size() - 1; i >= 0; i--){
+    std::string extensao = "";
+    for(int i = filePath.size() - 1; i >= 0; i--){
     if(filePath[i] == '.'){
-      for(int j = i+1; j < filePath.size(); j++){
+        for(int j = i+1; j < filePath.size(); j++){
         extensao += filePath[j];
-      }
-      break;
+        }
+        break;
     }
-  }
-  
-  if(extensao != "png"){
+    }
+
+    if(extensao != "png"){
     interface->popup("Extensao invalida", "Por favor selecione um png.");
     return;
-  }
+    }
 
-  std::string cmd = "cp ";
-  cmd += filePath;
-  cmd += " ";
-  cmd += interface->getUsuario()->getFotoFilePath();
+    std::string cmd = "cp ";
+    cmd += filePath;
+    cmd += " ";
+    cmd += interface->getUsuario()->getFotoFilePath();
 
-  system(cmd.c_str());
+    system(cmd.c_str());
 
-  gtk_widget_hide(GTK_WIDGET(fileChooserPopup));  
+    gtk_widget_hide(GTK_WIDGET(fileChooserPopup));  
 
-  loadHomeScreen();
-  loadProfileScreen(interface->getUsuario()->getNome());
+    showProfileImageHomeButton();
 }

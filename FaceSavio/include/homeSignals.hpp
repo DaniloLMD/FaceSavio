@@ -17,6 +17,7 @@ void on_logoutButton_clicked();
 
 void showPosts(std::vector<Post*> posts);
 void showFollowing();
+void showProfileImageHomeButton();
 
 void limparGridPosts();
 void limparGridFollowing();
@@ -34,7 +35,7 @@ void on_followButton_clicked();
 
 //popup
 void on_popUpOkButton_clicked(); 
-void on_fileChooserDialog_file_activated();
-void on_fileChooserDialog_confirm_overwrite();
+void showFileChooserDialog();
+void on_fileChooserDialog_file_activated(GtkWidget* fileChooserPopup);
 
 #endif
