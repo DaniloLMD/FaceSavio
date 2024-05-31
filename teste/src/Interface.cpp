@@ -39,120 +39,120 @@ void Interface::connectSymbols(){
     g_signal_connect(this->getMainWindow(), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
     /////////// Signals da pagina login /////////////////////////////////////////////////////////////////////////////
-    g_signal_connect_data(gtk_builder_get_object(builder, "login"), "clicked",
-        G_CALLBACK(+[](GtkWidget* widget, gpointer user_data) {
+    g_signal_connect(gtk_builder_get_object(builder, "login"), "clicked",
+        G_CALLBACK(+[](GtkWidget* widget, void* user_data) {
             Interface* self = (Interface*) user_data;
             self->on_login_clicked();
-        }), this, NULL, G_CONNECT_AFTER
+        }), this
     );
 
-    g_signal_connect_data(gtk_builder_get_object(builder, "cadastrar"), "clicked",
-        G_CALLBACK(+[](GtkWidget* widget, gpointer user_data) {
+    g_signal_connect(gtk_builder_get_object(builder, "cadastrar"), "clicked",
+        G_CALLBACK(+[](GtkWidget* widget, void* user_data) {
             Interface* self = (Interface*) user_data;
             self->on_cadastrar_clicked();
-        }), this, NULL, G_CONNECT_AFTER
+        }), this
     );
 
-    g_signal_connect_data(gtk_builder_get_object(builder, "remember"), "toggled",
-        G_CALLBACK(+[](GtkWidget* widget, gpointer user_data) {
+    g_signal_connect(gtk_builder_get_object(builder, "remember"), "toggled",
+        G_CALLBACK(+[](GtkWidget* widget, void* user_data) {
             Interface* self = (Interface*) user_data;
             self->on_remember_toggled();
-        }), this, NULL, G_CONNECT_AFTER
+        }), this
     );
 
-    g_signal_connect_data(gtk_builder_get_object(builder, "password"), "activate",
-        G_CALLBACK(+[](GtkWidget* widget, gpointer user_data) {
+    g_signal_connect(gtk_builder_get_object(builder, "password"), "activate",
+        G_CALLBACK(+[](GtkWidget* widget, void* user_data) {
             Interface* self = (Interface*) user_data;
             self->on_password_activate();
-        }), this, NULL, G_CONNECT_AFTER
+        }), this
     );
 
-    g_signal_connect_data(gtk_builder_get_object(builder, "name"), "activate",
-        G_CALLBACK(+[](GtkWidget* widget, gpointer user_data) {
+    g_signal_connect(gtk_builder_get_object(builder, "name"), "activate",
+        G_CALLBACK(+[](GtkWidget* widget, void* user_data) {
             Interface* self = (Interface*) user_data;
             self->on_name_activate();
-        }), this, NULL, G_CONNECT_AFTER
+        }), this
     );
 
-    g_signal_connect_data(gtk_builder_get_object(builder, "name"), "changed",
-        G_CALLBACK(+[](GtkWidget* widget, gpointer user_data) {
+    g_signal_connect(gtk_builder_get_object(builder, "name"), "changed",
+        G_CALLBACK(+[](GtkWidget* widget, void* user_data) {
             Interface* self = (Interface*) user_data;
             self->on_name_changed();
-        }), this, NULL, G_CONNECT_AFTER
+        }), this
     );
 
     /////////// Signals da pagina home /////////////////////////////////////////////////////////////////////////////
     //popup
-    g_signal_connect_data(gtk_builder_get_object(builder, "popUpOkButton"), "clicked",
-        G_CALLBACK(+[](GtkWidget* widget, gpointer user_data) {
+    g_signal_connect(gtk_builder_get_object(builder, "popUpOkButton"), "clicked",
+        G_CALLBACK(+[](GtkWidget* widget, void* user_data) {
             Interface* self = (Interface*) user_data;
             self->on_popUpOkButton_clicked();
-        }), this, NULL, G_CONNECT_AFTER
+        }), this
     );
     
-    g_signal_connect_data(gtk_builder_get_object(builder, "textBufferPost"), "changed",
-        G_CALLBACK(+[](GtkTextBuffer *buffer, gpointer user_data) {
+    g_signal_connect(gtk_builder_get_object(builder, "textBufferPost"), "changed",
+        G_CALLBACK(+[](GtkTextBuffer *buffer, void* user_data) {
             Interface* self = (Interface*) user_data;
             self->on_textBufferPost_changed(buffer);
-        }), this, NULL, G_CONNECT_AFTER
+        }), this
     );
     
-    g_signal_connect_data(gtk_builder_get_object(builder, "homeButton"), "clicked",
-        G_CALLBACK(+[](GtkWidget* widget, gpointer user_data) {
+    g_signal_connect(gtk_builder_get_object(builder, "homeButton"), "clicked",
+        G_CALLBACK(+[](GtkWidget* widget, void* user_data) {
             Interface* self = (Interface*) user_data;
             self->on_homeButton_clicked();
-        }), this, NULL, G_CONNECT_AFTER
+        }), this
     );
 
-    g_signal_connect_data(gtk_builder_get_object(builder, "logoutButton"), "clicked",
-        G_CALLBACK(+[](GtkWidget* widget, gpointer user_data) {
+    g_signal_connect(gtk_builder_get_object(builder, "logoutButton"), "clicked",
+        G_CALLBACK(+[](GtkWidget* widget, void* user_data) {
             Interface* self = (Interface*) user_data;
             self->on_logoutButton_clicked();
-        }), this, NULL, G_CONNECT_AFTER
+        }), this
     );
 
-    g_signal_connect_data(gtk_builder_get_object(builder, "searchBar"), "activate",
-        G_CALLBACK(+[](GtkSearchEntry* searchBar, gpointer user_data) {
+    g_signal_connect(gtk_builder_get_object(builder, "searchBar"), "activate",
+        G_CALLBACK(+[](GtkSearchEntry* searchBar, void* user_data) {
             Interface* self = (Interface*) user_data;
             self->on_searchBar_activate(searchBar);
-        }), this, NULL, G_CONNECT_AFTER
+        }), this
     );
 
-    g_signal_connect_data(gtk_builder_get_object(builder, "searchBar"), "search_changed",
-        G_CALLBACK(+[](GtkSearchEntry* searchBar, gpointer user_data) {
+    g_signal_connect(gtk_builder_get_object(builder, "searchBar"), "search_changed",
+        G_CALLBACK(+[](GtkSearchEntry* searchBar, void* user_data) {
             Interface* self = (Interface*) user_data;
             self->on_searchBar_search_changed(searchBar);
-        }), this, NULL, G_CONNECT_AFTER
+        }), this
     );
 
-    g_signal_connect_data(gtk_builder_get_object(builder, "profileImageHomeButton"), "clicked",
-        G_CALLBACK(+[](GtkWidget* widget, gpointer user_data) {
+    g_signal_connect(gtk_builder_get_object(builder, "profileImageHomeButton"), "clicked",
+        G_CALLBACK(+[](GtkWidget* widget, void* user_data) {
             Interface* self = (Interface*) user_data;
             self->on_profileImageHomeButton_clicked();
-        }), this, NULL, G_CONNECT_AFTER
+        }), this
     );
 
 
-    g_signal_connect_data(gtk_builder_get_object(builder, "profileButton"), "clicked",
-        G_CALLBACK(+[](GtkWidget* widget, gpointer user_data) {
+    g_signal_connect(gtk_builder_get_object(builder, "profileButton"), "clicked",
+        G_CALLBACK(+[](GtkWidget* widget, void* user_data) {
             Interface* self = (Interface*) user_data;
             self->on_profileButton_clicked();
-        }), this, NULL, G_CONNECT_AFTER
+        }), this
     );
 
-    g_signal_connect_data(gtk_builder_get_object(builder, "buttonPost"), "clicked",
-        G_CALLBACK(+[](GtkWidget* widget, gpointer user_data) {
+    g_signal_connect(gtk_builder_get_object(builder, "buttonPost"), "clicked",
+        G_CALLBACK(+[](GtkWidget* widget, void* user_data) {
             Interface* self = (Interface*) user_data;
             self->on_buttonPost_clicked();
-        }), this, NULL, G_CONNECT_AFTER
+        }), this
     );
 
     /////////// Signals da pagina profile /////////////////////////////////////////////////////////////////////////////
-    g_signal_connect_data(gtk_builder_get_object(builder, "followButton"), "clicked",
-        G_CALLBACK(+[](GtkWidget* widget, gpointer user_data) {
+    g_signal_connect(gtk_builder_get_object(builder, "followButton"), "clicked",
+        G_CALLBACK(+[](GtkWidget* widget, void* user_data) {
             Interface* self = (Interface*) user_data;
             self->on_followButton_clicked();
-        }), this, NULL, G_CONNECT_AFTER
+        }), this
     );
 }
 

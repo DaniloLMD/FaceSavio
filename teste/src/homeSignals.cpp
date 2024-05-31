@@ -176,11 +176,11 @@ void Interface::showFollowing(){
         GtkButton* name = GTK_BUTTON(gtk_button_new_with_label(user->getNome().c_str()));
         gtk_widget_set_name(GTK_WIDGET(name), "button");
 
-        g_signal_connect_data(name, "clicked",
-        G_CALLBACK(+[](GtkWidget* widget, gpointer user_data) {
+        g_signal_connect(name, "clicked",
+        G_CALLBACK(+[](GtkWidget* widget, void* user_data) {
             Interface* self = (Interface*) user_data;
             self->on_name_clicked(widget);
-        }), this, NULL, G_CONNECT_AFTER
+        }), this
     );
 
         //formando a nova grid
@@ -252,11 +252,11 @@ void Interface::on_searchBar_search_changed(GtkSearchEntry* searchBar){
 void Interface::showFileChooserDialog(){
     GtkWidget* fileChooserPopup = gtk_file_chooser_dialog_new("FaceSavio", GTK_WINDOW(this->getMainWindow()), GTK_FILE_CHOOSER_ACTION_OPEN, NULL, NULL);
     
-    g_signal_connect_data(fileChooserPopup, "file-activated",
-        G_CALLBACK(+[](GtkWidget* widget, gpointer user_data) {
+    g_signal_connect(fileChooserPopup, "file-activated",
+        G_CALLBACK(+[](GtkWidget* widget, void* user_data) {
             Interface* self = (Interface*) user_data;
             self->on_fileChooserDialog_file_activated(widget);
-        }), this, NULL, G_CONNECT_AFTER
+        }), this
     );
     
     gtk_widget_show_all(GTK_WIDGET(fileChooserPopup));
