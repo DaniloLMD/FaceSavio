@@ -1,22 +1,36 @@
+#include <iostream>
 #include "../include/loginSignals.hpp"
+#include "../include/paths.hpp"
 
-std::string Interface::getName(){
-  GtkEntry* entry = GTK_ENTRY(gtk_builder_get_object(this->getBuilder(), "name"));
-  return gtk_entry_get_text (entry);
+Interface* interface = NULL;
+
+enum opcoes{
+    LOGIN = 1,
+    CADASTRO
+};
+
+void connectLoginSignals(void* newInterface){
+    interface = (Interface*) newInterface;
+    connectHomeSignals(newInterface);
 }
 
-std::string Interface::getPassword(){
-    GtkEntry* entry = GTK_ENTRY(gtk_builder_get_object(this->getBuilder(), "password"));
+std::string getName(){
+    GtkEntry* entry = GTK_ENTRY(gtk_builder_get_object(interface->getBuilder(), "name"));
+    return gtk_entry_get_text (entry);
+}
+
+std::string getPassword(){
+    GtkEntry* entry = GTK_ENTRY(gtk_builder_get_object(interface->getBuilder(), "password"));
     return gtk_entry_get_text (entry);
 }
 
 bool lembrar = false;
-void Interface::loadLoginScreen(){
-  GtkStack* stack = GTK_STACK(gtk_builder_get_object(this->getBuilder(), "stack"));
+void loadLoginScreen(){
+  GtkStack* stack = GTK_STACK(gtk_builder_get_object(interface->getBuilder(), "stack"));
   gtk_stack_set_visible_child_name(stack, "login");
 
-  GtkWidget* name = GTK_WIDGET(gtk_builder_get_object(this->getBuilder(), "name"));
-  GtkWidget* password = GTK_WIDGET(gtk_builder_get_object(this->getBuilder(), "password"));
+  GtkWidget* name = GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "name"));
+  GtkWidget* password = GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "password"));
   gtk_widget_set_name(name, "entryNormal");
   gtk_widget_set_name(password, "entryNormal");
   
@@ -29,47 +43,47 @@ void Interface::loadLoginScreen(){
 
 bool solve(int op, std::string userName, std::string password);
 
-void Interface::on_login_clicked(){
-    if(solve(LOGIN, this->getName(), this->getPassword())){
-        this->setUsuario(new Usuario(getName()));
-        GtkStack* stack = GTK_STACK(gtk_builder_get_object(this->getBuilder(), "stack"));
+void on_login_clicked(){
+    if(solve(LOGIN, getName(), getPassword())){
+        interface->setUsuario(new Usuario(getName()));
+        GtkStack* stack = GTK_STACK(gtk_builder_get_object(interface->getBuilder(), "stack"));
         gtk_stack_set_visible_child_name(stack, "home"); 
         loadHomeScreen();
     }
     else{
-        GtkWidget* name = GTK_WIDGET(gtk_builder_get_object(this->getBuilder(), "name"));
-        GtkWidget* password = GTK_WIDGET(gtk_builder_get_object(this->getBuilder(), "password"));
+        GtkWidget* name = GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "name"));
+        GtkWidget* password = GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "password"));
         
         if(!Usuario::isValid(getName())) gtk_widget_set_name(name, "entryWrong");
         gtk_widget_set_name(password, "entryWrong");
     }
 }
 
-void Interface::on_cadastrar_clicked(){
+void on_cadastrar_clicked(){
     if(solve(CADASTRO, getName(), getPassword())){
         Usuario::mkDir(getName());
-        this->popup("Cadastro realizado", "");
+        interface->popup("Cadastro realizado", "");
         on_name_changed();
     }
     else{
-        this->popup("Cadastro falhou", "usuário inválido ou já existente");
+        interface->popup("Cadastro falhou", "usuário inválido ou já existente");
     }
 }
 
-void Interface::on_remember_toggled(){
+void on_remember_toggled(){
     lembrar = !lembrar;
 }
 
-void Interface::on_name_changed(){
-  GtkWidget* name = GTK_WIDGET(gtk_builder_get_object(this->getBuilder(), "name"));
-  GtkWidget* password = GTK_WIDGET(gtk_builder_get_object(this->getBuilder(), "password"));
+void on_name_changed(){
+  GtkWidget* name = GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "name"));
+  GtkWidget* password = GTK_WIDGET(gtk_builder_get_object(interface->getBuilder(), "password"));
   gtk_widget_set_name(name, "entryNormal");
   gtk_widget_set_name(password, "entryNormal");
 }
-void Interface::on_name_activate(){
+void on_name_activate(){
   on_login_clicked();
 }
-void Interface::on_password_activate(){
+void on_password_activate(){
   on_login_clicked();
 }
 

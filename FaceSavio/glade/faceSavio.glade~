@@ -27,7 +27,6 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <signal name="clicked" handler="on_popUpOkButton_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -53,8 +52,6 @@
   </object>
   <object class="GtkTextBuffer" id="textBufferPost">
     <property name="text" translatable="yes">Write Here</property>
-    <signal name="changed" handler="on_textBufferPost_changed" swapped="no"/>
-    <signal name="insert-text" handler="on_textBufferPost_insert_text" swapped="no"/>
   </object>
   <object class="GtkWindow" id="main_window">
     <property name="height-request">500</property>
@@ -254,7 +251,6 @@
                             <property name="can-focus">True</property>
                             <property name="receives-default">True</property>
                             <property name="halign">center</property>
-                            <signal name="clicked" handler="on_homeButton_clicked" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -270,7 +266,6 @@
                             <property name="can-focus">True</property>
                             <property name="receives-default">True</property>
                             <property name="halign">center</property>
-                            <signal name="clicked" handler="on_profileButton_clicked" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -286,7 +281,6 @@
                             <property name="can-focus">True</property>
                             <property name="receives-default">True</property>
                             <property name="halign">center</property>
-                            <signal name="clicked" handler="on_logoutButton_clicked" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -327,7 +321,6 @@
                             <property name="can-focus">True</property>
                             <property name="receives-default">True</property>
                             <property name="halign">end</property>
-                            <signal name="clicked" handler="on_profileImageHomeButton_clicked" swapped="no"/>
                             <child>
                               <object class="GtkImage" id="profileImageHome">
                                 <property name="visible">True</property>
@@ -453,8 +446,6 @@
                             <property name="primary-icon-name">edit-find-symbolic</property>
                             <property name="primary-icon-activatable">False</property>
                             <property name="primary-icon-sensitive">False</property>
-                            <signal name="activate" handler="on_searchBar_activate" swapped="no"/>
-                            <signal name="search-changed" handler="on_searchBar_search_changed" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -582,7 +573,6 @@
                                     <property name="halign">center</property>
                                     <property name="valign">center</property>
                                     <property name="margin-start">20</property>
-                                    <signal name="clicked" handler="on_followButton_clicked" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
