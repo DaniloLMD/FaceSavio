@@ -6,13 +6,10 @@
 
 #include "Post.hpp"
 #include "Usuario.hpp"
-#include "paths.hpp"
-
-typedef struct InterfaceStruct InterfaceStruct;
 
 class Interface{
     public: 
-        Interface(const char* gladeFile);
+        Interface();
 
         void activateCSS (const char* cssFile);
     
@@ -22,8 +19,8 @@ class Interface{
         void popup(std::string title, std::string text);
 
         GtkBuilder* getBuilder();
-        GtkWidget* getMainWindow() { return mainWindow; }
-        Usuario* getUsuario() { return usuario; }
+        GtkWidget* getMainWindow() const { return mainWindow; }
+        Usuario* getUsuario() const { return usuario; }
         void setUsuario(Usuario* user) { this->usuario = user; }
     
         std::vector<GtkWidget*> gridsPost;
@@ -32,7 +29,10 @@ class Interface{
     private:
         void connectSymbols();
 
-        const char* gladeFile;
+        
+        const char* GLADE_FILE_PATH = "glade/faceSavio.glade";
+        const char* CSS_FILE_PATH = "glade/faceSavio.css";
+        const char* LOGIN_DATA_FILE_PATH = "usuarios/login_data.txt";
 
         GtkBuilder* builder;
         GtkWidget* mainWindow;
@@ -40,6 +40,9 @@ class Interface{
         Usuario* usuario;
 
         /////// Login Signals ///////////////////////////////////////
+        bool lembrar = false;        
+        bool login(std::string userName, std::string password);
+        bool cadastrar(std::string userName, std::string password);
         void loadLoginScreen();
         void on_login_clicked();
         void on_cadastrar_clicked();

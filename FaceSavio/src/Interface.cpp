@@ -2,10 +2,9 @@
 #include <iostream>
 
 // Construtor
-Interface::Interface(const char* gladeFile) : gladeFile(gladeFile){
+Interface::Interface() {
     gtk_init(NULL, NULL);
-    
-    builder = gtk_builder_new_from_file(gladeFile);
+    builder = gtk_builder_new_from_file(GLADE_FILE_PATH);
     mainWindow = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
 }
 
@@ -171,4 +170,45 @@ void Interface::popup(std::string title, std::string text){
 
 GtkBuilder* Interface::getBuilder(){
     return builder;
+}
+
+
+#include <bits/stdc++.h>
+bool Interface::login(std::string userName, std::string password) {
+  std::ifstream file(LOGIN_DATA_FILE_PATH);
+  if (!file.is_open()) {
+    return false;
+  }
+
+  std::string data;
+  while(getline(file, data)) {
+    std::istringstream iss(data);
+    std::string fileUserName, filePassword;
+
+    if (getline(iss, fileUserName, ',') && getline(iss, filePassword)) {
+      if (fileUserName == userName && filePassword == password) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+
+bool Interface::cadastrar(std::string userName, std::string password) {
+  if (Usuario::isValid(userName)) {
+    return false;
+  }
+  if(!userName.size() || !password.size()) return false;
+
+  FILE* ptr = fopen(LOGIN_DATA_FILE_PATH, "a");
+  if(!ptr) return false;
+
+  fprintf(ptr, "%s,%s\n", userName.c_str(), password.c_str());
+
+  fclose(ptr);
+
+
+  return true;
 }

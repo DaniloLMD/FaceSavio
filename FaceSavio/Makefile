@@ -33,3 +33,6 @@ $(OBJ)/%.o: $(SRC)/%.cpp $(INCLUDE)/%.hpp
 
 $(BIN)/%: $(APPS)/%.cpp
 	g++ $< $(OBJ)/*.o -I $(INCLUDE) -o $@ $(GTK_FLAGS) $(MULTIPLE_FLAGS)
+
+$(OBJ)/%.o: 
+	g++ -c $< -I $(INCLUDE) -o $@ $(GTK_FLAGS) $(MULTIPLE_FLAGS)

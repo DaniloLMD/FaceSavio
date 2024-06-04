@@ -6,10 +6,6 @@
 #include "../include/Usuario.hpp"
 #include "../include/GerenciadorNotificacoes.hpp"
 #include "../include/Post.hpp"
-#include "../include/paths.hpp"
-
-
-#define dbg(x) std::cout << #x << " = " << x << "\n";
 
 /**
  * @brief construtor da classe Usuario
@@ -18,60 +14,61 @@
 */
 Usuario::Usuario(std::string nome) : nome(nome) {
     // gerenciadorNotificacoes = new GerenciadorNotificacoes(this);
+
+    mkDir(nome);
 }
 
 void Usuario::mkDir(std::string nome){
-    Usuario* newUser = new Usuario(nome);
+    if(Usuario::isValid(nome)) return;
 
     //criando a pasta com o nome do usuario
     std::string mkdirCommand = "mkdir ";
-    mkdirCommand += newUser->getUserFolderPath();
+    mkdirCommand += this->getUserFolderPath();
     system(mkdirCommand.c_str());
 
     //criando a pasta com os posts do usuario
     mkdirCommand = "mkdir ";
-    mkdirCommand += newUser->getPostsFolderPath();
+    mkdirCommand += this->getPostsFolderPath();
     system(mkdirCommand.c_str());
 
     
     //criando o arquivo "foto.png"
     std::string cpCommand = "cp usuarios/fotoPadrao.png ";
-    cpCommand += newUser->getFotoFilePath();
+    cpCommand += this->getFotoFilePath();
     system(cpCommand.c_str());
 
 
     FILE* ptr = NULL;
     //criando o arquivo "followers.txt"
-    ptr = fopen(newUser->getFollowersFilePath().c_str(), "w");
+    ptr = fopen(this->getFollowersFilePath().c_str(), "w");
     fclose(ptr);
 
     //criando o arquivo "following.txt"
-    ptr = fopen(newUser->getFollowingFilePath().c_str(), "w");
+    ptr = fopen(this->getFollowingFilePath().c_str(), "w");
     fclose(ptr);
 
     //criando o arquivo "quantidadePosts.txt"
-    ptr = fopen(newUser->getQuantidadePostsFilePath().c_str(), "w");
+    ptr = fopen(this->getQuantidadePostsFilePath().c_str(), "w");
     fprintf(ptr, "0\n");
     fclose(ptr);
+
+    //criando a pasta feed
+    mkdirCommand = "mkdir ";
+
+    //criando o arquivo quantidadeFeed.txt
 }
 
 bool Usuario::isValid(std::string name){
+    std::string path = "usuarios/";
+    path += name;
+    path += "/quantidadePosts.txt";
 
-    FILE* ptr = fopen(LOGIN_DATA_FILE_PATH, "r");
-
-    char user[100], senha[100];
-
-    bool retorno = false;
-    while(fscanf(ptr, "%[^,],%[^\n]%*c", user, senha) != EOF){
-        std::string atual = user;
-        if(atual == name){
-            retorno = true;
-            break;
-        }
+    FILE* ptr = fopen(path.c_str(), "r");
+    if(ptr){
+        fclose(ptr);
+        return true;
     }
-
-    fclose(ptr);
-    return retorno;
+    return false;
 }
 
 /**
@@ -322,6 +319,36 @@ std::string Usuario::getFotoFilePath(){
     std::string fotoFilePath = this->getUserFolderPath();
     fotoFilePath += "foto.png";
     return fotoFilePath;
+}
+
+/**
+ * @brief retorna uma string com o caminho para o arquivo que contem o total de posts no feed
+ * @return string
+*/
+std::string Usuario::getQuantidadeFeedFilePath(){
+    std::string feedFilePath = this->getUserFolderPath();
+    feedFilePath += "quantidadeFeed.txt";
+    return feedFilePath;
+}
+/**
+ * @brief retorna uma string com o caminho para a pasta de feed do usuario
+ * @return string
+*/
+std::string Usuario::getFeedFolderPath(){
+    std::string feedFolderPath = this->getUserFolderPath();
+    feedFolderPath += "feed/";
+    return feedFolderPath;
+}
+
+/**
+ * @brief retorna uma string com o caminho para a pasta de feed do usuario
+ * @param post identificador do post a ser buscado (de 1 ate o numero em quantidadeFeed)
+ * @return string
+*/
+std::string Usuario::getFeedFilePath(int post){
+    std::string feedFilePath = this->getFeedFolderPath();
+    feedFilePath += "post" + std::to_string(post) + "txt";
+    return feedFilePath;
 }
 
 

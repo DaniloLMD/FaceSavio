@@ -1,4 +1,4 @@
-#include "../include/homeSignals.hpp"
+#include "../include/Interface.hpp"
 
 void Interface::showProfileImageHomeButton(){
     GtkWidget* profileImage = newScaledImage(this->getUsuario()->getFotoFilePath().c_str(), 80, 80);

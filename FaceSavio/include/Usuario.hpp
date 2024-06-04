@@ -11,7 +11,7 @@ class Usuario : public INotificavel {
     public:
         Usuario(std::string nome);
 
-        static void mkDir(std::string name);
+        void mkDir(std::string name);
         static bool isValid(std::string name);
 
         std::string getNome();
@@ -51,6 +51,9 @@ class Usuario : public INotificavel {
         std::string getPostsFolderPath();   
         std::string getPostFilePath(int post); 
         std::string getQuantidadePostsFilePath();
+        std::string getQuantidadeFeedFilePath();
+        std::string getFeedFolderPath();
+        std::string getFeedFilePath(int post);
 };
 
 
