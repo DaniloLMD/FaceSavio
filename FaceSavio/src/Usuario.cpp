@@ -6,6 +6,7 @@
 #include "../include/Usuario.hpp"
 #include "../include/GerenciadorNotificacoes.hpp"
 #include "../include/Post.hpp"
+#include "../include/paths.hpp"
 
 /**
  * @brief construtor da classe Usuario
@@ -472,4 +473,39 @@ bool Usuario::isFollowing(std::string user){
     }
 
     return false;
+}
+
+
+//Função de aparar um usuario e também remover seus dados do login_data.txt
+void Usuario::apagarUsuario(std::string user){
+    std::string userFolderPath = "usuarios/";
+    userFolderPath += user;
+    userFolderPath += "/";
+
+    std::string rmCommand = "rm -r ";
+    rmCommand += userFolderPath;
+    system(rmCommand.c_str());
+
+    FILE* ptr = fopen(LOGIN_DATA_FILE_PATH, "r");
+    FILE* ptr2 = fopen("temp.txt", "w");
+
+    char name[100], senha[100];
+    while(fscanf(ptr, "%[^,],%[^\n]%*c", name, senha) != EOF){
+        std::string atual = name;
+        if(atual == user){
+            continue;
+        }
+        fprintf(ptr2, "%s,%s\n", name, senha);
+    }
+
+    fclose(ptr);
+    fclose(ptr2);
+
+    rmCommand = "rm ";
+    rmCommand += LOGIN_DATA_FILE_PATH;
+    system(rmCommand.c_str());
+
+    rmCommand = "mv temp.txt ";
+    rmCommand += LOGIN_DATA_FILE_PATH;
+    system(rmCommand.c_str());
 }

@@ -327,3 +327,9 @@ void Interface::on_fileChooserDialog_file_activated(GtkWidget* fileChooserPopup)
 
     showProfileImageHomeButton();
 }
+
+/* Apagar user*/
+void Interface::on_deleteUserButton_clicked(){
+    this->getUsuario()->apagarUsuario(this->getUsuario()->getNome());
+    this->loadLoginScreen();
+}

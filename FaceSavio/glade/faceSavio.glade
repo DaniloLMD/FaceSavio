@@ -544,6 +544,23 @@
                                   </packing>
                                 </child>
                                 <child>
+                                    <object class="GtkButton" id="deleteUserButton">
+                                        <property name="name">deleteButton</property>
+                                        <property name="label" translatable="yes">Delete Account</property>
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">True</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
+                                        <property name="margin-start">20</property>
+                                    </object>
+                                    <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">3</property>                                       
+                                    </packing>
+                                </child>
+                                <child>
                                   <object class="GtkLabel" id="profileUserNameLabel">
                                     <property name="name">teste</property>
                                     <property name="visible">True</property>
@@ -570,7 +587,7 @@
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">True</property>
-                                    <property name="position">3</property>
+                                    <property name="position">2</property>
                                   </packing>
                                 </child>
                               </object>
