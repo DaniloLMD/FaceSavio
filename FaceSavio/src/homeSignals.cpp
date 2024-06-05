@@ -10,7 +10,6 @@ void Interface::showProfileImageHomeButton(){
 }
 
 void Interface::loadHomeScreen(){
-    hideDeleteUserButton();
     GtkStack* stack = GTK_STACK(gtk_builder_get_object(this->getBuilder(), "stack2"));
     gtk_stack_set_visible_child_name(stack, "home");   
 
@@ -333,9 +332,3 @@ void Interface::on_fileChooserDialog_file_activated(GtkWidget* fileChooserPopup)
 
     showProfileImageHomeButton();
 }
-
-/* Apagar user*/
-// void Interface::on_deleteUserButton_clicked(){
-//     this->getUsuario()->apagarUsuario(this->getUsuario()->getNome());
-//     this->loadLoginScreen();
-// }
