@@ -65,6 +65,7 @@ void Interface::connectSymbols(){
 
         //signals da pagina de interface
         "on_followButton_clicked",                      G_CALLBACK(on_followButton_clicked),
+        "on_deleteUserButton_clicked",                  G_CALLBACK(on_deleteUserButton_clicked),
 
         NULL
     );

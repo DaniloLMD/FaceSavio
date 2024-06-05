@@ -10,6 +10,7 @@ void Interface::showProfileImageHomeButton(){
 }
 
 void Interface::loadHomeScreen(){
+    hideDeleteUserButton();
     GtkStack* stack = GTK_STACK(gtk_builder_get_object(this->getBuilder(), "stack2"));
     gtk_stack_set_visible_child_name(stack, "home");   
 
@@ -31,10 +32,15 @@ void Interface::loadProfileScreen(std::string username){
     showProfileImageHomeButton();
 
     GtkButton* followButton = GTK_BUTTON(gtk_builder_get_object(this->getBuilder(), "followButton"));
+    
+    GtkWidget* deleteButton = GTK_WIDGET(gtk_builder_get_object(this->getBuilder(), "deleteUserButton"));
+
     if(username == this->getUsuario()->getNome()){
         gtk_button_set_label(followButton, "Edit");
+
     }
     else{
+
         if(this->getUsuario()->isFollowing(username)){
             gtk_button_set_label(followButton, "Unfollow");
         }
@@ -329,7 +335,7 @@ void Interface::on_fileChooserDialog_file_activated(GtkWidget* fileChooserPopup)
 }
 
 /* Apagar user*/
-void Interface::on_deleteUserButton_clicked(){
-    this->getUsuario()->apagarUsuario(this->getUsuario()->getNome());
-    this->loadLoginScreen();
-}
+// void Interface::on_deleteUserButton_clicked(){
+//     this->getUsuario()->apagarUsuario(this->getUsuario()->getNome());
+//     this->loadLoginScreen();
+// }

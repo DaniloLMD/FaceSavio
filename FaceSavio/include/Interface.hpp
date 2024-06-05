@@ -86,7 +86,7 @@ class Interface{
         //profile
         void on_followButton_clicked();
         void on_deleteUserButton_clicked();
-
+        
         //popup
         void on_popUpOkButton_clicked(); 
         void showFileChooserDialog();

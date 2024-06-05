@@ -112,7 +112,7 @@
   /* font-size: 20px; */
 }
 
-#deleteButton{
+#deleteUserButton{
   background-image: linear-gradient(#ff0000, #310000);
   color: white;
   border: none;

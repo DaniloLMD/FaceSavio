@@ -252,6 +252,24 @@
                           </packing>
                         </child>
                         <child>
+                          <object class="GtkButton" id="deleteUserButton">
+                              <property name="name">deleteUserButton</property>
+                              <property name="label" translatable="yes">Delete Account</property>
+                              <property name="visible">True</property>
+                              <property name="can-focus">True</property>
+                              <property name="receives-default">True</property>
+                              <property name="halign">center</property>
+                              <property name="valign">center</property>
+                              <property name="margin-start">20</property>
+                              <signal name="clicked" handler="on_deleteUserButton_clicked" swapped="no"/>
+                          </object>
+                          <packing>
+                              <property name="expand">False</property>
+                              <property name="fill">True</property>
+                              <property name="position">2</property>                                       
+                          </packing>
+                      </child>
+                        <child>
                           <object class="GtkButton" id="profileButton">
                             <property name="label" translatable="yes">Profile</property>
                             <property name="name">button</property>
@@ -542,23 +560,6 @@
                                     <property name="fill">True</property>
                                     <property name="position">0</property>
                                   </packing>
-                                </child>
-                                <child>
-                                    <object class="GtkButton" id="deleteUserButton">
-                                        <property name="name">deleteButton</property>
-                                        <property name="label" translatable="yes">Delete Account</property>
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">True</property>
-                                        <property name="receives-default">True</property>
-                                        <property name="halign">center</property>
-                                        <property name="valign">center</property>
-                                        <property name="margin-start">20</property>
-                                    </object>
-                                    <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">2</property>                                       
-                                    </packing>
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="profileUserNameLabel">
