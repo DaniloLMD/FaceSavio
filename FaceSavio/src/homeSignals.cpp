@@ -144,9 +144,14 @@ void Interface::showPosts(std::vector<Post*> posts){
         GtkWidget* newGrid = gtk_grid_new();
         gtk_grid_set_column_homogeneous(GTK_GRID(newGrid), TRUE);
         gtk_widget_set_name(newGrid, "post");
+        gtk_widget_set_name(profile, "postProfile");
+        gtk_widget_set_name(name, "postName");
+        gtk_widget_set_name(text, "postText");
 
         gtk_grid_insert_row (GTK_GRID(newGrid), 1);
         gtk_grid_insert_row (GTK_GRID(newGrid), 2);
+        gtk_grid_insert_row (GTK_GRID(newGrid), 3);
+
 
         gtk_grid_attach(GTK_GRID(newGrid), profile, 1, 1, 1, 1);
         gtk_grid_attach(GTK_GRID(newGrid), name, 2, 1, 1, 1);
