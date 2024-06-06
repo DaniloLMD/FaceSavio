@@ -153,6 +153,14 @@ void Interface::connectSymbols(){
             self->on_followButton_clicked();
         }), this
     );
+
+    //Signal de deletar usuario
+    g_signal_connect(gtk_builder_get_object(builder, "deleteUserButton"), "clicked",
+        G_CALLBACK(+[](GtkWidget* widget, void* user_data) {
+            Interface* self = (Interface*) user_data;
+            self->on_deleteUserButton_clicked();
+        }), this
+    );
 }
 
 void Interface::reset(){
@@ -211,4 +219,13 @@ bool Interface::cadastrar(std::string userName, std::string password) {
 
 
   return true;
+}
+
+/* Apagar user*/
+void Interface::on_deleteUserButton_clicked(){
+    this->popup("Conta Deletada Com Sucesso!", " ");
+    printf("Conta Deletada\n");
+    std::string user = usuario->getNome();
+    usuario->apagarUsuario(user);
+    loadLoginScreen();
 }

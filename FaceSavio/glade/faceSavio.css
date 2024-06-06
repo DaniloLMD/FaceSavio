@@ -99,6 +99,7 @@
 
 #entryNormal{
   background-color: white;
+  color: black;
 }
 
 #postName{
@@ -109,4 +110,14 @@
   /* padding-left: 100px;
   padding-right: 100px; */
   /* font-size: 20px; */
+}
+
+#deleteUserButton{
+  background-image: linear-gradient(#ff0000, #310000);
+  color: white;
+  border: none;
+  margin-bottom: 4px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 20px;
 }

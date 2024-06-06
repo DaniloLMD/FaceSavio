@@ -31,10 +31,15 @@ void Interface::loadProfileScreen(std::string username){
     showProfileImageHomeButton();
 
     GtkButton* followButton = GTK_BUTTON(gtk_builder_get_object(this->getBuilder(), "followButton"));
+    
+    GtkWidget* deleteButton = GTK_WIDGET(gtk_builder_get_object(this->getBuilder(), "deleteUserButton"));
+
     if(username == this->getUsuario()->getNome()){
         gtk_button_set_label(followButton, "Edit");
+
     }
     else{
+
         if(this->getUsuario()->isFollowing(username)){
             gtk_button_set_label(followButton, "Unfollow");
         }
