@@ -2,5 +2,7 @@ Danilo,lmd
 Caio,farias
 Tiago,pio
 Matheus,password
-Name,password
 PedroFoda,123456789
+MAMANEU,12345
+Name,password
+Danilox,lmd

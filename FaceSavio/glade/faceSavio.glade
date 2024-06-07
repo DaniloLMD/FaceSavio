@@ -267,22 +267,6 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton" id="deleteUserButton">
-                            <property name="label" translatable="yes">Delete Account</property>
-                            <property name="name">deleteUserButton</property>
-                            <property name="visible">True</property>
-                            <property name="can-focus">True</property>
-                            <property name="receives-default">True</property>
-                            <property name="halign">center</property>
-                            <signal name="clicked" handler="on_deleteUserButton_clicked" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">2</property>
-                          </packing>
-                        </child>
-                        <child>
                           <object class="GtkButton" id="logoutButton">
                             <property name="label" translatable="yes">Log out</property>
                             <property name="name">button</property>
@@ -296,6 +280,9 @@
                             <property name="fill">True</property>
                             <property name="position">2</property>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                       </object>
                       <packing>
@@ -325,13 +312,14 @@
                         <property name="valign">center</property>
                         <child>
                           <object class="GtkButton" id="profileImageHomeButton">
-                            <property name="name">button</property>
+                            <property name="name">UserBttn</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">True</property>
                             <property name="halign">end</property>
                             <child>
                               <object class="GtkImage" id="profileImageHome">
+                                <property name="name">UserBttn</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <property name="stock">gtk-orientation-landscape</property>
@@ -582,6 +570,24 @@
                                     <property name="halign">center</property>
                                     <property name="valign">center</property>
                                     <property name="margin-start">20</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkButton" id="deleteUserButton">
+                                    <property name="label" translatable="yes">Delete Account</property>
+                                    <property name="name">deleteUserButton</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">True</property>
+                                    <property name="receives-default">True</property>
+                                    <property name="halign">center</property>
+                                    <property name="valign">center</property>
+                                    <property name="margin-start">5</property>
+                                    <signal name="clicked" handler="on_deleteUserButton_clicked" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>

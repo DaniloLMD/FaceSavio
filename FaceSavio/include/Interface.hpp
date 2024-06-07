@@ -30,9 +30,9 @@ class Interface{
         void connectSymbols();
 
         
-        const char* GLADE_FILE_PATH = "glade/faceSavio.glade";
-        const char* CSS_FILE_PATH = "glade/faceSavio.css";
-        const char* LOGIN_DATA_FILE_PATH = "usuarios/login_data.txt";
+        const char* const GLADE_FILE_PATH = "glade/faceSavio.glade";
+        const char* const CSS_FILE_PATH = "glade/faceSavio.css";
+        const char* const LOGIN_DATA_FILE_PATH = "usuarios/login_data.txt";
 
         GtkBuilder* builder;
         GtkWidget* mainWindow;

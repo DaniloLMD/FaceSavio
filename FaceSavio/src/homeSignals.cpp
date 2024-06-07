@@ -71,7 +71,7 @@ void Interface::on_textBufferPost_changed(GtkTextBuffer* buffer){
     // Obtém o texto do buffer de texto
     std::string text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
     
-    const int MAX_COLUMNS = 100;
+    const int MAX_COLUMNS = 20;
     const int MAX_LINES = 10;
 
     int caracteres = 0;
@@ -153,9 +153,9 @@ void Interface::showPosts(std::vector<Post*> posts){
         gtk_grid_insert_row (GTK_GRID(newGrid), 3);
 
 
-        gtk_grid_attach(GTK_GRID(newGrid), profile, 1, 1, 1, 1);
-        gtk_grid_attach(GTK_GRID(newGrid), name, 2, 1, 1, 1);
-        gtk_grid_attach(GTK_GRID(newGrid), text, 1, 2, 2, 1);
+        gtk_grid_attach(GTK_GRID(newGrid), profile, 2, 3, 1, 1);
+        gtk_grid_attach(GTK_GRID(newGrid), name, 2, 2, 1, 1);
+        gtk_grid_attach(GTK_GRID(newGrid), text, 2, 3, 3, 3);
 
         this->gridsPost.push_back(newGrid);
 
