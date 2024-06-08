@@ -34,20 +34,6 @@ void Interface::loadProfileScreen(std::string username){
     
     GtkWidget* deleteButton = GTK_WIDGET(gtk_builder_get_object(this->getBuilder(), "deleteUserButton"));
 
-    if(username == this->getUsuario()->getNome()){
-        gtk_button_set_label(followButton, "Edit");
-
-    }
-    else{
-
-        if(this->getUsuario()->isFollowing(username)){
-            gtk_button_set_label(followButton, "Unfollow");
-        }
-        else{
-            gtk_button_set_label(followButton, "Follow");
-        }
-    }
-
     gtk_stack_set_visible_child_name(stack, "profile");   
 
     Usuario* user = new Usuario(username);
@@ -59,6 +45,21 @@ void Interface::loadProfileScreen(std::string username){
     gtk_button_set_image (GTK_BUTTON (profileImageButton), profileImage);
 
     showPosts(user->loadSelfPosts());
+
+    if(username == this->getUsuario()->getNome()){
+        gtk_button_set_label(followButton, "Edit");
+        gtk_widget_show(deleteButton);
+    }
+    else{
+        gtk_widget_hide(deleteButton);
+
+        if(this->getUsuario()->isFollowing(username)){
+            gtk_button_set_label(followButton, "Unfollow");
+        }
+        else{
+            gtk_button_set_label(followButton, "Follow");
+        }
+    }
 }
 
 /**
@@ -71,7 +72,7 @@ void Interface::on_textBufferPost_changed(GtkTextBuffer* buffer){
     // Obtém o texto do buffer de texto
     std::string text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
     
-    const int MAX_COLUMNS = 20;
+    const int MAX_COLUMNS = 70;
     const int MAX_LINES = 10;
 
     int caracteres = 0;
@@ -136,7 +137,7 @@ void Interface::showPosts(std::vector<Post*> posts){
         Usuario* autor = new Usuario(p->getUsername());
 
         //formando os atributos do post (imagem, label com nome e label com texto)
-        GtkWidget* profile = newScaledImage(autor->getFotoFilePath().c_str(), 80, 80);
+        GtkWidget* profile = newScaledImage(autor->getFotoFilePath().c_str(), 100, 100);
         GtkWidget* name = gtk_label_new(p->getUsername().c_str());
         GtkWidget* text = gtk_label_new(p->getTexto().c_str());
         
@@ -152,10 +153,10 @@ void Interface::showPosts(std::vector<Post*> posts){
         gtk_grid_insert_row (GTK_GRID(newGrid), 2);
         gtk_grid_insert_row (GTK_GRID(newGrid), 3);
 
-
-        gtk_grid_attach(GTK_GRID(newGrid), profile, 2, 3, 1, 1);
-        gtk_grid_attach(GTK_GRID(newGrid), name, 2, 2, 1, 1);
-        gtk_grid_attach(GTK_GRID(newGrid), text, 2, 3, 3, 3);
+        //coluna, linha, largura, altura
+        gtk_grid_attach(GTK_GRID(newGrid), name, 0, 0, 1, 1);
+        gtk_grid_attach(GTK_GRID(newGrid), profile, 0, 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(newGrid), text, 1, 1, 3, 3);
 
         this->gridsPost.push_back(newGrid);
 
@@ -165,7 +166,8 @@ void Interface::showPosts(std::vector<Post*> posts){
         gtk_grid_attach (GTK_GRID(gridPosts), newGrid, 1, this->gridsPost.size(), 1, 1);
     }
 
-    this->reset();
+    // this->reset();
+    gtk_widget_show_all(GTK_WIDGET(gtk_builder_get_object(this->getBuilder(), "gridPosts")));  
 }
 
 void Interface::on_name_clicked(GtkWidget *widget){
@@ -211,7 +213,8 @@ void Interface::showFollowing(){
         gtk_grid_attach (GTK_GRID(gridFollowing), newGrid, 1, this->gridsFollowing.size(), 1, 1);
     }
 
-    this->reset();
+    // this->reset();
+    gtk_widget_show_all(GTK_WIDGET(gtk_builder_get_object(this->getBuilder(), "gridFollowing")));  
 }
 
 
@@ -251,12 +254,10 @@ void Interface::on_searchBar_activate(GtkSearchEntry* searchBar){
     else{
         gtk_widget_set_name(GTK_WIDGET(searchBar), "entryWrong");
     }
-    this->reset();
 }
 
 void Interface::on_searchBar_search_changed(GtkSearchEntry* searchBar){
     gtk_widget_set_name(GTK_WIDGET(searchBar), "entryNormal");
-    this->reset();
 }
 
 void Interface::showFileChooserDialog(){
@@ -274,8 +275,7 @@ void Interface::showFileChooserDialog(){
 }
 
 void Interface::on_profileImageHomeButton_clicked(){
-    showFileChooserDialog();
-    loadHomeScreen();
+    loadProfileScreen(this->getUsuario()->getNome());
 }
 
 //profile
@@ -300,7 +300,7 @@ void Interface::on_followButton_clicked(){
         loadProfileScreen(this->getUsuario()->getNome());
     }
 
-    showFollowing();    
+    showFollowing();  
 }
 
 //signals de popup
@@ -337,3 +337,4 @@ void Interface::on_fileChooserDialog_file_activated(GtkWidget* fileChooserPopup)
 
     showProfileImageHomeButton();
 }
+

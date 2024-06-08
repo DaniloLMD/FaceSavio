@@ -6,7 +6,6 @@
 #include "../include/Usuario.hpp"
 #include "../include/GerenciadorNotificacoes.hpp"
 #include "../include/Post.hpp"
-#include "../include/paths.hpp"
 
 /**
  * @brief construtor da classe Usuario
@@ -60,7 +59,7 @@ void Usuario::mkDir(std::string nome){
 }
 
 bool Usuario::isValid(std::string name){
-    std::string path = "usuarios/";
+    std::string path = "usuarios/cadastrados/";
     path += name;
     path += "/quantidadePosts.txt";
 
@@ -240,7 +239,7 @@ void Usuario::setQuantidadePosts(int quantidade){
  * @return string
 */
 std::string Usuario::getUserFolderPath(){
-    std::string userFolderPath = "usuarios/";
+    std::string userFolderPath = "usuarios/cadastrados/";
     userFolderPath += this->getNome();
     userFolderPath += "/";
     return userFolderPath;
@@ -352,11 +351,6 @@ std::string Usuario::getFeedFilePath(int post){
     return feedFilePath;
 }
 
-
-bool comp(Post* p1, Post* p2){
-    return p1->getID() > p2->getID();
-}
-
 std::vector<Post*> Usuario::loadAllPosts(){
     posts = loadSelfPosts();
 
@@ -386,7 +380,8 @@ std::vector<Post*> Usuario::loadAllPosts(){
         }
     }
 
-    sort(posts.begin(), posts.end(), comp);
+    //organizando em ordem cronologica
+    sort(posts.begin(), posts.end(), [](Post* p1, Post* p2){ return p1->getID() > p2->getID(); });
 
     return posts;
 }
@@ -413,12 +408,9 @@ std::vector<Post*> Usuario::loadSelfPosts(){
         fclose(postFilePointer);
     }
 
-    sort(posts.begin(), posts.end(), comp);
+    //ordenando em ordem cronologica
+    sort(posts.begin(), posts.end(), [](Post* p1, Post* p2){ return p1->getID() > p2->getID(); });
     return posts;
-}
-
-bool userComp(Usuario* a, Usuario* b){
-    return a->getNome() < b->getNome();   
 }
 
 std::vector<Usuario*> Usuario::getFollowing(){
@@ -436,7 +428,8 @@ std::vector<Usuario*> Usuario::getFollowing(){
 
     fclose(followingFilePointer);
 
-    sort(following.begin(), following.end(), userComp);
+    //ordenando em ordem alfabetica
+    sort(following.begin(), following.end(), [](Usuario* a, Usuario* b){ return a->getNome() < b->getNome(); });
     return following;
 }
 
@@ -455,7 +448,8 @@ std::vector<Usuario*> Usuario::getFollowers(){
 
     fclose(followersFilePointer);   
 
-    sort(followers.begin(), followers.end(), userComp);
+    //ordenando em ordem alfabetica
+    sort(followers.begin(), followers.end(), [](Usuario* a, Usuario* b){ return a->getNome() < b->getNome(); });
     return followers;
 }
 
@@ -478,34 +472,34 @@ bool Usuario::isFollowing(std::string user){
 
 //Função de aparar um usuario e também remover seus dados do login_data.txt
 void Usuario::apagarUsuario(std::string user){
-    std::string userFolderPath = "usuarios/";
-    userFolderPath += user;
-    userFolderPath += "/";
+    // std::string userFolderPath = "usuarios/cadastrados/";
+    // userFolderPath += user;
+    // userFolderPath += "/";
 
-    std::string rmCommand = "rm -r ";
-    rmCommand += userFolderPath;
-    system(rmCommand.c_str());
+    // std::string rmCommand = "rm -r ";
+    // rmCommand += userFolderPath;
+    // system(rmCommand.c_str());
 
-    FILE* ptr = fopen(LOGIN_DATA_FILE_PATH, "r");
-    FILE* ptr2 = fopen("temp.txt", "w");
+    // // FILE* ptr = fopen(LOGIN_DATA_FILE_PATH, "r");
+    // FILE* ptr2 = fopen("temp.txt", "w");
 
-    char name[100], senha[100];
-    while(fscanf(ptr, "%[^,],%[^\n]%*c", name, senha) != EOF){
-        std::string atual = name;
-        if(atual == user){
-            continue;
-        }
-        fprintf(ptr2, "%s,%s\n", name, senha);
-    }
+    // char name[100], senha[100];
+    // while(fscanf(ptr, "%[^,],%[^\n]%*c", name, senha) != EOF){
+    //     std::string atual = name;
+    //     if(atual == user){
+    //         continue;
+    //     }
+    //     fprintf(ptr2, "%s,%s\n", name, senha);
+    // }
 
-    fclose(ptr);
-    fclose(ptr2);
+    // fclose(ptr);
+    // fclose(ptr2);
 
-    rmCommand = "rm ";
-    rmCommand += LOGIN_DATA_FILE_PATH;
-    system(rmCommand.c_str());
+    // rmCommand = "rm ";
+    // // rmCommand += LOGIN_DATA_FILE_PATH;
+    // system(rmCommand.c_str());
 
-    rmCommand = "mv temp.txt ";
-    rmCommand += LOGIN_DATA_FILE_PATH;
-    system(rmCommand.c_str());
+    // rmCommand = "mv temp.txt ";
+    // // rmCommand += LOGIN_DATA_FILE_PATH;
+    // system(rmCommand.c_str());
 }

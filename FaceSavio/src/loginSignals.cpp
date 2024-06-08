@@ -74,3 +74,43 @@ void Interface::on_name_activate(){
 void Interface::on_password_activate(){
   on_login_clicked();
 }
+
+
+#include <bits/stdc++.h>
+bool Interface::login(std::string userName, std::string password) {
+  std::ifstream file(LOGIN_DATA_FILE_PATH);
+  if (!file.is_open()) {
+    return false;
+  }
+
+  std::string data;
+  while(getline(file, data)) {
+    std::istringstream iss(data);
+    std::string fileUserName, filePassword;
+
+    if (getline(iss, fileUserName, ',') && getline(iss, filePassword)) {
+      if (fileUserName == userName && filePassword == password) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+bool Interface::cadastrar(std::string userName, std::string password) {
+  if (Usuario::isValid(userName)) {
+    return false;
+  }
+  if(!userName.size() || !password.size()) return false;
+
+  FILE* ptr = fopen(LOGIN_DATA_FILE_PATH, "a");
+  if(!ptr) return false;
+
+  fprintf(ptr, "%s,%s\n", userName.c_str(), password.c_str());
+
+  fclose(ptr);
+
+
+  return true;
+}

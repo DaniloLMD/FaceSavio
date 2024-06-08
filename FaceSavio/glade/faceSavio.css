@@ -28,14 +28,12 @@
 }
 
 #post-button {
-  /* background: #153875; */
   background-image: linear-gradient(#153875, #153875);
   color: #fff;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
   font-size: 20px;
-  /* cursor: pointer; */
 }
 
 #post-button:hover{
@@ -70,7 +68,6 @@
 }
 
 #button {
-  /* background:#282828; */
   background-image: linear-gradient(#28282800, #28282800);
   color: white;
   border: 3px;
@@ -78,8 +75,6 @@
   padding: 6px 12px;
   border-radius: 4px;
   font-size: 20px;
-  
-  /* cursor: pointer; */
 }
 
 #button:hover{
@@ -163,23 +158,22 @@
 
 #deleteUserButton:hover{
   opacity: 0.9;
-  /* color: #28282800; */
   background-image: linear-gradient(#28282800, #28282800);
   transition: ease-in-out 250ms;
   font-size: 20px;
   background: rgb(202, 31, 31);
-
-
 }
 
 #UserBttn{
-  /*background-image: linear-gradient(white, #28282800);*/
-  color: #282828;
+  background-image: linear-gradient(#28282800, #28282800);
+  border: none;
+  /* color: #282828;
   border: 3px;
   margin-bottom: 4px;
   padding: 6px 12px;
   border-radius: 4px;
-  font-size: 20px;
+  font-size: 20px; */
+  /* background-image: linear-gradient(red, blue); */
 }
 
 #UserBttn:hover{

@@ -281,9 +281,6 @@
                             <property name="position">2</property>
                           </packing>
                         </child>
-                        <child>
-                          <placeholder/>
-                        </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -306,6 +303,7 @@
                     <child>
                       <!-- n-columns=5 n-rows=2 -->
                       <object class="GtkGrid">
+                        <property name="name">UserBttn</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="halign">center</property>
@@ -336,6 +334,7 @@
                         </child>
                         <child>
                           <object class="GtkLabel" id="homeUsernameLabel">
+                            <property name="name">UserBttn</property>
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <property name="halign">end</property>
@@ -523,7 +522,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkBox">
+                              <object class="GtkBox" id="profileBox">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <child>
