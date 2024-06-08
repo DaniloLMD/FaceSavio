@@ -35,8 +35,6 @@ O projeto visa a criação de uma rede social simples, na qual um dado usuário 
 
 ### Diagrama de Classes principal
 
-[Diagrama do projeto.pdf](Documentac%CC%A7a%CC%83o%20-%20POO%20-%20Projeto%20FaceSavio%20(Observer%201e6fc76f89bf4d4e803d32cbe2429039/Diagrama_do_projeto.pdf)
-
 Link do UML fonte: https://lucid.app/lucidchart/6ca70b07-e4e2-4a8a-ac44-8fed35885b5c/edit?viewport_loc=-6662%2C-4864%2C9985%2C5068%2C0_0&invitationId=inv_af87c4f1-14f2-41a2-a7f4-b35c4868136d
 
 ---
@@ -68,8 +66,6 @@ Link do UML fonte: https://lucid.app/lucidchart/6ca70b07-e4e2-4a8a-ac44-8fed3588
 ---
 
 ## Documentação da Implementação - Código Fonte
-
-![Untitled](Documentac%CC%A7a%CC%83o%20-%20POO%20-%20Projeto%20FaceSavio%20(Observer%201e6fc76f89bf4d4e803d32cbe2429039/Untitled.png)
 
 ### Estrutura do Projeto:
 
