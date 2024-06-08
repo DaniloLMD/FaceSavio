@@ -51,12 +51,6 @@ Link do UML fonte: https://lucid.app/lucidchart/6ca70b07-e4e2-4a8a-ac44-8fed3588
 
 ---
 
-## Repositório - Código fonte
-
-[link do repositório](https://github.com/DaniloLMD/POO/tree/main)
-
----
-
 ## Como executar o programa?
 
 1. Clone o repositório na sua máquina local
