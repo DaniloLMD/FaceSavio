@@ -27,6 +27,8 @@ class Usuario : public INotificavel {
 
         bool isFollowing(std::string user);
 
+        void loadGerenciadorNotificacoes();
+
         std::vector<Post*> loadFeed();
         std::vector<Post*> loadSelfPosts();
         std::vector<Usuario*> getFollowing();

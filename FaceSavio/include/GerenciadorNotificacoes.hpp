@@ -14,6 +14,8 @@ class GerenciadorNotificacoes{
 
         void notificarTodos(int postId);
 
+        void clear();
+
     private:
         std::vector<Usuario*> notificaveis;
         Usuario* usuario;

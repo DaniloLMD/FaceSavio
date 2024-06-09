@@ -15,6 +15,8 @@ void Interface::loadHomeScreen(){
 
     showProfileImageHomeButton();
 
+    this->getUsuario()->loadGerenciadorNotificacoes();
+
     gtk_widget_set_name(GTK_WIDGET(gtk_builder_get_object(this->getBuilder(), "searchBar")), "entryNormal");
     gtk_entry_set_text(GTK_ENTRY(gtk_builder_get_object(this->getBuilder(), "searchBar")), "Find user");
 

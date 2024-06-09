@@ -18,6 +18,10 @@ void GerenciadorNotificacoes::remover(Usuario* notificavel){
     }
 }
 
+void GerenciadorNotificacoes::clear(){
+    notificaveis.clear();
+}
+
 void GerenciadorNotificacoes::notificarTodos(int postId) {
     for (Usuario* notificavel : notificaveis) {
         notificavel->notificar(postId);

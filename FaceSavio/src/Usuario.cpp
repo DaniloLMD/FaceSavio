@@ -16,11 +16,6 @@
 */
 Usuario::Usuario(std::string nome) : nome(nome), gerenciadorNotificacoes(new GerenciadorNotificacoes(this)){
     mkDir(nome);
-
-    //adicionando os seguidores na lista de notificacao
-    for(auto x: getFollowers()){
-        gerenciadorNotificacoes->adicionar(x);
-    }
 }
 
 void Usuario::mkDir(std::string nome){
@@ -63,6 +58,13 @@ void Usuario::mkDir(std::string nome){
     //criando o arquivo "feed.txt": armazena os IDs dos posts do proprio usuario e de quem ele segue
     ptr = fopen(this->getFeedFilePath().c_str(), "w");
     fclose(ptr);
+}
+
+void Usuario::loadGerenciadorNotificacoes(){
+    gerenciadorNotificacoes->clear();
+    for(auto x: getFollowers()){
+        gerenciadorNotificacoes->adicionar(x);
+    }
 }
 
 bool Usuario::isValid(std::string name){
@@ -144,8 +146,6 @@ void Usuario::seguir(std::string username) {
         FILE* followingFilePointer = fopen(followingFilePath.c_str(), "a");
         fprintf(followersFilePointer, "%s\n", username.c_str());
         fclose(followersFilePointer);
-
-        gerenciadorNotificacoes->adicionar(usuario);
     }
 }
 
