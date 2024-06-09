@@ -10,8 +10,9 @@ class GerenciadorNotificacoes{
         GerenciadorNotificacoes(Usuario* usuario);
 
         void adicionar(Usuario* notificavel);
+        void remover(Usuario* notificavel);
 
-        void notificarTodos(std::string msg);
+        void notificarTodos(int postId);
 
     private:
         std::vector<Usuario*> notificaveis;

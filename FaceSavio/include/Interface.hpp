@@ -10,6 +10,7 @@
 class Interface{
     public: 
         Interface();
+        ~Interface(){ std::cout << "Tchau!\n"; }
 
         void activateCSS (const char* cssFile);
     
@@ -39,6 +40,9 @@ class Interface{
         GtkWidget* mainWindow;
 
         Usuario* usuario;
+
+        GtkWidget* newScaledImage(const gchar *filePath, gint width, gint height);
+        void setScaledImage(GtkImage* image, const gchar *filePath, gint width, gint height);
 
         /////// Login Signals ///////////////////////////////////////
         bool lembrar = false;        

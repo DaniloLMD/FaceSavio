@@ -7,19 +7,23 @@
 class Post{
     public:
 
-        Post(int id, std::string texto, std::string username);
+        Post(int id);
 
         int getID() { return id; }
         std::string getTexto() { return texto; }
         std::string getUsername() { return username; }
+
+        static void newPost(int id, std::string texto, std::string autor);
+        static int getTotalPosts();
+        static void setTotalPosts(int quantidade);
+        static std::string getTotalPostsFilePath();
+        static std::string getPostsFolderPath();
+        static std::string getPostFilePath(int id);
 
     private:
         int id;
         std::string texto;
         std::string username;
 };
-
-GtkWidget* newScaledImage(const gchar *filePath, gint width, gint height);
-void setScaledImage(GtkImage* image, const gchar *filePath, gint width, gint height);
 
 #endif

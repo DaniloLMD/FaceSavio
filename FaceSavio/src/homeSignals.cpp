@@ -21,7 +21,7 @@ void Interface::loadHomeScreen(){
     std::string postText = "Write here";
     gtk_text_buffer_set_text(GTK_TEXT_BUFFER(gtk_builder_get_object(this->getBuilder(), "textBufferPost")), postText.c_str(), postText.size());
 
-    showPosts(this->getUsuario()->loadAllPosts());
+    showPosts(this->getUsuario()->loadFeed());
     showFollowing();
 }
 
@@ -45,6 +45,7 @@ void Interface::loadProfileScreen(std::string username){
     gtk_button_set_image (GTK_BUTTON (profileImageButton), profileImage);
 
     showPosts(user->loadSelfPosts());
+    showFollowing();
 
     if(username == this->getUsuario()->getNome()){
         gtk_button_set_label(followButton, "Edit");
@@ -338,3 +339,34 @@ void Interface::on_fileChooserDialog_file_activated(GtkWidget* fileChooserPopup)
     showProfileImageHomeButton();
 }
 
+
+/**
+ * @brief forma e retorna uma imagem com o tamanho desejado
+ * @param filePath caminho da imagem
+ * @param width largura da imagem
+ * @param heigth altura da imagem
+ * @return GtkWidget que é um GtkImage
+*/
+GtkWidget* Interface::newScaledImage(const gchar *filePath, gint width, gint height) {
+    GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filePath, NULL);
+    GdkPixbuf *scaled_pixbuf = gdk_pixbuf_scale_simple(pixbuf, width, height, GDK_INTERP_BILINEAR);
+    GtkWidget *image = gtk_image_new_from_pixbuf(scaled_pixbuf);
+    g_object_unref(pixbuf);
+    g_object_unref(scaled_pixbuf);
+    return image;
+}
+
+/**
+ * @brief adapta uma imagem para as dimensoes desejadas
+ * @param filePath caminho da imagem
+ * @param width largura da imagem
+ * @param heigth altura da imagem
+ * @return void
+*/
+void Interface::setScaledImage(GtkImage* image, const gchar *filePath, gint width, gint height) {
+    GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filePath, NULL);
+    GdkPixbuf *scaled_pixbuf = gdk_pixbuf_scale_simple(pixbuf, width, height, GDK_INTERP_BILINEAR);
+    gtk_image_set_from_pixbuf(image, pixbuf);
+    g_object_unref(pixbuf);
+    g_object_unref(scaled_pixbuf);
+}

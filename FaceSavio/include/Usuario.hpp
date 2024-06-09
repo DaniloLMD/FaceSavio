@@ -23,11 +23,11 @@ class Usuario : public INotificavel {
         
         void apagarUsuario(std::string user);
 
-        void notificar(std::string msg, std::string autor) override;
+        void notificar(int postId) override;
 
         bool isFollowing(std::string user);
 
-        std::vector<Post*> loadAllPosts();
+        std::vector<Post*> loadFeed();
         std::vector<Post*> loadSelfPosts();
         std::vector<Usuario*> getFollowing();
         std::vector<Usuario*> getFollowers();
@@ -36,26 +36,27 @@ class Usuario : public INotificavel {
 
     private:
         std::string nome;
-        // GerenciadorNotificacoes* gerenciadorNotificacoes;
+        GerenciadorNotificacoes* gerenciadorNotificacoes;
 
         //funcoes de acesso aos arquivos
-        int getTotalPosts();
-        void setTotalPosts(int quantidade);
         int getQuantidadePosts();
         void setQuantidadePosts(int quantidade);  
+
+        void addPostToFeed(int id);
 
         std::vector<Post*> posts;
 
         std::string getUserFolderPath();
-        std::string getTotalPostsFilePath();
         std::string getFollowersFilePath();
         std::string getFollowingFilePath();
-        std::string getPostsFolderPath();   
-        std::string getPostFilePath(int post); 
+        // std::string getSelfPostsFolderPath();   
+        std::string getSelfPostsFilePath();   
         std::string getQuantidadePostsFilePath();
         std::string getQuantidadeFeedFilePath();
-        std::string getFeedFolderPath();
-        std::string getFeedFilePath(int post);
+        int getQuantidadeFeed();
+        void setQuantidadeFeed(int v);
+        // std::string getFeedFolderPath();
+        std::string getFeedFilePath();
 };
 
 

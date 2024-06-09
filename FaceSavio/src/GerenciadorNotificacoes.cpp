@@ -9,8 +9,17 @@ void GerenciadorNotificacoes::adicionar(Usuario* notificavel) {
     notificaveis.push_back(notificavel);
 }
 
-void GerenciadorNotificacoes::notificarTodos(std::string msg) {
+void GerenciadorNotificacoes::remover(Usuario* notificavel){
+    for(int i = 0; i < notificaveis.size(); i++){
+        if(notificaveis[i]->getNome() == notificavel->getNome()){
+            notificaveis.erase(notificaveis.begin() + i);
+            break;
+        }
+    }
+}
+
+void GerenciadorNotificacoes::notificarTodos(int postId) {
     for (Usuario* notificavel : notificaveis) {
-        notificavel->notificar(msg, usuario->getNome());
+        notificavel->notificar(postId);
     }
 }

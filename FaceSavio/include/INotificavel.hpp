@@ -7,10 +7,7 @@ class Usuario; //declaração antecipada
 
 class INotificavel{
     public:
-        virtual void notificar(std::string msg, std::string autor){};
-        virtual ~INotificavel() {}
-
-    private:
+        virtual void notificar(int postId) = 0;
 };
 
 #endif

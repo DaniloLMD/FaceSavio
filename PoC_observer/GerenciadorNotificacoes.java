@@ -13,7 +13,7 @@ public class GerenciadorNotificacoes {
     }
 
     public void notificarTodos(String msg) {
-        for (INotificavel notificavel : notificaveis) {
+        for (INotificavel notificavel : notificaveis) { 
             notificavel.notificar(msg, this.usuario);
         }
     }
