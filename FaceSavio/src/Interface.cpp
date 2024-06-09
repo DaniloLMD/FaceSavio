@@ -183,8 +183,7 @@ GtkBuilder* Interface::getBuilder(){
 /* Apagar user*/
 void Interface::on_deleteUserButton_clicked(){
     this->popup("Conta Deletada Com Sucesso!", " ");
-    printf("Conta Deletada\n");
     std::string user = usuario->getNome();
-    usuario->apagarUsuario(user);
+    usuario->apagarUsuario();
     loadLoginScreen();
 }

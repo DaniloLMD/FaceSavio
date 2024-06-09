@@ -1,4 +1,3 @@
-Name,password
 Danilo,lmd
 Tiago,pio
 Caio,farias

@@ -184,7 +184,6 @@ void Usuario::desseguir(std::string usuario){
  * @return void
 */
 void Usuario::notificar(int postId) {
-    // std::cout << "Sou o usuario " << nome << " e o usuario " << autor << " publicou a mensagem: '" << (new Post(postId))->getTexto() << "'.\n";
     addPostToFeed(postId);
 }
 
@@ -403,37 +402,41 @@ bool Usuario::isFollowing(std::string user){
 
 
 //Função de aparar um usuario e também remover seus dados do login_data.txt
-void Usuario::apagarUsuario(std::string user){
-    // std::string userFolderPath = "usuarios/cadastrados/";
-    // userFolderPath += user;
-    // userFolderPath += "/";
+#include "../include/Interface.hpp"
+void Usuario::apagarUsuario(){
 
-    // std::string rmCommand = "rm -r ";
-    // rmCommand += userFolderPath;
-    // system(rmCommand.c_str());
+    for(auto x: this->getFollowing()){
+        this->desseguir(x->getNome());
+    }
 
-    // // FILE* ptr = fopen(LOGIN_DATA_FILE_PATH, "r");
-    // FILE* ptr2 = fopen("temp.txt", "w");
+    std::string userFolderPath = this->getUserFolderPath();
 
-    // char name[100], senha[100];
-    // while(fscanf(ptr, "%[^,],%[^\n]%*c", name, senha) != EOF){
-    //     std::string atual = name;
-    //     if(atual == user){
-    //         continue;
-    //     }
-    //     fprintf(ptr2, "%s,%s\n", name, senha);
-    // }
+    std::string rmCommand = "rm -rf ";
+    rmCommand += userFolderPath;
+    system(rmCommand.c_str());
 
-    // fclose(ptr);
-    // fclose(ptr2);
+    FILE* ptr = fopen(Interface::LOGIN_DATA_FILE_PATH, "r");
+    FILE* ptr2 = fopen("temp.txt", "w");
 
-    // rmCommand = "rm ";
-    // // rmCommand += LOGIN_DATA_FILE_PATH;
-    // system(rmCommand.c_str());
+    char name[100], senha[100];
+    while(fscanf(ptr, "%[^,],%[^\n]%*c", name, senha) != EOF){
+        std::string atual = name;
+        if(atual == getNome()){
+            continue;
+        }
+        fprintf(ptr2, "%s,%s\n", name, senha);
+    }
 
-    // rmCommand = "mv temp.txt ";
-    // // rmCommand += LOGIN_DATA_FILE_PATH;
-    // system(rmCommand.c_str());
+    fclose(ptr);
+    fclose(ptr2);
+
+    rmCommand = "rm ";
+    rmCommand += Interface::LOGIN_DATA_FILE_PATH;
+    system(rmCommand.c_str());
+
+    rmCommand = "mv temp.txt ";
+    rmCommand += Interface::LOGIN_DATA_FILE_PATH;
+    system(rmCommand.c_str());
 }
 
 std::string Usuario::getSelfPostsFilePath(){

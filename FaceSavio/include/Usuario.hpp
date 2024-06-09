@@ -21,7 +21,7 @@ class Usuario : public INotificavel {
         void seguir(std::string usuario);
         void desseguir(std::string usuario);
         
-        void apagarUsuario(std::string user);
+        void apagarUsuario();
 
         void notificar(int postId) override;
 
