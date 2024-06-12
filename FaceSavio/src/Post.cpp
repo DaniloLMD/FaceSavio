@@ -24,7 +24,7 @@ void Post::newPost(int id, std::string texto, std::string username){
 
 Post::Post(int id) : id(id) {
 
-    if(id > Post::getTotalPosts()){
+    if(id > Post::getTotalPosts() || id < 0){
         std::cout << "ID invalido, post inexistente!\n";
         exit(EXIT_FAILURE);
     }
@@ -109,3 +109,13 @@ std::string Post::getTotalPostsFilePath(){
     return totalPostsFilePath;
 }
 
+bool Post::isValid(int id){
+    FILE* ptr = fopen(getPostFilePath(id).c_str(), "r");
+
+    if(ptr == NULL){
+        return false;
+    }
+
+    fclose(ptr);
+    return true;
+}

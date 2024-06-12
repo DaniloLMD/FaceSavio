@@ -38,15 +38,17 @@ void Interface::loadProfileScreen(std::string username){
 
     gtk_stack_set_visible_child_name(stack, "profile");   
 
-    Usuario* user = new Usuario(username);
-    GtkWidget* profileImage = newScaledImage(user->getFotoFilePath().c_str(), 120, 120);
+    // Usuario* user = new Usuario(username);
+    Usuario user(username);
+    GtkWidget* profileImage = newScaledImage(user.getFotoFilePath().c_str(), 120, 120);
     GtkWidget* profileImageButton =  GTK_WIDGET(gtk_builder_get_object(this->getBuilder(), "profileImageButton"));
     GtkLabel* profileUserNameLabel = GTK_LABEL(gtk_builder_get_object(this->getBuilder(), "profileUserNameLabel"));
 
-    gtk_label_set_text(profileUserNameLabel, user->getNome().c_str());
+    gtk_label_set_text(profileUserNameLabel, user.getNome().c_str());
     gtk_button_set_image (GTK_BUTTON (profileImageButton), profileImage);
 
-    showPosts(user->loadSelfPosts());
+    // showPosts(user->loadSelfPosts());
+    showPosts(user.loadSelfPosts());
     showFollowing();
 
     if(username == this->getUsuario()->getNome()){
@@ -68,6 +70,7 @@ void Interface::loadProfileScreen(std::string username){
 /**
  * @brief verifica se o limite de caracteres e de linhas foi atingido. Caso tenha sido, bloqueia a entrada de novos caracteres
 */
+#include <iostream>
 void Interface::on_textBufferPost_changed(GtkTextBuffer* buffer){
     GtkTextIter start, end;
     gtk_text_buffer_get_start_iter(buffer, &start);
@@ -117,6 +120,16 @@ void Interface::on_buttonPost_clicked(){
     gtk_text_buffer_get_start_iter(buffer, &start);
     gtk_text_buffer_get_end_iter(buffer, &end);
     const char* postText = gtk_text_buffer_get_text(buffer, &start, &end, FALSE); 
+    std::string text = postText;
+
+    bool isValid = false;
+    for(auto x: text){
+        if(x != ' '){
+            isValid = true;
+            break;
+        }
+    }
+    if(!isValid || text == "Write here") return;
 
     this->getUsuario()->publicar(postText);
 

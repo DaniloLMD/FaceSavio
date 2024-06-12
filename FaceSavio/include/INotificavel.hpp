@@ -4,7 +4,7 @@
 //classe abstrata
 class INotificavel{
     public:
-        virtual void notificar(int postId) = 0;
+        virtual void notificar(std::string autor, int postId) = 0;
 };
 
 #endif

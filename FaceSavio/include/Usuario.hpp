@@ -23,7 +23,7 @@ class Usuario : public INotificavel {
         
         void apagarUsuario();
 
-        void notificar(int postId) override;
+        void notificar(std::string autor, int postId) override;
 
         bool isFollowing(std::string user);
 
@@ -44,7 +44,7 @@ class Usuario : public INotificavel {
         int getQuantidadePosts();
         void setQuantidadePosts(int quantidade);  
 
-        void addPostToFeed(int id);
+        void addPostToFeed(std::string user, int id);
 
         std::vector<Post*> posts;
 
@@ -57,8 +57,8 @@ class Usuario : public INotificavel {
         std::string getQuantidadeFeedFilePath();
         int getQuantidadeFeed();
         void setQuantidadeFeed(int v);
-        // std::string getFeedFolderPath();
-        std::string getFeedFilePath();
+        std::string getFeedFolderPath();
+        std::string getFeedFilePath(std::string username);
 };
 
 

@@ -24,6 +24,6 @@ void GerenciadorNotificacoes::clear(){
 
 void GerenciadorNotificacoes::notificarTodos(int postId) {
     for (Usuario* notificavel : notificaveis) {
-        notificavel->notificar(postId);
+        notificavel->notificar(this->usuario->getNome(), postId);
     }
 }

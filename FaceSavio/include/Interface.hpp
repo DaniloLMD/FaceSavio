@@ -7,9 +7,15 @@
 #include "Post.hpp"
 #include "Usuario.hpp"
 
+#include <iostream>
+
 class Interface{
     public: 
         Interface();
+
+        ~Interface(){
+            std::cout << "tchau\n";
+        }
 
         void activateCSS (const char* cssFile);
     

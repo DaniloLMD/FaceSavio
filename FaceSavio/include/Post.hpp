@@ -20,6 +20,8 @@ class Post{
         static std::string getPostsFolderPath();
         static std::string getPostFilePath(int id);
 
+        static bool isValid(int id);
+
     private:
         int id;
         std::string texto;
