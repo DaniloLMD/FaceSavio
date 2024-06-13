@@ -119,15 +119,9 @@ std::string Usuario::getNome() {
 */
 void Usuario::publicar(std::string msg) {
     int id = Post::getTotalPosts() + 1;
-
+    
     //criando o novo post
     Post::newPost(id, msg, this->getNome());
-
-    //atualizando o arquivo "posts.txt" do usuario com o ID do seu proprio post
-    std::string selfPostsFilePath = this->getSelfPostsFilePath();
-    FILE* selfPostsFilePointer = fopen(selfPostsFilePath.c_str(), "a");
-    fprintf(selfPostsFilePointer, "%d\n", id);
-    fclose(selfPostsFilePointer);
 
     //adicionando o post ao feed do usuario
     addPostToFeed(this->getNome(), id);
@@ -403,8 +397,8 @@ std::vector<Post> Usuario::loadFeed(){
  * @return vector<Post> com os posts publicados por esse usuario
 */
 std::vector<Post> Usuario::loadSelfPosts(){
-    // posts.clear();
     std::vector<Post> posts;
+    posts.clear();
 
     std::string selfPostFilePath = this->getSelfPostsFilePath();
     FILE* selfPostFilePointer = fopen(selfPostFilePath.c_str(), "r");
@@ -414,6 +408,7 @@ std::vector<Post> Usuario::loadSelfPosts(){
 
         fscanf(selfPostFilePointer, "%d", &id);
         Post newPost(id);
+
         posts.push_back(newPost);
     }
 

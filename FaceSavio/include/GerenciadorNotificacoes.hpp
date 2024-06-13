@@ -3,7 +3,7 @@
 
 #include <vector>
 
-class Usuario; //declaração do usuario para poder compilar
+class Usuario;
 
 class GerenciadorNotificacoes{
     public:

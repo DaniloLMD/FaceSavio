@@ -55,7 +55,6 @@ void Interface::loadProfileScreen(std::string username){
     gtk_label_set_text(profileUserNameLabel, user.getNome().c_str());
     gtk_button_set_image (GTK_BUTTON (profileImageButton), profileImage);
 
-    // showPosts(user->loadSelfPosts());
     showPosts(user.loadSelfPosts());
     showFollowing();
 

@@ -67,6 +67,7 @@ void Interface::on_cadastrar_clicked(){
     std::string password = getPassword();
 
     if(cadastrar(name, password)){
+        Usuario u(name);
         this->popup("Cadastro realizado", "");
         on_name_changed();
     }
