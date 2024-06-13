@@ -33,6 +33,9 @@ void Interface::display(){
     gtk_main();
 }
 
+/**
+ * @brief conecta as funcoes da interface, ligando cada interaçao com um signal
+*/
 void Interface::connectSymbols(){   
 
     g_signal_connect(this->getMainWindow(), "destroy", G_CALLBACK(gtk_main_quit), NULL);
@@ -163,10 +166,18 @@ void Interface::connectSymbols(){
     );
 }
 
+/**
+ * @brief mostra todos os elementos dessa interface
+*/
 void Interface::reset(){
     gtk_widget_show_all(mainWindow);
 }
 
+/**
+ * @brief aparece uma mensagem de popup na tela
+ * @param title titulo do popup
+ * @param text texto do popup
+*/
 void Interface::popup(std::string title, std::string text){
     GtkMessageDialog *popup = GTK_MESSAGE_DIALOG(gtk_builder_get_object(builder, "popup"));
     g_object_set(popup, "text", title.c_str(), NULL);
@@ -176,11 +187,10 @@ void Interface::popup(std::string title, std::string text){
     gtk_dialog_run(GTK_DIALOG(popup));
 }
 
-GtkBuilder* Interface::getBuilder(){
-    return builder;
-}
-
 /* Apagar user*/
+/**
+ * @brief deleta o usuario atual do sistema
+*/
 void Interface::on_deleteUserButton_clicked(){
     this->popup("Conta Deletada Com Sucesso!", " ");
     usuario->apagarUsuario();

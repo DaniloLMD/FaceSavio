@@ -14,7 +14,7 @@ class Interface{
         Interface();
 
         ~Interface(){
-            std::cout << "tchau\n";
+            delete usuario;
         }
 
         void activateCSS (const char* cssFile);
@@ -24,10 +24,13 @@ class Interface{
 
         void popup(std::string title, std::string text);
 
-        GtkBuilder* getBuilder();
+        GtkBuilder* getBuilder() const { return this->builder; }
         GtkWidget* getMainWindow() const { return mainWindow; }
         Usuario* getUsuario() const { return usuario; }
-        void setUsuario(Usuario* user) { this->usuario = user; }
+        void setUsuario(Usuario* user) { 
+            delete this->usuario;
+            this->usuario = user; 
+        }
     
         std::vector<GtkWidget*> gridsPost;
         std::vector<GtkWidget*> gridsFollowing;
@@ -79,7 +82,7 @@ class Interface{
         void on_homeButton_clicked();
         void on_logoutButton_clicked();
 
-        void showPosts(std::vector<Post*> posts);
+        void showPosts(std::vector<Post> posts);
         void showFollowing();
         void showProfileImageHomeButton();
 

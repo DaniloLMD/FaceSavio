@@ -11,6 +11,8 @@ class Usuario : public INotificavel {
     public:
         Usuario(std::string nome);
 
+        ~Usuario();
+
         void mkDir(std::string name);
         static bool isValid(std::string name);
 
@@ -29,25 +31,22 @@ class Usuario : public INotificavel {
 
         void loadGerenciadorNotificacoes();
 
-        std::vector<Post*> loadFeed();
-        std::vector<Post*> loadSelfPosts();
-        std::vector<Usuario*> getFollowing();
-        std::vector<Usuario*> getFollowers();
+        std::vector<Post> loadFeed();
+        std::vector<Post> loadSelfPosts();
+        std::vector<Usuario> getFollowing();
+        std::vector<Usuario> getFollowers();
 
         std::string getFotoFilePath();
 
     private:
         std::string nome;
-        GerenciadorNotificacoes* gerenciadorNotificacoes;
+        GerenciadorNotificacoes gerenciadorNotificacoes;
 
         //funcoes de acesso aos arquivos
         int getQuantidadePosts();
         void setQuantidadePosts(int quantidade);  
 
         void addPostToFeed(std::string user, int id);
-
-        std::vector<Post*> posts;
-
         std::string getUserFolderPath();
         std::string getFollowersFilePath();
         std::string getFollowingFilePath();

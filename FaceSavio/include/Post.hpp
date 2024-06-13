@@ -2,7 +2,7 @@
 #define __POST_HPP__
 
 #include <gtk/gtk.h>
-#include <string>
+#include <iostream>
 
 class Post{
     public:

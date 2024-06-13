@@ -1,5 +1,8 @@
 #include "../include/Interface.hpp"
 
+/**
+ * @brief carrega a imagem do usuario na tela home
+*/
 void Interface::showProfileImageHomeButton(){
     GtkWidget* profileImage = newScaledImage(this->getUsuario()->getFotoFilePath().c_str(), 80, 80);
     GtkWidget* profileImageButton =  GTK_WIDGET(gtk_builder_get_object(this->getBuilder(), "profileImageHomeButton"));
@@ -9,6 +12,9 @@ void Interface::showProfileImageHomeButton(){
     
 }
 
+/**
+ * @brief carrega a tela home
+*/
 void Interface::loadHomeScreen(){
     GtkStack* stack = GTK_STACK(gtk_builder_get_object(this->getBuilder(), "stack2"));
     gtk_stack_set_visible_child_name(stack, "home");   
@@ -27,6 +33,9 @@ void Interface::loadHomeScreen(){
     showFollowing();
 }
 
+/***
+ * @brief carrega a tela de profile
+*/
 void Interface::loadProfileScreen(std::string username){
     GtkStack* stack = GTK_STACK(gtk_builder_get_object(this->getBuilder(), "stack2"));
 
@@ -38,7 +47,6 @@ void Interface::loadProfileScreen(std::string username){
 
     gtk_stack_set_visible_child_name(stack, "profile");   
 
-    // Usuario* user = new Usuario(username);
     Usuario user(username);
     GtkWidget* profileImage = newScaledImage(user.getFotoFilePath().c_str(), 120, 120);
     GtkWidget* profileImageButton =  GTK_WIDGET(gtk_builder_get_object(this->getBuilder(), "profileImageButton"));
@@ -129,13 +137,16 @@ void Interface::on_buttonPost_clicked(){
             break;
         }
     }
-    if(!isValid || text == "Write here") return;
+    if(!isValid) return;
 
     this->getUsuario()->publicar(postText);
 
     loadHomeScreen();
 }
 
+/**
+ * @brief limpa a grid que contem os posts
+*/
 void Interface::limparGridPosts(){
     GtkWidget* gridPosts = GTK_WIDGET(gtk_builder_get_object(this->getBuilder(), "gridPosts"));
 
@@ -147,15 +158,20 @@ void Interface::limparGridPosts(){
     this->gridsPost.clear();
 }
 
-void Interface::showPosts(std::vector<Post*> posts){
+/**
+ * @brief recebe um vector de posts e o percorre, adicionando cada post na grid de posts
+ * @param posts vector<Post> com os posts a serem exibidos
+
+*/
+void Interface::showPosts(std::vector<Post> posts){
     limparGridPosts();
-    for(Post* p:  posts){
-        Usuario* autor = new Usuario(p->getUsername());
+    for(auto p:  posts){
+        Usuario autor(p.getUsername());
 
         //formando os atributos do post (imagem, label com nome e label com texto)
-        GtkWidget* profile = newScaledImage(autor->getFotoFilePath().c_str(), 100, 100);
-        GtkWidget* name = gtk_label_new(p->getUsername().c_str());
-        GtkWidget* text = gtk_label_new(p->getTexto().c_str());
+        GtkWidget* profile = newScaledImage(autor.getFotoFilePath().c_str(), 100, 100);
+        GtkWidget* name = gtk_label_new(p.getUsername().c_str());
+        GtkWidget* text = gtk_label_new(p.getTexto().c_str());
         
         //formando a nova grid
         GtkWidget* newGrid = gtk_grid_new();
@@ -186,22 +202,29 @@ void Interface::showPosts(std::vector<Post*> posts){
     gtk_widget_show_all(GTK_WIDGET(gtk_builder_get_object(this->getBuilder(), "gridPosts")));  
 }
 
+/**
+ * @brief signal quando o nome de um usuario é clicado, para abrir o seu perfil
+ * @param widget GtkWidget com o nome do usuario
+*/
 void Interface::on_name_clicked(GtkWidget *widget){
     GtkButton* button = GTK_BUTTON(widget); 
     std::string name = gtk_button_get_label(button);
     loadProfileScreen(name);
 }
 
+/**
+ * @brief carrega os usuarios que o usuario logado está seguindo na grid de seguidores
+*/
 void Interface::showFollowing(){
     limparGridFollowing();
 
-    std::vector<Usuario*> following = this->getUsuario()->getFollowing();
+    std::vector<Usuario> following = this->getUsuario()->getFollowing();
 
-    for(Usuario* user: following){
+    for(auto user: following){
         //formando os atributos (imagem do usuario e label com o nome)
-        GtkWidget* profile = newScaledImage(user->getFotoFilePath().c_str(), 80, 80);
+        GtkWidget* profile = newScaledImage(user.getFotoFilePath().c_str(), 80, 80);
         // GtkWidget* name = gtk_label_new(user->getNome().c_str());
-        GtkButton* name = GTK_BUTTON(gtk_button_new_with_label(user->getNome().c_str()));
+        GtkButton* name = GTK_BUTTON(gtk_button_new_with_label(user.getNome().c_str()));
         gtk_widget_set_name(GTK_WIDGET(name), "button");
 
         g_signal_connect(name, "clicked",
@@ -233,7 +256,9 @@ void Interface::showFollowing(){
     gtk_widget_show_all(GTK_WIDGET(gtk_builder_get_object(this->getBuilder(), "gridFollowing")));  
 }
 
-
+/**
+ * @brief limpa a grid dos following
+*/
 void Interface::limparGridFollowing(){
     GtkWidget* gridFollowing = GTK_WIDGET(gtk_builder_get_object(this->getBuilder(), "gridFollowing"));
 
@@ -252,14 +277,26 @@ void Interface::on_homeButton_clicked(){
     loadHomeScreen();
 }
 
+/**
+ * @brief signal quando a foto do usuario na tela home é clicada
+*/
 void Interface::on_profileButton_clicked(){
     loadProfileScreen(this->getUsuario()->getNome());
 }
 
+
+/**
+ * @brief signal quando o botao de logout é clicado
+*/
 void Interface::on_logoutButton_clicked(){
     this->loadLoginScreen();   
 }
 
+
+
+/**
+ * @brief quando aperta ENTER na search bar
+*/
 void Interface::on_searchBar_activate(GtkSearchEntry* searchBar){
     std::string texto = gtk_entry_get_text (GTK_ENTRY(searchBar));
 
@@ -272,10 +309,16 @@ void Interface::on_searchBar_activate(GtkSearchEntry* searchBar){
     }
 }
 
+/**
+ * @brief quando a search bar é alterada, ela volta ao seu estado padrao
+*/
 void Interface::on_searchBar_search_changed(GtkSearchEntry* searchBar){
     gtk_widget_set_name(GTK_WIDGET(searchBar), "entryNormal");
 }
 
+/**
+ * @brief mostra um file chooser no fomato de popup
+*/
 void Interface::showFileChooserDialog(){
     GtkWidget* fileChooserPopup = gtk_file_chooser_dialog_new("FaceSavio", GTK_WINDOW(this->getMainWindow()), GTK_FILE_CHOOSER_ACTION_OPEN, NULL, NULL);
     
@@ -290,11 +333,17 @@ void Interface::showFileChooserDialog(){
     gtk_dialog_run(GTK_DIALOG(fileChooserPopup));
 }
 
+/**
+ * @brief signal de quando a imagem do usuario na tela home é clicada
+*/
 void Interface::on_profileImageHomeButton_clicked(){
     loadProfileScreen(this->getUsuario()->getNome());
 }
 
 //profile
+/**
+ * @brief signal de quando o botao de Follow é clicado
+*/
 void Interface::on_followButton_clicked(){
 
     GtkButton* followButton = GTK_BUTTON(gtk_builder_get_object(this->getBuilder(), "followButton"));
@@ -320,10 +369,16 @@ void Interface::on_followButton_clicked(){
 }
 
 //signals de popup
+/**
+ * @brief signal do botao de OK do popup da interface
+*/
 void Interface::on_popUpOkButton_clicked(){
     gtk_widget_hide(GTK_WIDGET(GTK_MESSAGE_DIALOG(gtk_builder_get_object(this->getBuilder(), "popup"))));
 }
 
+/**
+ * @brief signal de quando é selecionado um arquivo no file chooser
+*/
 void Interface::on_fileChooserDialog_file_activated(GtkWidget* fileChooserPopup){
     std::string filePath = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(fileChooserPopup));
 

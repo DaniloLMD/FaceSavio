@@ -6,6 +6,7 @@
 #include "../include/Usuario.hpp"
 #include "../include/GerenciadorNotificacoes.hpp"
 #include "../include/Post.hpp"
+#include "../include/Interface.hpp"
 
 #define dbg(x) std::cout << #x << " = " << x << '\n'
 
@@ -14,10 +15,22 @@
  * @param nome nome do usuario
  * @return ponteiro para Usuario
 */
-Usuario::Usuario(std::string nome) : nome(nome), gerenciadorNotificacoes(new GerenciadorNotificacoes(this)){
+Usuario::Usuario(std::string nome) : nome(nome), gerenciadorNotificacoes(GerenciadorNotificacoes(this)){
     mkDir(nome);
 }
 
+/**
+ * @brief destrutor da classe usuario, desaloca a memoria alocada
+*/
+Usuario::~Usuario(){
+    this->gerenciadorNotificacoes.clear();
+}
+
+/**
+ * @brief caso nao exista, cria as pastas e txt referentes a um usuario no sistema
+ * @param nome nome do usuario
+ * @return void
+*/
 void Usuario::mkDir(std::string nome){
     if(Usuario::isValid(nome)) return;
 
@@ -46,7 +59,7 @@ void Usuario::mkDir(std::string nome){
     ptr = fopen(this->getFollowingFilePath().c_str(), "w");
     fclose(ptr);
 
-    //criando o arquivo "quantidadePosts.txt": armazena a quantidade de IDs que tem no arquivo "posts.txt"
+    //criando o arquivo "quantidadePosts.txt": armazena a quantidade de IDs de posts do proprio usuario
     ptr = fopen(this->getQuantidadePostsFilePath().c_str(), "w");
     fprintf(ptr, "0\n");
     fclose(ptr);
@@ -56,19 +69,28 @@ void Usuario::mkDir(std::string nome){
     fprintf(ptr, "0\n");
     fclose(ptr);
 
-    //criando o arquivo "posts.txt" : armazena os IDs dos posts que o proprio usuario postou
-    ptr = fopen(this->getSelfPostsFilePath().c_str(), "w");
-    fclose(ptr);
+    // //criando o arquivo "posts.txt" : armazena os IDs dos posts que o proprio usuario postou
+    // ptr = fopen(this->getSelfPostsFilePath().c_str(), "w");
+    // fclose(ptr);
 }
 
+/**
+ * @brief carrega o gerenciador de notificacoes do usuario com os usuarios que o seguem
+ * @return void
+*/
 void Usuario::loadGerenciadorNotificacoes(){
-    gerenciadorNotificacoes->clear();
+    gerenciadorNotificacoes.clear();
     for(auto x: getFollowers()){
-        this->gerenciadorNotificacoes->adicionar(x);
-        std::cout << x->getNome() << " adicionado\n";
+        Usuario* u = new Usuario(x.getNome());
+        this->gerenciadorNotificacoes.adicionar(u);
     }
 }
 
+/**
+ * @brief retorna se um usuario esta cadastrado no sistema
+ * @param name nome do usuario
+ * @return bool caso o usuario estiver cadastrado, false caso contrario
+*/
 bool Usuario::isValid(std::string name){
     std::string path = "usuarios/cadastrados/";
     path += name;
@@ -96,8 +118,6 @@ std::string Usuario::getNome() {
  * @return void
 */
 void Usuario::publicar(std::string msg) {
-    // std::cout << "Eu " << nome << ", publiquei a mensagem '" << msg << "'.\n";
-
     int id = Post::getTotalPosts() + 1;
 
     //criando o novo post
@@ -115,9 +135,15 @@ void Usuario::publicar(std::string msg) {
     //atualizando a quantidade de posts do usuario
     this->setQuantidadePosts(this->getQuantidadePosts() + 1);
 
-    gerenciadorNotificacoes->notificarTodos(id);
+    gerenciadorNotificacoes.notificarTodos(id);
 }
 
+/**
+ * @brief adiciona um post ao feed do usuario
+ * @param user nome do usuario
+ * @param id id do post a ser adicionado
+ * @return void
+*/
 void Usuario::addPostToFeed(std::string user, int id){
     std::string feedFilePath = this->getFeedFilePath(user);
     FILE* feedFilePointer = fopen(feedFilePath.c_str(), "a");
@@ -136,10 +162,10 @@ void Usuario::seguir(std::string username) {
     if(this->nome == username) return;
 
     if(!isFollowing(username)){
-        Usuario* usuario = new Usuario(username);
+        Usuario usuario(username);
         
         //adicionando no arquivo followers do outro usuario
-        std::string followersFilePath = usuario->getFollowersFilePath();
+        std::string followersFilePath = usuario.getFollowersFilePath();
         FILE* followersFilePointer = fopen(followersFilePath.c_str(), "r");
         followersFilePointer = fopen(followersFilePath.c_str(), "a");
         fprintf(followersFilePointer, "%s\n", nome.c_str());
@@ -169,23 +195,23 @@ void Usuario::desseguir(std::string usuario){
     auto following = this->getFollowing();
     FILE* followingFilePointer = fopen(this->getFollowingFilePath().c_str(), "w");
     for(auto u: following){
-        if(u->getNome() == usuario) continue;
-        fprintf(followingFilePointer, "%s\n", u->getNome().c_str());
+        if(u.getNome() == usuario) continue;
+        fprintf(followingFilePointer, "%s\n", u.getNome().c_str());
     }
     fclose(followingFilePointer);
 
     //removendo do arquivo followers.txt
-    Usuario* user2 = new Usuario(usuario);
-    FILE* followersFilePointer = fopen(user2->getFollowersFilePath().c_str(), "w");
-    auto followers = user2->getFollowers();
+    Usuario user2(usuario);
+    FILE* followersFilePointer = fopen(user2.getFollowersFilePath().c_str(), "w");
+    auto followers = user2.getFollowers();
     for(auto u: followers){
-        if(u->getNome() == this->getNome()) continue;
-        fprintf(followersFilePointer, "%s\n", u->getNome().c_str());
+        if(u.getNome() == this->getNome()) continue;
+        fprintf(followersFilePointer, "%s\n", u.getNome().c_str());
     }
     fclose(followersFilePointer);
 
     //removendo do gerenciador de notificacoes do outro usuario
-    user2->gerenciadorNotificacoes->remover(this);
+    user2.gerenciadorNotificacoes.remover(this);
 
     //removendo o usuario2 do feed desse usuario
     std::string rmFeedCommand = "rm ";
@@ -276,6 +302,10 @@ std::string Usuario::getFollowingFilePath(){
     return followingFilePath;
 }
 
+/**
+ * @brief retorna uma string com o caminho para a foto de perfil desse usuario
+ * @return string com o caminho para a foto
+*/
 std::string Usuario::getFotoFilePath(){
     std::string fotoFilePath = this->getUserFolderPath();
     fotoFilePath += "foto.png";
@@ -292,6 +322,11 @@ std::string Usuario::getQuantidadeFeedFilePath(){
     return feedFilePath;
 }
 
+/**
+ * @brief seta a quantidade de pastas tem no feed desse usuario para um determinado valor
+ * @param v valor a ser setado
+ * @return void
+*/
 void Usuario::setQuantidadeFeed(int v){
     std::string quantidadeFeedFilePath = this->getQuantidadeFeedFilePath();
     FILE* quantidadeFeedFilePointer = fopen(quantidadeFeedFilePath.c_str(), "w");
@@ -311,6 +346,10 @@ std::string Usuario::getFeedFilePath(std::string username){
     return feedFilePath;
 }
 
+/**
+ * @brief retorna uma string com o caminho para a pasta de feed desse usuario
+ * @return string com o caminho para a pasta de feed
+*/
 std::string Usuario::getFeedFolderPath(){
     std::string feedFolderPath = this->getUserFolderPath();
     feedFolderPath += "feed/";
@@ -330,19 +369,21 @@ int Usuario::getQuantidadeFeed(){
     return qtd;
 }
 
-std::vector<Post*> Usuario::loadFeed(){
-    posts.clear();
-
-    posts = loadSelfPosts();
+/**
+ * @brief retorna um vector com todos os posts presentes no feed desse usuario
+ * @return vector<Post> com os posts do feed do usuario
+*/
+std::vector<Post> Usuario::loadFeed(){
+    std::vector<Post> posts = loadSelfPosts();
 
     for(auto x: this->getFollowing()){
-        FILE* feedFilePointer = fopen(getFeedFilePath(x->getNome()).c_str(), "r");
+        FILE* feedFilePointer = fopen(getFeedFilePath(x.getNome()).c_str(), "r");
         if(!feedFilePointer) continue;
 
         int id;
         while( fscanf(feedFilePointer, "%d", &id) != EOF ) {
             if(Post::isValid(id)){
-                Post* p = new Post(id);
+                Post p(id);
                 posts.push_back(p);
             }
 
@@ -352,13 +393,18 @@ std::vector<Post*> Usuario::loadFeed(){
     }
 
     //organizando em ordem cronologica
-    sort(posts.begin(), posts.end(), [](Post* p1, Post* p2){ return p1->getID() > p2->getID(); });
+    sort(posts.begin(), posts.end(), [](Post p1, Post p2){ return p1.getID() > p2.getID(); });
 
     return posts;
 }
 
-std::vector<Post*> Usuario::loadSelfPosts(){
-    posts.clear();
+/**
+ * @brief retorna um vector de posts com os posts publicados por esse usuario
+ * @return vector<Post> com os posts publicados por esse usuario
+*/
+std::vector<Post> Usuario::loadSelfPosts(){
+    // posts.clear();
+    std::vector<Post> posts;
 
     std::string selfPostFilePath = this->getSelfPostsFilePath();
     FILE* selfPostFilePointer = fopen(selfPostFilePath.c_str(), "r");
@@ -367,17 +413,21 @@ std::vector<Post*> Usuario::loadSelfPosts(){
         int id;
 
         fscanf(selfPostFilePointer, "%d", &id);
-        Post* newPost = new Post(id);
+        Post newPost(id);
         posts.push_back(newPost);
     }
 
     //ordenando em ordem cronologica
-    sort(posts.begin(), posts.end(), [](Post* p1, Post* p2){ return p1->getID() > p2->getID(); });
+    sort(posts.begin(), posts.end(), [](Post p1, Post p2){ return p1.getID() > p2.getID(); });
     return posts;
 }
 
-std::vector<Usuario*> Usuario::getFollowing(){
-    std::vector<Usuario*> following;
+/**
+ * @brief retorna um vector de usuarios que esse usuario segue
+ * @return vector<Usuario> com os usuarios que esse usuario segue
+*/
+std::vector<Usuario> Usuario::getFollowing(){
+    std::vector<Usuario> following;
 
     std::string followingFilePath = this->getFollowingFilePath();
 
@@ -386,18 +436,22 @@ std::vector<Usuario*> Usuario::getFollowing(){
     char nome[100];
     while(fscanf(followingFilePointer, "%[^\n]%*c", nome) != EOF){
         std::string username = nome;
-        following.push_back(new Usuario(username));
+        following.push_back(Usuario(username));
     }
 
     fclose(followingFilePointer);
 
     //ordenando em ordem alfabetica
-    sort(following.begin(), following.end(), [](Usuario* a, Usuario* b){ return a->getNome() < b->getNome(); });
+    sort(following.begin(), following.end(), [](Usuario a, Usuario b){ return a.getNome() < b.getNome(); });
     return following;
 }
 
-std::vector<Usuario*> Usuario::getFollowers(){
-    std::vector<Usuario*> followers;
+/**
+ * @brief retorna um vector de usuarios que seguem esse usuario
+ * @return vector<Usuario> com os usuarios que seguem esse usuario
+*/
+std::vector<Usuario> Usuario::getFollowers(){
+    std::vector<Usuario> followers;
 
     std::string followersFilePath = this->getFollowersFilePath();
 
@@ -406,13 +460,14 @@ std::vector<Usuario*> Usuario::getFollowers(){
     char nome[100];
     while(fscanf(followersFilePointer, "%[^\n]%*c", nome) != EOF){
         std::string username = nome;
-        followers.push_back(new Usuario(username));
+        followers.push_back(Usuario(username));
     }
 
     fclose(followersFilePointer);   
 
     //ordenando em ordem alfabetica
-    sort(followers.begin(), followers.end(), [](Usuario* a, Usuario* b){ return a->getNome() < b->getNome(); });
+    sort(followers.begin(), followers.end(), [](Usuario a, Usuario b){ return a.getNome() < b.getNome(); });
+    
     return followers;
 }
 
@@ -424,7 +479,7 @@ std::vector<Usuario*> Usuario::getFollowers(){
 bool Usuario::isFollowing(std::string user){
 
     for(auto u : this->getFollowing()){
-        if(u->getNome() == user){
+        if(u.getNome() == user){
             return true;
         }
     }
@@ -432,17 +487,18 @@ bool Usuario::isFollowing(std::string user){
     return false;
 }
 
-
-//Função de aparar um usuario e também remover seus dados do login_data.txt
-#include "../include/Interface.hpp"
+/**
+ * @brief apaga esse usuario do sistema, deletando todos seus registros
+ * @return void
+*/
 void Usuario::apagarUsuario(){
 
     for(auto x: this->getFollowing()){
-        this->desseguir(x->getNome());
+        this->desseguir(x.getNome());
     }
 
     for(auto x: this->getFollowers()){
-        x->desseguir(this->getNome());
+        x.desseguir(this->getNome());
     }
 
     std::string userFolderPath = this->getUserFolderPath();
@@ -475,8 +531,11 @@ void Usuario::apagarUsuario(){
     system(rmCommand.c_str());
 }
 
+/**
+ * @brief retorna uma string com o caminho para o arquivo de posts desse usuario
+ * @return string com o caminho para o arquivo de posts desse usuario
+*/
 std::string Usuario::getSelfPostsFilePath(){
-    std::string selfPostsFilePath = this->getUserFolderPath();
-    selfPostsFilePath += "posts.txt";
+    std::string selfPostsFilePath = this->getFeedFilePath(this->getNome());
     return selfPostsFilePath;
 }

@@ -1,26 +1,7 @@
 #include "../include/Post.hpp"
 #include <iostream>
 
-
-void Post::newPost(int id, std::string texto, std::string username){
-    if(id > Post::getTotalPosts()){ //cria um novo post na memoria
-        //string com o caminho para o local que sera armazenado o novo post
-        std::string newPostFilePath = Post::getPostsFolderPath();
-        newPostFilePath += "post";
-        newPostFilePath += std::to_string(id);
-        newPostFilePath += ".txt";
-
-        //escrevendo o novo post
-        FILE* newPostFilePointer = fopen(newPostFilePath.c_str(), "w");
-        fprintf(newPostFilePointer, "%s\n", username.c_str());
-        fprintf(newPostFilePointer, "%d\n", id);
-        fprintf(newPostFilePointer, "%s", texto.c_str());
-        fclose(newPostFilePointer);
-
-
-        Post::setTotalPosts(Post::getTotalPosts() + 1);
-    }
-}
+//construtor
 
 Post::Post(int id) : id(id) {
 
@@ -46,6 +27,32 @@ Post::Post(int id) : id(id) {
 
     this->texto = texto;
     this->username = username;
+}
+
+/**
+ * @brief cria um novo post e o salva em um txt
+ * @param id id do novo post
+ * @param texto texto do novo post
+ * @param autor autor do novo post
+*/
+void Post::newPost(int id, std::string texto, std::string autor){
+    if(id > Post::getTotalPosts()){ //cria um novo post na memoria
+        //string com o caminho para o local que sera armazenado o novo post
+        std::string newPostFilePath = Post::getPostsFolderPath();
+        newPostFilePath += "post";
+        newPostFilePath += std::to_string(id);
+        newPostFilePath += ".txt";
+
+        //escrevendo o novo post
+        FILE* newPostFilePointer = fopen(newPostFilePath.c_str(), "w");
+        fprintf(newPostFilePointer, "%s\n", autor.c_str());
+        fprintf(newPostFilePointer, "%d\n", id);
+        fprintf(newPostFilePointer, "%s", texto.c_str());
+        fclose(newPostFilePointer);
+
+
+        Post::setTotalPosts(Post::getTotalPosts() + 1);
+    }
 }
 
 /**
@@ -80,12 +87,20 @@ void Post::setTotalPosts(int quantidade){
     fclose(totalPostsFilePointer);
 }
 
-
+/**
+ * @brief retorna uma string com o caminho para a pasta de posts
+ * @return string com o caminho
+*/
 std::string Post::getPostsFolderPath(){  
     std::string postsFolderPath = "usuarios/posts/";
     return postsFolderPath;
 }
 
+/**
+ * @brief retorna uma string com o caminho para um post de determinado ID
+ * @param id id do post
+ * @return string com o caminho para o post
+*/
 std::string Post::getPostFilePath(int id){
 
     if(id > getTotalPosts() || id < 0){
@@ -109,6 +124,11 @@ std::string Post::getTotalPostsFilePath(){
     return totalPostsFilePath;
 }
 
+/**
+ * @brief verifica se o post de determinado ID realmente existe
+ * @param id id do post a ser checado
+ * @return true se for valido, false caso contrario
+*/
 bool Post::isValid(int id){
     FILE* ptr = fopen(getPostFilePath(id).c_str(), "r");
 
