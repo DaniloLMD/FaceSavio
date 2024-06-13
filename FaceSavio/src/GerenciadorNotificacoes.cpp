@@ -22,7 +22,6 @@ void GerenciadorNotificacoes::adicionar(Usuario* notificavel) {
 void GerenciadorNotificacoes::remover(Usuario* notificavel){
     for(int i = 0; i < notificaveis.size(); i++){
         if(notificaveis[i]->getNome() == notificavel->getNome()){
-            delete *(notificaveis.begin() + i);
             notificaveis.erase(notificaveis.begin() + i);
             break;
         }
