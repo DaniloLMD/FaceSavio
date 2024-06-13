@@ -1,0 +1,4 @@
+Danilo
+2
+C is simple
+void(*fPointer)(){} = [](){ return; };

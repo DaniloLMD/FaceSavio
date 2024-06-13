@@ -32,8 +32,8 @@ void Interface::loadLoginScreen(){
   gtk_widget_set_name(password, "entryNormal");
   
   if(!lembrar){
-    gtk_entry_set_text(GTK_ENTRY(name), "Name");
-    gtk_entry_set_text(GTK_ENTRY(password), "password");
+    gtk_entry_set_text(GTK_ENTRY(name), "");
+    gtk_entry_set_text(GTK_ENTRY(password), "");
   }
 
 }
