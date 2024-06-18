@@ -1,0 +1,9 @@
+Savio
+4
+Vou dar nota boa pra todo mundo
+
+ciencia da computacao > IA!!!
+
+C++ > JAVA
+
+#include <bits/stdc++.h>

@@ -3,15 +3,18 @@
 
 #include <vector>
 
-class Usuario; //declaração do usuario para poder compilar
+class Usuario;
 
 class GerenciadorNotificacoes{
     public:
         GerenciadorNotificacoes(Usuario* usuario);
 
         void adicionar(Usuario* notificavel);
+        void remover(Usuario* notificavel);
 
-        void notificarTodos(std::string msg);
+        void notificarTodos(int postId);
+
+        void clear();
 
     private:
         std::vector<Usuario*> notificaveis;
