@@ -1,7 +1,5 @@
 # Documentação - POO - Projeto FaceSavio (Observer)
 
-Tópicos
-
 Autores
 
 - *MARCELLO RONALD JOSÉ DA SILVA*
