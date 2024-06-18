@@ -60,8 +60,6 @@ O projeto visa a criação de uma rede social simples, na qual um dado usuário 
 
 ## Documentação da Implementação - Código Fonte
 
-![Untitled](Documentac%CC%A7a%CC%83o%20-%20POO%20-%20Projeto%20FaceSavio%20(Observer%201e6fc76f89bf4d4e803d32cbe2429039/Untitled%202.png)
-
 ### Estrutura do Projeto:
 
 **apps**: Contém arquivos de código fonte essencial para o funcionamento/montagem do programa
